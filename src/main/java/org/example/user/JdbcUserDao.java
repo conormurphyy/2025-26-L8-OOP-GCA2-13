@@ -7,6 +7,7 @@ import java.util.Optional;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.function.Predicate;
 
 public class JdbcUserDao implements UserDao {
     private String _url;
@@ -160,5 +161,6 @@ public class JdbcUserDao implements UserDao {
         double userRating = rs.getDouble("userRating");
         return new User(id, username, userType, userRating);
     }
+
 
 }

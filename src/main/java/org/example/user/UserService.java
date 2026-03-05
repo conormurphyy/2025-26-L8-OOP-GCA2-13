@@ -1,8 +1,10 @@
 package org.example.user;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.Predicate;
 
 public class UserService
 {
@@ -44,4 +46,22 @@ public class UserService
     {
         _userDao.deleteById(id);
     }
+    public static List <User> filter(List <User> users,Predicate <User> filter)
+    {
+        List <User> res = new ArrayList<>();
+
+        for(User u : users)
+        {
+            if(filter.test(u))
+            {
+                res.add(u);
+            }
+
+        }
+        return res;
+    }
+
+
+
+
 }

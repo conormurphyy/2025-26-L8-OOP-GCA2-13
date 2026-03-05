@@ -1,5 +1,7 @@
 package org.example.user;
 
+import java.util.List;
+
 public class UserMain {
     public static void main(String[] args) throws Exception{
       String url = "jdbc:mysql://localhost:3306/recipehub?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true";
@@ -31,6 +33,21 @@ public class UserMain {
         {
             System.out.println(u);
         }
+
+        System.out.println("testing predicate");
+        List <User> nonTests =UserService.filter(service.list(),u ->"test".equalsIgnoreCase(u.username()));
+        for(User u :nonTests)
+        {
+            System.out.println(u);
+        }
+
+        System.out.println("Testing predicate 2");
+        List <User> admins =UserService.filter(service.list(),u ->"admin".equalsIgnoreCase(u.userType()));
+        for(User u :admins)
+        {
+            System.out.println(u);
+        }
+
 
     }
 }
