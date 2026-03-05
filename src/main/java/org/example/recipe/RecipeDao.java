@@ -1,4 +1,5 @@
-package org.example;
+package org.example.recipe;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -18,6 +19,6 @@ public interface RecipeDao {
 
     List<Recipe> getPublicRecipes() throws Exception;
 
-    
+
 
 }
