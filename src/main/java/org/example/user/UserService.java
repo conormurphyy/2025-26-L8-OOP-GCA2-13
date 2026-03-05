@@ -32,4 +32,16 @@ public class UserService
     {
         return _userDao.findAll();
     }
+    public void updateRating(int id, double rating) throws Exception
+    {
+        _userDao.updateRating(id, rating);
+    }
+    public void updateType(int id, String type) throws Exception
+    {
+        _userDao.updateType(id, type);
+    }
+    public void delete(int id) throws Exception
+    {
+        _userDao.deleteById(id);
+    }
 }

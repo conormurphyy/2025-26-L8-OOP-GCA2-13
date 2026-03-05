@@ -16,5 +16,21 @@ public class UserMain {
         {
             System.out.println(u);
         }
+        service.updateRating(1, 5);
+        for(User u :service.list())
+        {
+            System.out.println(u);
+        }
+        service.updateType(1, "admin");
+        for(User u :service.list())
+        {
+            System.out.println(u);
+        }
+        service.delete(1);
+        for(User u :service.list())
+        {
+            System.out.println(u);
+        }
+
     }
 }
