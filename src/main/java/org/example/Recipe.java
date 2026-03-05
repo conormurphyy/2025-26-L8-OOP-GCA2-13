@@ -53,8 +53,8 @@ public class Recipe {
         this.recipeID = recipeID;
     }
 
-    public void setPublic(boolean aPublic) {
-        isPublic = aPublic;
+    public void setPublic(boolean isPublic) {
+        this.isPublic = isPublic;
     }
 
     public void setTotalCalories(double totalCalories) {
