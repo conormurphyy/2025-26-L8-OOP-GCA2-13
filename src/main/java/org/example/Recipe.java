@@ -24,7 +24,7 @@ public class Recipe {
             throw new IllegalArgumentException("Recipe Description cannot be null");
         if (totalCalories<0)
             throw new IllegalArgumentException("Total Calories cannot be less than zero");
-        
+
         this.recipeID = recipeID;
         this.isPublic = isPublic;
         this.userID = userID;
