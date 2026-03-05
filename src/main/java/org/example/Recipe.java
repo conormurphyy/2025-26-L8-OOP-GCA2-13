@@ -12,6 +12,19 @@ public class Recipe {
 
     public Recipe(int recipeID, boolean isPublic, int userID, String recipeName,
                   int categoryID, double totalCalories, String description) {
+        if (userID<0)
+            throw new IllegalArgumentException("User ID cannot be less than zero");
+        if (recipeID<0)
+            throw new IllegalArgumentException("Recipe ID cannot be less than zero");
+        if (categoryID<0)
+            throw new IllegalArgumentException("Category ID cannot be less than zero");
+        if (recipeName==null)
+            throw new IllegalArgumentException("Recipe Name cannot be null");
+        if (description==null)
+            throw new IllegalArgumentException("Recipe Description cannot be null");
+        if (totalCalories<0)
+            throw new IllegalArgumentException("Total Calories cannot be less than zero");
+        
         this.recipeID = recipeID;
         this.isPublic = isPublic;
         this.userID = userID;
