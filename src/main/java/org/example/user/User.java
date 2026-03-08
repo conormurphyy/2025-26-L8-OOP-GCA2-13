@@ -1,10 +1,20 @@
 package org.example.user;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class User {
     private int id;
     private String username;
     private String userType;
     private double userRating;
+
+    public User()
+    {
+        this.username="";
+        this.userType="";
+        this.userRating=0;
+        this.id=0;
+    }
 
     public User(int id, String username, String userType, double userRating) {
         if(id<0)
@@ -17,11 +27,11 @@ public class User {
         }
         if(userType == null || userType.isEmpty())
         {
-            throw new IllegalArgumentException("userType must not be empty");
+            throw new IllegalArgumentException("getUserType must not be empty");
         }
         if(userRating < 0 || userRating > 5)
         {
-            throw new IllegalArgumentException("userRating must be between 0 and 5");
+            throw new IllegalArgumentException("getUserRating must be between 0 and 5");
         }
 
         this.id = id;
@@ -30,27 +40,47 @@ public class User {
         this.userRating = userRating;
     }
 
-    public int id()
+    public int getId()
     {
         return id;
     }
-    public String username()
+    public String getUsername()
     {
         return username;
     }
 
-    public String userType()
+    public String getUserType()
     {
         return userType;
     }
-    public double userRating()
+    public double getUserRating()
     {
         return userRating;
     }
 
+
+    @Override
+    public int hashCode()
+    {
+        return Integer.hashCode(id);
+    }
+    @Override
+    public boolean equals (Object o)
+    {
+        if (this ==o)
+        {
+            return true;
+        }
+        else if(!(o instanceof User))
+        {
+            return false;
+        }
+        User u = (User) o;
+        return id == u.id && username.equals(u.username) && userType.equals(u.userType) && userRating == u.userRating ;
+    }
     @Override
     public String toString()
     {
-        return "User{" + "id=" + id + ", username='" + username + '\'' + ", userType='" + userType + '\'' + ", userRating=" + userRating + '}';
+        return "User{" + "id=" + id + ", username='" + username + '\'' + ", getUserType='" + userType + '\'' + ", getUserRating=" + userRating + '}';
     }
 }

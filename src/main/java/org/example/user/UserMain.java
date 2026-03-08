@@ -35,14 +35,14 @@ public class UserMain {
         }
 
         System.out.println("testing predicate");
-        List <User> nonTests =UserService.filter(service.list(),u ->"test".equalsIgnoreCase(u.username()));
+        List <User> nonTests =UserService.filter(service.list(),u ->"test".equalsIgnoreCase(u.getUsername()));
         for(User u :nonTests)
         {
             System.out.println(u);
         }
 
         System.out.println("Testing predicate 2");
-        List <User> admins =UserService.filter(service.list(),u ->"admin".equalsIgnoreCase(u.userType()));
+        List <User> admins =UserService.filter(service.list(),u ->"admin".equalsIgnoreCase(u.getUserType()));
         for(User u :admins)
         {
             System.out.println(u);
