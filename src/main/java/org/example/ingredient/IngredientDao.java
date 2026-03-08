@@ -14,3 +14,4 @@ public interface IngredientDao {
     boolean deleteIngredient(int ingredientId) throws Exception;
 
 }
+
