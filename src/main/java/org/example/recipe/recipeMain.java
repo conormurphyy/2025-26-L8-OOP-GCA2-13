@@ -32,7 +32,7 @@ public class recipeMain {
         for (Recipe r : service.searchByName("Chicken")) {
             System.out.println(" - " + r);
         }
-        
+
         System.out.println("\nPublic Recipes:");
         for (Recipe r : service.getPublicRecipes()) {
             System.out.println(" - " + r);
