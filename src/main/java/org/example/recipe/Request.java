@@ -19,9 +19,9 @@ public class Request {
 
     public String getType() { return type; }
 
-    public void setType(String type) { type = type; }
+    public void setType(String type) { this.type = type; }
 
     public JsonNode getPayload() { return payload; }
 
-    public void setPayload(JsonNode payload) { payload = payload; }
+    public void setPayload(JsonNode payload) { this.payload = payload; }
 }
