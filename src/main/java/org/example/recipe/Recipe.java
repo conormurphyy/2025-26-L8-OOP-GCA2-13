@@ -34,6 +34,7 @@ public class Recipe {
         this.description = description;
     }
 
+    // PUBLIC API
     public int getRecipeID() {
         return recipeID;
     }
@@ -88,6 +89,19 @@ public class Recipe {
 
     public void setUserID(int userID) {
         this.userID = userID;
+    }
+
+    @Override
+    public int hashCode() {
+        return Integer.hashCode(recipeID);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Recipe)) return false;
+        Recipe other = (Recipe) o;
+        return recipeID == other.recipeID;
     }
 
     @Override
