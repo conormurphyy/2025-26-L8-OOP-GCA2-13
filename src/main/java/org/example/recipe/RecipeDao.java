@@ -7,11 +7,11 @@ public interface RecipeDao {
 
     List<Recipe> getAllRecipes() throws Exception;
     Optional<Recipe> getRecipeById(int recipeID) throws Exception;
-    Optional<Recipe> getRecipeByCategoryId(int categoryID) throws Exception;
-    Optional<Recipe> getRecipeByUserId(int userID) throws Exception;
+    List<Recipe> getRecipeByCategoryId(int categoryID) throws Exception;
+    List<Recipe> getRecipeByUserId(int userID) throws Exception;
 
-    boolean addRecipe(Recipe recipe) throws Exception;
-    boolean updateRecipe(Recipe recipe) throws Exception;
+    Recipe addRecipe(Recipe recipe) throws Exception;
+    Recipe updateRecipe(Recipe recipe) throws Exception;
     boolean deleteRecipe(int recipeID) throws Exception;
 
     List<Recipe> getRecipeByCalories(double min, double max) throws Exception;
