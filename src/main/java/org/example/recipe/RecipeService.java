@@ -5,13 +5,13 @@ import java.util.Optional;
 
 public class RecipeService {
 
-    private RecipeDao _dao;
+    private RecipeDao dao;
 
     public RecipeService(RecipeDao dao) {
         if (dao == null)
             throw new IllegalArgumentException("dao is null");
 
-        _dao = dao;
+        this.dao = dao;
     }
 
     public boolean createRecipe(Recipe recipe) throws Exception {
@@ -24,43 +24,43 @@ public class RecipeService {
         if (recipe.getTotalCalories() < 0)
             return false;
 
-        return _dao.addRecipe(recipe);
+        return this.dao.addRecipe(recipe);
     }
 
     public boolean updateRecipe(Recipe recipe) throws Exception {
         if (recipe == null)
             return false;
 
-        return _dao.updateRecipe(recipe);
+        return this.dao.updateRecipe(recipe);
     }
 
     public boolean deleteRecipe(int recipeID) throws Exception {
-        return _dao.deleteRecipe(recipeID);
+        return this.dao.deleteRecipe(recipeID);
     }
 
     public Optional<Recipe> getRecipe(int recipeID) throws Exception {
-        return _dao.getRecipeById(recipeID);
+        return this.dao.getRecipeById(recipeID);
     }
 
     public List<Recipe> listAllRecipes() throws Exception {
-        return _dao.getAllRecipes();
+        return this.dao.getAllRecipes();
     }
 
     public List<Recipe> getPublicRecipes() throws Exception {
-        return _dao.getPublicRecipes();
+        return this.dao.getPublicRecipes();
     }
 
     public List<Recipe> searchByName(String name) throws Exception {
         if (name == null || name.isBlank())
             return List.of();
 
-        return _dao.getRecipeByName(name);
+        return this.dao.getRecipeByName(name);
     }
 
     public List<Recipe> searchByCalories(double min, double max) throws Exception {
         if (min < 0 || max < 0 || min > max)
             return List.of();
 
-        return _dao.getRecipeByCalories(min, max);
+        return this.dao.getRecipeByCalories(min, max);
     }
 }
