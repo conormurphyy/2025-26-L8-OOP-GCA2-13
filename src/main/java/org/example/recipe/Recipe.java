@@ -14,6 +14,16 @@ public class Recipe {
     private double totalCalories;
     private boolean isPublic;
 
+    public Recipe() {
+        recipeID = 0;
+        userID = 0;
+        recipeName = "";
+        categoryID = 0;
+        description = "";
+        totalCalories = 0;
+        isPublic = false;
+    }
+
     public Recipe(int recipeID, boolean isPublic, int userID, String recipeName,
                   int categoryID, double totalCalories, String description) {
         if (userID<0)
