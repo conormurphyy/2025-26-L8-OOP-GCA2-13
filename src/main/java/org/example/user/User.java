@@ -19,19 +19,19 @@ public class User {
     public User(int id, String username, String userType, double userRating) {
         if(id<0)
         {
-            throw new IllegalArgumentException("id must be positive");
+            throw new IllegalArgumentException("Id must be positive");
         }
         if(username == null || username.isEmpty())
         {
-            throw new IllegalArgumentException("username must not be empty");
+            throw new IllegalArgumentException("Username must not be empty");
         }
         if(userType == null || userType.isEmpty())
         {
-            throw new IllegalArgumentException("getUserType must not be empty");
+            throw new IllegalArgumentException("UserType must not be empty");
         }
         if(userRating < 0 || userRating > 5)
         {
-            throw new IllegalArgumentException("getUserRating must be between 0 and 5");
+            throw new IllegalArgumentException("UserRating must be between 0 and 5");
         }
 
         this.id = id;
