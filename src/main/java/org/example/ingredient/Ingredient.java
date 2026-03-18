@@ -13,9 +13,11 @@ public class Ingredient {
 
         if (ingredientId < 0)
             throw new IllegalArgumentException("Ingredient ID cannot be less than zero");
-
         if (name == null)
             throw new IllegalArgumentException("Ingredient name cannot be null");
+        if (calories < 0) {
+            throw new IllegalArgumentException("Calories cannot be less than zero");
+        }
 
         this.ingredientId = ingredientId;
         this.name = name;
