@@ -1,5 +1,9 @@
 package org.example.recipe;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Recipe {
 
     private int recipeID;
@@ -35,6 +39,7 @@ public class Recipe {
     }
 
     // PUBLIC API
+    @JsonProperty("id")
     public int getRecipeID() {
         return recipeID;
     }
@@ -63,6 +68,7 @@ public class Recipe {
         return userID;
     }
 
+    @JsonProperty("id")
     public void setRecipeID(int recipeID) {
         this.recipeID = recipeID;
     }
