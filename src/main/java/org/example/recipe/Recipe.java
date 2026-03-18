@@ -90,7 +90,7 @@ public class Recipe {
 
     @JsonProperty("userID")
     public void setUserID(int userID) { this.userID = userID; }
-    
+
     @Override
     public int hashCode() {
         return Integer.hashCode(recipeID);

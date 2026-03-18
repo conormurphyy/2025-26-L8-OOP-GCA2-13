@@ -1,5 +1,7 @@
 package org.example.recipe;
 
+import java.sql.SQLOutput;
+
 public class recipeMain {
     public static void main(String[] args) throws Exception {
         String url = "jdbc:mysql://localhost:3306/recipehub?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true";

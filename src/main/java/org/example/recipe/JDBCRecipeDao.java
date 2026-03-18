@@ -74,7 +74,7 @@ public class JDBCRecipeDao implements RecipeDao {
     }
 
     @Override
-    public Optional<Recipe> getRecipeByCategoryId(int categoryID) throws Exception {
+    public Optional<Object> getRecipeByCategoryId(int categoryID) throws Exception {
         if (categoryID <= 0) return Optional.empty();
 
         String sql = "SELECT * FROM recipe WHERE category_id = ?";
@@ -99,7 +99,7 @@ public class JDBCRecipeDao implements RecipeDao {
     }
 
     @Override
-    public Optional<Recipe> getRecipeByUserId(int userID) throws Exception {
+    public Optional<Object> getRecipeByUserId(int userID) throws Exception {
         if (userID <= 0) return Optional.empty();
 
         String sql = "SELECT * FROM recipe WHERE user_id = ?";
