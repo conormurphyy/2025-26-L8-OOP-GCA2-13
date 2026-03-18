@@ -49,64 +49,48 @@ public class Recipe {
     }
 
     // PUBLIC API
-    @JsonProperty("id")
-    public int getRecipeID() {
-        return recipeID;
-    }
+    @JsonProperty("recipeID")
+    public int getRecipeID() { return recipeID; }
 
-    public boolean isPublic() {
-        return isPublic;
-    }
+    @JsonProperty("recipeID")
+    public void setRecipeID(int recipeID) { this.recipeID = recipeID; }
 
-    public double getTotalCalories() {
-        return totalCalories;
-    }
+    @JsonProperty("isPublic")
+    public boolean isPublic() { return isPublic; }
 
-    public String getDescription() {
-        return description;
-    }
+    @JsonProperty("isPublic")
+    public void setPublic(boolean isPublic) { this.isPublic = isPublic; }
 
-    public int getCategoryID() {
-        return categoryID;
-    }
+    @JsonProperty("totalCalories")
+    public double getTotalCalories() { return totalCalories; }
 
-    public String getRecipeName() {
-        return recipeName;
-    }
+    @JsonProperty("totalCalories")
+    public void setTotalCalories(double totalCalories) { this.totalCalories = totalCalories; }
 
-    public int getUserID() {
-        return userID;
-    }
+    @JsonProperty("description")
+    public String getDescription() { return description; }
 
-    @JsonProperty("id")
-    public void setRecipeID(int recipeID) {
-        this.recipeID = recipeID;
-    }
+    @JsonProperty("description")
+    public void setDescription(String description) { this.description = description; }
 
-    public void setPublic(boolean isPublic) {
-        this.isPublic = isPublic;
-    }
+    @JsonProperty("categoryID")
+    public int getCategoryID() { return categoryID; }
 
-    public void setTotalCalories(double totalCalories) {
-        this.totalCalories = totalCalories;
-    }
+    @JsonProperty("categoryID")
+    public void setCategoryID(int categoryID) { this.categoryID = categoryID; }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
+    @JsonProperty("recipeName")
+    public String getRecipeName() { return recipeName; }
 
-    public void setRecipeName(String recipeName) {
-        this.recipeName = recipeName;
-    }
+    @JsonProperty("recipeName")
+    public void setRecipeName(String recipeName) { this.recipeName = recipeName; }
 
-    public void setCategoryID(int categoryID) {
-        this.categoryID = categoryID;
-    }
+    @JsonProperty("userID")
+    public int getUserID() { return userID; }
 
-    public void setUserID(int userID) {
-        this.userID = userID;
-    }
-
+    @JsonProperty("userID")
+    public void setUserID(int userID) { this.userID = userID; }
+    
     @Override
     public int hashCode() {
         return Integer.hashCode(recipeID);
