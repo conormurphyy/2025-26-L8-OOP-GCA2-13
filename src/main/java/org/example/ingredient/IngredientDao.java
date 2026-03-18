@@ -9,8 +9,8 @@ public interface IngredientDao {
 
     Optional<Ingredient> getIngredientById(int ingredientId) throws Exception;
 
-    boolean addIngredient(Ingredient ingredient) throws Exception;
-    boolean updateIngredient(Ingredient ingredient) throws Exception;
+    Ingredient addIngredient(Ingredient ingredient) throws Exception;
+    Ingredient updateIngredient(Ingredient ingredient) throws Exception;
     boolean deleteIngredient(int ingredientId) throws Exception;
 
 }
