@@ -1,4 +1,6 @@
-package org.example.user;
+package org.example.dao;
+
+import org.example.domain.User;
 
 import java.util.List;
 import java.util.Optional;

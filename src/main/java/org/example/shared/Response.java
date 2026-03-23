@@ -1,4 +1,4 @@
-package org.example.recipe;
+package org.example.shared;
 
 public class Response<T> {
 

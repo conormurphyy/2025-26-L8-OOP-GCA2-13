@@ -1,4 +1,7 @@
-package org.example.user;
+package org.example.dao.jdbc;
+
+import org.example.dao.UserDao;
+import org.example.domain.User;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -7,7 +10,6 @@ import java.util.Optional;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.function.Predicate;
 
 public class JdbcUserDao implements UserDao {
     private String _url;

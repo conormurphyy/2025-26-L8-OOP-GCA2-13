@@ -1,4 +1,7 @@
-package org.example.ingredient;
+package org.example.dao.jdbc;
+
+import org.example.dao.IngredientDao;
+import org.example.domain.Ingredient;
 
 import java.sql.*;
 import java.util.ArrayList;

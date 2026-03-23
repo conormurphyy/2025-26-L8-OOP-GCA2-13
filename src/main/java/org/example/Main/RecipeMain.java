@@ -1,8 +1,11 @@
-package org.example.recipe;
+package org.example.Main;
 
-import java.sql.SQLOutput;
+import org.example.dao.RecipeDao;
+import org.example.dao.jdbc.JDBCRecipeDao;
+import org.example.domain.Recipe;
+import org.example.service.RecipeService;
 
-public class recipeMain {
+public class RecipeMain {
     public static void main(String[] args) throws Exception {
         String url = "jdbc:mysql://localhost:3306/recipehub?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true";
         String user = "admin";

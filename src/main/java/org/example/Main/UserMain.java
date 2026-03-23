@@ -1,4 +1,9 @@
-package org.example.user;
+package org.example.Main;
+
+import org.example.dao.UserDao;
+import org.example.dao.jdbc.JdbcUserDao;
+import org.example.domain.User;
+import org.example.service.UserService;
 
 import java.util.List;
 

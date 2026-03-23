@@ -1,4 +1,4 @@
-package org.example.recipe;
+package org.example.shared;
 
 import com.fasterxml.jackson.databind.JsonNode;
 

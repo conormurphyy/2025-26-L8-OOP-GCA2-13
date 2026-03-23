@@ -1,4 +1,4 @@
-package org.example.ingredient;
+package org.example.domain;
 
 public class Ingredient {
 

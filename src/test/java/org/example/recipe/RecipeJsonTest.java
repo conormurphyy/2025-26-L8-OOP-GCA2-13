@@ -1,7 +1,7 @@
 package org.example.recipe;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.example.recipe.Recipe;
+import org.example.domain.Recipe;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;

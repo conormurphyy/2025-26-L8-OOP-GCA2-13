@@ -1,4 +1,6 @@
-package org.example.ingredient;
+package org.example.dao;
+
+import org.example.domain.Ingredient;
 
 import java.util.List;
 import java.util.Optional;

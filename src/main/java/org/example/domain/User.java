@@ -1,4 +1,4 @@
-package org.example.user;
+package org.example.domain;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
