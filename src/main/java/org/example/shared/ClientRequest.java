@@ -2,17 +2,17 @@ package org.example.shared;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
-public class Request {
+public class ClientRequest {
 
     private String   type;
     private JsonNode payload;
 
-    public Request() {
+    public ClientRequest() {
         type    = "";
         payload = null;
     }
 
-    public Request(String type, JsonNode payload) {
+    public ClientRequest(String type, JsonNode payload) {
         this.type    = type;
         this.payload = payload;
     }

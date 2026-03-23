@@ -1,18 +1,18 @@
 package org.example.shared;
 
-public class Response<T> {
+public class ServerResponse<T> {
 
     private String status;
     private String message;
     private T data;
 
-    public Response() {
+    public ServerResponse() {
         status = "";
         message = "";
         data = null;
     }
 
-    public Response(String status, String message, T data) {
+    public ServerResponse(String status, String message, T data) {
         this.status = status;
         this.message = message;
         this.data = data;
@@ -43,11 +43,11 @@ public class Response<T> {
     }
 
     // HELPERS:
-    public static <T> Response<T> success(String message, T data) {
-        return new Response<>("Success...", message, data);
+    public static <T> ServerResponse<T> success(String message, T data) {
+        return new ServerResponse<>("Success...", message, data);
     }
 
-    public static <T> Response<T> failure(String message) {
-        return new Response<>("Failure...", message, null);
+    public static <T> ServerResponse<T> failure(String message) {
+        return new ServerResponse<>("Failure...", message, null);
     }
 }
