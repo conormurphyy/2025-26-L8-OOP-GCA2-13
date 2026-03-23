@@ -65,7 +65,7 @@ public class Server {
             }
         }
         finally{
-
+        stop();
         }
     }
     private void stop()
@@ -75,7 +75,7 @@ public class Server {
         try{
             if(!_pool.awaitTermination(5, TimeUnit.SECONDS))
             {
-                System.out.println("Server did not stop gracefully");
+                System.out.println("Server did not stop gracefully");gi
                 _pool.shutdownNow();
             }
         }
