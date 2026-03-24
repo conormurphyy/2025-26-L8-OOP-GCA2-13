@@ -3,47 +3,53 @@ package org.example.shared;
 public class ServerResponse<T> {
 
     //Fields
-    private String fStatus;
-    private String fMessage;
-    private T fData;
+    private String _fStatus;
+    private String _fMessage;
+    private T _fData;
 
     // Constructors
     public ServerResponse() {
-        fStatus = "";
-        fMessage = "";
-        fData = null;
+        _fStatus = "error";
+        _fMessage = "";
+        _fData = null;
     }
 
     public ServerResponse(String status, String message, T data) {
-        fStatus = status;
-        fMessage = message;
-        fData = data;
+       if(status == null || status.isEmpty())
+       {
+           throw new IllegalArgumentException("status must not be empty");
+       }
+        _fStatus = status;
+        _fMessage = message;
+        _fData = data;
     }
 
     // Public API
     public String getStatus() {
-        return fStatus;
+        return _fStatus;
     }
 
     public void setStatus(String status) {
-        fStatus = status;
+        _fStatus = status;
     }
 
     public String getMessage() {
-        return fMessage;
+        return _fMessage;
     }
 
     public void setMessage(String message) {
-        fMessage = message;
+        _fMessage = message;
     }
 
     public T getData() {
-        return fData;
+        return _fData;
     }
 
     public void setData(T data) {
-        fData = data;
+        _fData = data;
     }
+
+    public boolean isSuccess() {return "success".equals(_fStatus); }
 
     public static <T> ServerResponse<T> success(String message, T data) {
         return new ServerResponse<>("SUCCESS", message, data);
