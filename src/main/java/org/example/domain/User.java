@@ -20,7 +20,9 @@ public class User {
         fUserType = "";
         fUserRating = 0.0;
     }
-
+    public User(String username, String userType, double userRating) {
+        this(0, username, userType, userRating);
+    }
     //User constructor
     public User(int id, String username, String userType, double userRating) {
         if (id < 0) {

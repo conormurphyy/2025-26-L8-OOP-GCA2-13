@@ -27,4 +27,9 @@ public class ClientRequest {
     public Map<String, Object> getPayload() { return _payload; }
 
     public void setPayload(Map<String, Object> payload) { _payload = payload != null ? payload : new HashMap<>(); }
+
+
+    public int getInt(String id) {
+        return 0;
+    }
 }
