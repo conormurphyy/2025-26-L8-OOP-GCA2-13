@@ -1,8 +1,11 @@
 <img src="RecipeHub.png">
-# RecipeHub — GCA2 Project
+
+
+
+# RecipeHub — GCA2 Project 📖
 
 Entities:
-### User
+### User 👨‍🦲
 
 | Field        | Type   | Description                          | Example  |
 |--------------|--------|--------------------------------------|----------|
@@ -11,7 +14,7 @@ Entities:
 | userType     | String | Role of user (admin or user)         | "admin"  |
 | userRating   | double | Rating (0–5 scale)                   | 4.5      |
 
-### Recipe
+### Recipe 📘
 
 | Field          | Type    | Description                          | Example                        |
 |----------------|---------|--------------------------------------|--------------------------------|
@@ -23,7 +26,7 @@ Entities:
 | totalCalories  | double  | Total calories                       | 650                            |
 | isPublic       | boolean | Whether recipe is public             | true                           |
 
-### Ingredient
+### Ingredient 🍚
 All nutrional values are based on 100g servings
 | Field         | Type   | Description                        | Example            |
 |---------------|--------|------------------------------------|--------------------|
@@ -35,21 +38,21 @@ All nutrional values are based on 100g servings
 | fat           | double | Fat per serving                    | 3.6                |
 
 
-## JSON Protocol (summary)
+## JSON Protocol (summary) 
 
-### Request format
+### Request format ⬅️
 ```json
 { "requestType": "<TYPE>", "payload": { ... } }
 ```
 
-### Response format
+### Response format ➡️
 ```json
 { "status": "SUCESS|ERROR", "message": "...", "data": ... }
 ```
 
 ---
 
-## Request Types
+## Request Types :clipboard:
 
 | requestType | Purpose |
 | :- | :- |
