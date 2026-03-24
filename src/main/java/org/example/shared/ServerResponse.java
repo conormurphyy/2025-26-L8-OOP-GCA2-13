@@ -52,4 +52,5 @@ public class ServerResponse<T> {
     public static <T> ServerResponse<T> error(String message) {
         return new ServerResponse<>("ERROR", message, null);
     }
+
 }

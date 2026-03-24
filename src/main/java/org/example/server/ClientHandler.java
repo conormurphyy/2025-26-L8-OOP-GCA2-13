@@ -156,7 +156,7 @@ String threadName = Thread.currentThread().getName();
         {
             return ServerResponse.error("User not found");
         }
-        return ServerResponse.ok("User found", found.get());
+        return ServerResponse.success("User found", found.get());
     }
     private ServerResponse <?> handleCreateUser (ClientRequest request) throws Exception
     {
@@ -183,7 +183,7 @@ String threadName = Thread.currentThread().getName();
         }
 
         User insertedUser = _userDao.insert(new User(id, username, userType, userRating));
-        return ServerResponse.ok("User created", insertedUser);
+        return ServerResponse.success("User created", insertedUser);
     }
 
     private ServerResponse<?> handleUpdateUser (ClientRequest request) throws Exception {
@@ -208,7 +208,7 @@ String threadName = Thread.currentThread().getName();
             return ServerResponse.error("Invalid user rating");
         }
         User updatedUser = _userDao.update(new User(id, username, userType, userRating));
-        return ServerResponse.ok("User updated", updatedUser);
+        return ServerResponse.success("User updated", updatedUser);
 
     }
     private ServerResponse <?> handleDeleteUser(ClientRequest request) throws Exception {
@@ -217,15 +217,15 @@ String threadName = Thread.currentThread().getName();
         {
             return ServerResponse.error("Invalid id");
         }
-        User deletedUser = _userDao.delete(id);
-        return ServerResponse.ok("User deleted", deletedUser);
+        boolean deletedUser = _userDao.deleteById(id);
+        return ServerResponse.success("User deleted", deletedUser);
 
     }
     private ServerResponse<?> handleDisconnect(ClientRequest request)
     {
         _running = false;
         System.out.println("Client disconnected");
-        return ServerResponse.ok("Client disconnected");
+        return ServerResponse.success("Client disconnected",null);
     }
 
 }
