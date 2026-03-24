@@ -10,6 +10,22 @@ CREATE TABLE recipe (
     is_public BOOLEAN
 );
 
+CREATE TABLE ingredient (
+    ingredient_id INT PRIMARY KEY,
+    ingredient_name VARCHAR(100),
+    ingredient_calories INT,
+    ingredient_protein INT,
+    ingredient_carbs INT,
+    ingredient_fats INT
+);
+
+CREATE TABLE users (
+    user_id INT PRIMARY KEY,
+    user_username VARCHAR(100),
+    user_type ENUM('Admin', 'User'),
+    user_rating FLOAT
+);
+
 -- Insertion of data
 INSERT INTO recipe (recipe_id, user_id, recipe_name, category_id, description, total_calories, is_public)
 VALUES
@@ -23,3 +39,35 @@ VALUES
     (8, 8, 'Mince Bolanaise', 8, 'High Protein Mince Bolanaise', 900, TRUE),
     (9, 9, 'Taco Bowl', 9, 'High Calorie Taco Bowl with mince, rice and avocado', 950, FALSE),
     (10, 10, 'Pre Workout Overnight Oats', 10, 'High Carbs Overnight Oats', 600, TRUE);
+
+INSERT INTO ingredient (ingredient_id, ingredient_name, ingredient_calories, ingredient_protein, ingredient_carbs, ingredient_fats)
+VALUES
+    (1, 'Chicken Breast', 165, 31, 0, 3),
+    (2, 'White Rice', 130, 2, 28, 0),
+    (3, 'Broccoli', 55, 4, 11, 1),
+    (4, 'Eggs', 155, 13, 1, 11),
+    (5, 'Milk', 60, 3, 5, 3),
+    (6, 'Oats', 389, 17, 66, 7),
+    (7, 'Banana', 89, 1, 23, 0),
+    (8, 'Beef Mince', 250, 26, 0, 15),
+    (9, 'Avocado', 160, 2, 9, 15),
+    (10, 'Honey', 304, 0, 82, 0),
+    (11, 'Bagel', 250, 9, 48, 1),
+    (12, 'Bacon', 541, 37, 1, 42),
+    (13, 'Butter', 717, 1, 0, 81),
+    (14, 'Skyr', 60, 11, 4, 0),
+    (15, 'Strawberries', 32, 1, 8, 0);
+
+INSERT INTO users (user_id, user_username, user_type, user_rating)
+VALUES
+    (1,'MikeCooks123', 'User', 4.3),
+    (2,'Jason123', 'User', 3.3),
+    (3,'Richie111', 'User', 2.1),
+    (4,'Carla114', 'User', 1.7),
+    (5,'Rebecca1234', 'Admin', 5.0),
+    (6,'Becca123', 'User', 4.5),
+    (7,'LordCook', 'User', 3.3),
+    (8,'CaptainCook', 'User', 2.3),
+    (9,'JessiePinkman1', 'User', 4.6),
+    (10,'WillyWonka', 'Admin', 4.1);
+
