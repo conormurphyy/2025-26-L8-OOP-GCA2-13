@@ -1,8 +1,14 @@
 <img src="RecipeHub.png">
-# RecipeHub — GCA2 Project
+
+
+
+# RecipeHub — GCA2 Project 📖
 
 Entities:
-### User
+---
+### User 👨‍🦲
+
+The "user" entity represents each user that is on our application. A user can either be a user with limited permissions or an admin with all permissions.
 
 | Field        | Type   | Description                          | Example  |
 |--------------|--------|--------------------------------------|----------|
@@ -11,7 +17,11 @@ Entities:
 | userType     | String | Role of user (admin or user)         | "admin"  |
 | userRating   | double | Rating (0–5 scale)                   | 4.5      |
 
-### Recipe
+---
+
+### Recipe 📘
+
+The "recipe" entity represents each recipe that is in our database, the recipe shows details about the recipe and the user responsible for creating it, it also declares wheither the recipe is public or private. Public meaning other users can see it, private meaning that only the user who made it can see it.
 
 | Field          | Type    | Description                          | Example                        |
 |----------------|---------|--------------------------------------|--------------------------------|
@@ -23,7 +33,10 @@ Entities:
 | totalCalories  | double  | Total calories                       | 650                            |
 | isPublic       | boolean | Whether recipe is public             | true                           |
 
-### Ingredient
+---
+
+### Ingredient 🍚
+The "ingredient" entity represents each ingredient in our database. This entity shows relevant information for each ingredient that goes into a recipe.
 All nutrional values are based on 100g servings
 | Field         | Type   | Description                        | Example            |
 |---------------|--------|------------------------------------|--------------------|
@@ -34,22 +47,74 @@ All nutrional values are based on 100g servings
 | carbs         | double | Carbs per serving                  | 0                  |
 | fat           | double | Fat per serving                    | 3.6                |
 
+---
 
-## JSON Protocol (summary)
+## 🌳 Structure Tree of Application (to date)
+```
+|   App.java
+|
++---client
+|       Client.java
+|
++---dao
+|   |   IngredientDao.java
+|   |   RecipeDao.java
+|   |   UserDao.java
+|   |
+|   \---jdbc
+|           JDBCIngredientDao.java
+|           JDBCRecipeDao.java
+|           JdbcUserDao.java
+|
++---domain
+|       Ingredient.java
+|       Recipe.java
+|       User.java
+|
++---Main
+|       IngredientMain.java
+|       RecipeMain.java
+|       UserMain.java
+|
++---recipe
+|       DbSmokeTest.java
+|
++---server
+|       ClientHandler.java
+|       Server.java
+|
++---service
+|       IngredientService.java
+|       RecipeService.java
+|       UserService.java
+|
++---shared
+|       ClientRequest.java
+|       RequestType.java
+|       ServerResponse.java
+|
++---user
+|       UserDbSmokeTest.java
+|
+\---util
+        JsonUtil.java
+```
 
-### Request format
+## JSON Protocol (summary) 
+
+### Request format ⬅️
 ```json
 { "requestType": "<TYPE>", "payload": { ... } }
 ```
 
-### Response format
+### Response format ➡️
 ```json
 { "status": "SUCESS|ERROR", "message": "...", "data": ... }
 ```
 
 ---
 
-## Request Types
+## Request Types :clipboard:
 
 | requestType | Purpose |
 | :- | :- |
