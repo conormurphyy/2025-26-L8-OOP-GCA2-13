@@ -39,12 +39,12 @@ public class JDBCRecipeDao implements RecipeDao {
             while (rs.next()) {
                 recipes.add(new Recipe(
                         rs.getInt("recipe_id"),
-                        rs.getBoolean("is_public"),
                         rs.getInt("user_id"),
                         rs.getString("recipe_name"),
                         rs.getInt("category_id"),
+                        rs.getString("description"),
                         rs.getDouble("total_calories"),
-                        rs.getString("description")
+                        rs.getBoolean("is_public")
                 ));
             }
         }
@@ -65,12 +65,12 @@ public class JDBCRecipeDao implements RecipeDao {
 
                 return Optional.of(new Recipe(
                         rs.getInt("recipe_id"),
-                        rs.getBoolean("is_public"),
                         rs.getInt("user_id"),
                         rs.getString("recipe_name"),
                         rs.getInt("category_id"),
+                        rs.getString("description"),
                         rs.getDouble("total_calories"),
-                        rs.getString("description")
+                        rs.getBoolean("is_public")
                 ));
             }
         }
@@ -90,12 +90,12 @@ public class JDBCRecipeDao implements RecipeDao {
 
                 return Optional.of(new Recipe(
                         rs.getInt("recipe_id"),
-                        rs.getBoolean("is_public"),
                         rs.getInt("user_id"),
                         rs.getString("recipe_name"),
                         rs.getInt("category_id"),
+                        rs.getString("description"),
                         rs.getDouble("total_calories"),
-                        rs.getString("description")
+                        rs.getBoolean("is_public")
                 ));
             }
         }
@@ -115,12 +115,12 @@ public class JDBCRecipeDao implements RecipeDao {
 
                 return Optional.of(new Recipe(
                         rs.getInt("recipe_id"),
-                        rs.getBoolean("is_public"),
                         rs.getInt("user_id"),
                         rs.getString("recipe_name"),
                         rs.getInt("category_id"),
+                        rs.getString("description"),
                         rs.getDouble("total_calories"),
-                        rs.getString("description")
+                        rs.getBoolean("is_public")
                 ));
             }
         }
@@ -132,13 +132,13 @@ public class JDBCRecipeDao implements RecipeDao {
         try (Connection c = open();
              PreparedStatement ps = c.prepareStatement(sql)) {
 
-            ps.setInt(1, recipe.getRecipeID());
-            ps.setInt(2, recipe.getUserID());
+            ps.setInt(1, recipe.getRecipeId());
+            ps.setInt(2, recipe.getUserId());
             ps.setString(3, recipe.getRecipeName());
-            ps.setInt(4, recipe.getCategoryID());
+            ps.setInt(4, recipe.getCategoryId());
             ps.setString(5, recipe.getDescription());
             ps.setDouble(6, recipe.getTotalCalories());
-            ps.setBoolean(7, recipe.isPublic());
+            ps.setBoolean(7, recipe.getIsPublic());
 
             return ps.executeUpdate() == 1;
         }
@@ -150,13 +150,13 @@ public class JDBCRecipeDao implements RecipeDao {
         try (Connection c = open();
              PreparedStatement ps = c.prepareStatement(sql)) {
 
-            ps.setInt(1, recipe.getUserID());
+            ps.setInt(1, recipe.getUserId());
             ps.setString(2, recipe.getRecipeName());
-            ps.setInt(3, recipe.getCategoryID());
+            ps.setInt(3, recipe.getCategoryId());
             ps.setString(4, recipe.getDescription());
             ps.setDouble(5, recipe.getTotalCalories());
-            ps.setBoolean(6, recipe.isPublic());
-            ps.setInt(7, recipe.getRecipeID());
+            ps.setBoolean(6, recipe.getIsPublic());
+            ps.setInt(7, recipe.getRecipeId());
 
             return ps.executeUpdate() == 1;
         }
@@ -190,12 +190,12 @@ public class JDBCRecipeDao implements RecipeDao {
                 while (rs.next()) {
                     recipes.add(new Recipe(
                             rs.getInt("recipe_id"),
-                            rs.getBoolean("is_public"),
                             rs.getInt("user_id"),
                             rs.getString("recipe_name"),
                             rs.getInt("category_id"),
+                            rs.getString("description"),
                             rs.getDouble("total_calories"),
-                            rs.getString("description")
+                            rs.getBoolean("is_public")
                     ));
                 }
             }
@@ -217,12 +217,12 @@ public class JDBCRecipeDao implements RecipeDao {
                 while (rs.next()) {
                     recipes.add(new Recipe(
                             rs.getInt("recipe_id"),
-                            rs.getBoolean("is_public"),
                             rs.getInt("user_id"),
                             rs.getString("recipe_name"),
                             rs.getInt("category_id"),
+                            rs.getString("description"),
                             rs.getDouble("total_calories"),
-                            rs.getString("description")
+                            rs.getBoolean("is_public")
                     ));
                 }
             }
@@ -242,12 +242,12 @@ public class JDBCRecipeDao implements RecipeDao {
             while (rs.next()) {
                 recipes.add(new Recipe(
                         rs.getInt("recipe_id"),
-                        rs.getBoolean("is_public"),
                         rs.getInt("user_id"),
                         rs.getString("recipe_name"),
                         rs.getInt("category_id"),
+                        rs.getString("description"),
                         rs.getDouble("total_calories"),
-                        rs.getString("description")
+                        rs.getBoolean("is_public")
                 ));
             }
         }
