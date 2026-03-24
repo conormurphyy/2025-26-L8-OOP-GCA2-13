@@ -11,5 +11,8 @@ public interface UserDao {
     List<User> findAll() throws Exception;
     boolean updateRating(int id, double rating) throws Exception;
     boolean updateType(int id, String type) throws Exception;
+    User updateAll(User user) throws Exception;
     boolean deleteById(int id) throws Exception;
+
+
 }

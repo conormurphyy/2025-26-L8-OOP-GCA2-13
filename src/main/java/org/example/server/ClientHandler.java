@@ -102,9 +102,9 @@ String threadName = Thread.currentThread().getName();
     }
     private ServerResponse <?> dispatch (ClientRequest request)
     {
-        RequestHandler handler = _handlers.get(request.getRequestType());
+        RequestHandler handler = _handlers.get(request.getType());
         if(handler == null) {
-            return ServerResponse.error("BAD Request" + "No handler for request type: " + request.getRequestType());
+            return ServerResponse.error("BAD Request" + "No handler for request type: " + request.getType());
         }
 
             try{
@@ -217,7 +217,7 @@ String threadName = Thread.currentThread().getName();
         {
             return ServerResponse.error("Invalid user rating");
         }
-        User updatedUser = _userDao.update(new User(id, username, userType, userRating));
+        User updatedUser = _userDao.updateAll(new User(id, username, userType, userRating));
         return ServerResponse.success("User updated", updatedUser);
 
     }
