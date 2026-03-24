@@ -1,9 +1,11 @@
 package org.example.server;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.example.client.Client;
 import org.example.dao.IngredientDao;
 import org.example.dao.RecipeDao;
 import org.example.dao.UserDao;
+import org.example.domain.User;
 import org.example.shared.ClientRequest;
 import org.example.shared.ServerResponse;
 import org.example.util.JsonUtil;
@@ -14,7 +16,9 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import static sun.misc.Signal.handle;
 
@@ -131,7 +135,28 @@ String threadName = Thread.currentThread().getName();
         //RECIPES
 
         //INGREDIENTS
-    }
 
+        //Session
+        _handlers.put("Disconnect", this::handleDisconnect);
+    }
+    private ServerResponse<?> handleGetAllUsers(ClientRequest request) throws Exception
+    {
+        List<User> users = _userDao.findAll();
+        return ServerResponse.ok("retrieved" + users.size() + " users", users);
+    }
+    private ServerResponse <?> handleGetUserById (ClientRequest request) throws Exception
+    {
+        int id = request.getInt("id");
+        if(id <=0)
+        {
+            return ServerResponse.error("Invalid user id");
+        }
+        Optional<User> found = _userDao.findById(id);
+        if(found.isEmpty())
+        {
+            return ServerResponse.error("User not found");
+        }
+        return ServerResponse.ok("User found", found.get());
+    }
 
 }
