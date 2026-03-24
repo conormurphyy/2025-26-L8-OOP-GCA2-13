@@ -14,7 +14,7 @@ public class RecipeJsonTest {
 
     @Test
     public void testSingleRecipeSerialization() throws Exception {
-        Recipe recipe = new Recipe(1, true, 5, "Protein Pancakes", 2, 350, "High protein breakfast");
+        Recipe recipe = new Recipe(1,2, "Protein Pancakes", 5, "High protein breakfast", 350, true);
 
         String json = mapper.writeValueAsString(recipe);
         assertNotNull(json);
@@ -26,8 +26,8 @@ public class RecipeJsonTest {
     @Test
     public void testRecipeListSerialization() throws Exception {
         List<Recipe> recipes = List.of(
-                new Recipe(1, 1, 5, "Protein Pancakes", 2, 350, "High protein breakfast"),
-                new Recipe(2, 1, 3, "Omelette", 2, 250, "Low-carb breakfast")
+                new Recipe(1, 1, "Protein Pancakes", 2,"High protein breakfast", 350,true),
+                new Recipe(2, 1, "Omelette", 1,"Low-carb breakfast",250, true)
         );
 
         String jsonList = mapper.writeValueAsString(recipes);
