@@ -40,7 +40,7 @@ VALUES
     (9, 9, 'Taco Bowl', 9, 'High Calorie Taco Bowl with mince, rice and avocado', 950, FALSE),
     (10, 10, 'Pre Workout Overnight Oats', 10, 'High Carbs Overnight Oats', 600, TRUE);
 
---ALL ingredients are by 100g 
+--ALL ingredients are by 100g
 INSERT INTO ingredient (ingredient_id, ingredient_name, ingredient_calories, ingredient_protein, ingredient_carbs, ingredient_fats)
 VALUES
     (1, 'Chicken Breast', 165, 31, 0, 3),
