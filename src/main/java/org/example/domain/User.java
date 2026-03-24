@@ -88,7 +88,7 @@ public class User {
                 + ", userType='" + fUserType + '\''
                 + ", userRating=" + fUserRating + "}";
     }
-    
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
