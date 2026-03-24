@@ -25,6 +25,7 @@ import java.util.Optional;
 import static sun.misc.Signal.handle;
 
 public class ClientHandler implements Runnable{
+
     @FunctionalInterface
     private interface RequestHandler {
         ServerResponse<?> handle(ClientRequest request) throws Exception;
@@ -60,6 +61,7 @@ public class ClientHandler implements Runnable{
         _running = true;
         registerHandlers();
     }
+
 
     @Override
     public void run(){

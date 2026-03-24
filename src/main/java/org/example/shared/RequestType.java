@@ -22,4 +22,6 @@ public enum RequestType {
     INGREDIENT_UPDATE,
     INGREDIENT_DELETE,
     INGREDIENT_FILTER,
+
+    DISCONNECT
 }
