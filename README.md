@@ -2,9 +2,50 @@
 
 
 
-# RecipeHub — GCA2 Project 📖
 
-Entities:
+---
+### README
+### Project Overview, setup, protocol
+### COMP C8Z03 Object-Oriented Programming (stage 2 {group project})
+---
+# RecipeHub — GCA2 Project 📖
+## 1 Project Overview: 
+This system would allow users to create, and manage recipes composed of different ingredients etc. Each food (ingredient) will store the nutritional information , the subsequent macros such as calories , carbohydrates, protein, fats. When an ingredient is added to a recipe, the system will automatically calculate and display the total macro values for the entire finished recipe , based off included ingredients. The user will also be able to favourite recipes, either that they created or that someone else created, users will get the option to make their recipes public or private, public meaning other users on the application will have access to their recipes.
+
+## 1.1 The team
+### GroupID: 2025-25-L8-OOP-GCA2-Group
+Members
+| Name                   | Student Number   |
+|------------------------|------------------|
+| Conor Murphy           | D00279403    |
+| Conor McCracken        | D00 |
+| Richie Orji            | D00 |
+
+## 1.2 Key Features:
+Go Here
+
+## 2 How to Run
+---
+Requires Java 17+
+IntelliJ Idea (recommended)
+MySQL Server (local)
+Maven/Gradle
+---
+
+## 2.1 Database Setup
+- Create a database eg. SampleDatabase
+- Run the script 'sql/mysqlSetup.sql'
+- Verify seed data; Each table must have a minimum of 10 rows
+
+## 2.2 Configure credentials
+
+## 2.3 Run the server
+
+## 2.4 Run the client
+
+## 3 Architecture Summary
+
+## Entities:
 ---
 ### User 👨‍🦲
 
