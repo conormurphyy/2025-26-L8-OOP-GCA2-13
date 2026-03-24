@@ -158,5 +158,74 @@ String threadName = Thread.currentThread().getName();
         }
         return ServerResponse.ok("User found", found.get());
     }
+    private ServerResponse <?> handleCreateUser (ClientRequest request) throws Exception
+    {
+        int id = request.getInt("id");
+        if(id <1 || id > 1000000000)
+        {
+            return ServerResponse.error("Invalid id");
+        }
+
+        String username = request.getString("username");
+        if(username == null || username.isEmpty())
+        {
+            return ServerResponse.error("Invalid user name");
+        }
+        String userType = request.getString("userType");
+        if(userType == null|| userType.isEmpty())
+        {
+            return ServerResponse.error("Invalid user type");
+        }
+        double userRating = request.getDouble("userRating");
+        if(userRating <0 || userRating > 5)
+        {
+            return ServerResponse.error("Invalid user rating");
+        }
+
+        User insertedUser = _userDao.insert(new User(id, username, userType, userRating));
+        return ServerResponse.ok("User created", insertedUser);
+    }
+
+    private ServerResponse<?> handleUpdateUser (ClientRequest request) throws Exception {
+        int id= request.getInt("id");
+        if(id <=0 || id > 1000000000)
+        {
+            return ServerResponse.error("Invalid id");
+        }
+        String username= request.getString("username");
+        if(username == null || username.isEmpty())
+        {
+            return ServerResponse.error("Invalid user name");
+        }
+        String userType= request.getString("userType");
+        if(userType == null|| userType.isEmpty())
+        {
+            return ServerResponse.error("Invalid user type");
+        }
+        double userRating= request.getDouble("userRating");
+        if(userRating <0 || userRating > 5)
+        {
+            return ServerResponse.error("Invalid user rating");
+        }
+        User updatedUser = _userDao.update(new User(id, username, userType, userRating));
+        return ServerResponse.ok("User updated", updatedUser);
+
+    }
+    private ServerResponse <?> handleDeleteUser(ClientRequest request) throws Exception {
+        int id= request.getInt("id");
+        if(id <=0 || id > 1000000000)
+        {
+            return ServerResponse.error("Invalid id");
+        }
+        User deletedUser = _userDao.delete(id);
+        return ServerResponse.ok("User deleted", deletedUser);
+
+    }
+    private ServerResponse<?> handleDisconnect(ClientRequest request)
+    {
+        _running = false;
+        System.out.println("Client disconnected");
+        return ServerResponse.ok("Client disconnected");
+    }
 
 }

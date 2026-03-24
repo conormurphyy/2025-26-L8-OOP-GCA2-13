@@ -32,31 +32,40 @@ public class JdbcUserDao implements UserDao {
         }
 
         @Override
-        public int insert(String username) throws Exception {
-        if(username ==null || username.isEmpty())
+        public User insert(User user) throws Exception {
+        if(user == null)
+        {
+            throw new IllegalArgumentException("user must not be null");
+        }
+        if(user.getUsername() == null || user.getUsername().isEmpty())
         {
             throw new IllegalArgumentException("username must not be empty");
         }
-        String sql = "INSERT INTO users (username) VALUES (?)";
+        if(user.getUserType() == null || user.getUserType().isEmpty())
+        {
+            throw new IllegalArgumentException("type must not be empty");
+        }
+        if(user.getUserRating() <0 || user.getUserRating() >5)
+        {
+            throw new IllegalArgumentException("rating must be between 0 and 5");
+        }
+        String sql = "INSERT INTO users (id, username, userType, userRating) VALUES (?, ?, ?, ?)";
 
 
         try (Connection c = open();
-        PreparedStatement ps =c.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+        PreparedStatement ps =c.prepareStatement(sql);
         ){
-            ps.setString(1, username);
+            ps.setInt(1, user.getId());
+            ps.setString(2, user.getUsername());
+            ps.setString(3, user.getUserType());
+            ps.setDouble(4, user.getUserRating());
             int  rows =ps.executeUpdate();
 
             if(rows!=1)
             {
                 throw new IllegalStateException("insert failed");
             }
-            try(ResultSet keys = ps.getGeneratedKeys()){
-                if(!keys.next())
-                {
-                    throw new IllegalStateException("insert failed");
-                }
-                return keys.getInt(1);
-            }
+            return user;
         }
         }
 

@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface UserDao {
-    int insert(String username) throws Exception;
+    User insert(User user) throws Exception;
     Optional<User> findById(int id) throws Exception;
     List<User> findAll() throws Exception;
     boolean updateRating(int id, double rating) throws Exception;

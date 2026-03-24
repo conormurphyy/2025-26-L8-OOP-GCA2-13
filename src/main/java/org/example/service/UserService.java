@@ -24,9 +24,9 @@ public class UserService
         _userDao = dao;
     }
 
-    public int addUser(String username) throws Exception
+    public User addUser(User user) throws Exception
     {
-        return _userDao.insert(username);
+        return _userDao.insert(user);
     }
 
     public Optional<User> get(int id) throws Exception
