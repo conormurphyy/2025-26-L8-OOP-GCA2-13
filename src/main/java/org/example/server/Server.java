@@ -14,6 +14,7 @@ import java.net.Socket;
 import java.sql.SQLException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 
 public class Server {
@@ -75,7 +76,7 @@ public class Server {
         try{
             if(!_pool.awaitTermination(5, TimeUnit.SECONDS))
             {
-                System.out.println("Server did not stop gracefully");gi
+                System.out.println("Server did not stop gracefully");
                 _pool.shutdownNow();
             }
         }
