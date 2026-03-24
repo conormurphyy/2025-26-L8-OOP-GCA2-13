@@ -23,10 +23,9 @@ public class Server {
     private final RecipeDao _recipeDao;
     private final IngredientDao _ingredientDao;
     private final ExecutorService _pool;
+
     public Server(int port, UserDao userDao, RecipeDao recipeDao, IngredientDao ingredientDao)
-
     {
-
         if(port <1_024 || port > 65_535)
         {
             throw new IllegalArgumentException("Port must be between 1024 and 65535");

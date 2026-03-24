@@ -1,5 +1,25 @@
 package org.example.shared;
 
 public enum RequestType {
-
+    //User
+    USER_GET_ALL,
+    USER_GET_BY_ID,
+    USER_INSERT,
+    USER_UPDATE,
+    USER_DELETE,
+    USER_FILTER,
+    //Recipe
+    RECIPE_GET_ALL,
+    RECIPE_GET_BY_ID,
+    RECIPE_INSERT,
+    RECIPE_UPDATE,
+    RECIPE_DELETE,
+    RECIPE_FILTER,
+    //Ingredient
+    INGREDIENT_GET_ALL,
+    INGREDIENT_GET_BY_ID,
+    INGREDIENT_INSERT,
+    INGREDIENT_UPDATE,
+    INGREDIENT_DELETE,
+    INGREDIENT_FILTER,
 }

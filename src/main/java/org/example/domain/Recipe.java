@@ -1,121 +1,154 @@
 package org.example.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.Objects;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Recipe {
 
-    private int recipeID;
-    private int userID;
-    private String recipeName;
-    private int categoryID;
-    private String description;
-    private double totalCalories;
-    private boolean isPublic;
+    //Fields
+    private int fRecipeId;
+    private int fUserId;
+    private String fRecipeName;
+    private int fCategoryId;
+    private String fDescription;
+    private double fTotalCalories;
+    private boolean fIsPublic;
 
+    //Constructors
+    // empty recipe
     public Recipe() {
-        recipeID = 0;
-        userID = 0;
-        recipeName = "";
-        categoryID = 0;
-        description = "";
-        totalCalories = 0;
-        isPublic = false;
+        fRecipeId = 0;
+        fUserId = 0;
+        fRecipeName = "";
+        fCategoryId = 0;
+        fDescription = "";
+        fTotalCalories = 0.0;
+        fIsPublic = false;
     }
 
-    public Recipe(int recipeID, boolean isPublic, int userID, String recipeName,
-                  int categoryID, double totalCalories, String description) {
-        if (userID<0)
-            throw new IllegalArgumentException("User ID cannot be less than zero");
-        if (recipeID<0)
-            throw new IllegalArgumentException("Recipe ID cannot be less than zero");
-        if (categoryID<0)
-            throw new IllegalArgumentException("Category ID cannot be less than zero");
-        if (recipeName==null)
-            throw new IllegalArgumentException("Recipe Name cannot be null");
-        if (description==null)
-            throw new IllegalArgumentException("Recipe Description cannot be null");
-        if (totalCalories<0)
-            throw new IllegalArgumentException("Total Calories cannot be less than zero");
+    //Constructor
+    public Recipe(int recipeId, int userId, String recipeName, int categoryId,
+                  String description, double totalCalories, boolean isPublic) {
+        if (recipeId < 0) {
+            throw new IllegalArgumentException("recipeId must be >= 0");
+        }
+        if (userId < 0) {
+            throw new IllegalArgumentException("userId must be >= 0");
+        }
+        if (recipeName == null || recipeName.isBlank()) {
+            throw new IllegalArgumentException("recipeName is required");
+        }
+        if (categoryId < 0) {
+            throw new IllegalArgumentException("categoryId must be >= 0");
+        }
+        if (description == null) {
+            throw new IllegalArgumentException("description is required");
+        }
+        if (totalCalories < 0.0) {
+            throw new IllegalArgumentException("totalCalories must be >= 0");
+        }
 
-        this.recipeID = recipeID;
-        this.isPublic = isPublic;
-        this.userID = userID;
-        this.recipeName = recipeName;
-        this.categoryID = categoryID;
-        this.totalCalories = totalCalories;
-        this.description = description;
+        fRecipeId = recipeId;
+        fUserId = userId;
+        fRecipeName = recipeName;
+        fCategoryId = categoryId;
+        fDescription = description;
+        fTotalCalories = totalCalories;
+        fIsPublic = isPublic;
     }
 
-    // PUBLIC API
-    @JsonProperty("recipeID")
-    public int getRecipeID() { return recipeID; }
+    //Public API
 
-    @JsonProperty("recipeID")
-    public void setRecipeID(int recipeID) { this.recipeID = recipeID; }
+    public int getRecipeId() {
+        return fRecipeId;
+    }
 
-    @JsonProperty("isPublic")
-    public boolean isPublic() { return isPublic; }
+    public void setRecipeId(int recipeId) {
+        fRecipeId = recipeId;
+    }
 
-    @JsonProperty("isPublic")
-    public void setPublic(boolean isPublic) { this.isPublic = isPublic; }
+    public int getUserId() {
+        return fUserId;
+    }
 
-    @JsonProperty("totalCalories")
-    public double getTotalCalories() { return totalCalories; }
+    public void setUserId(int userId) {
+        fUserId = userId;
+    }
 
-    @JsonProperty("totalCalories")
-    public void setTotalCalories(double totalCalories) { this.totalCalories = totalCalories; }
+    public String getRecipeName() {
+        return fRecipeName;
+    }
 
-    @JsonProperty("description")
-    public String getDescription() { return description; }
+    public void setRecipeName(String recipeName) {
+        fRecipeName = recipeName;
+    }
 
-    @JsonProperty("description")
-    public void setDescription(String description) { this.description = description; }
+    public int getCategoryId() {
+        return fCategoryId;
+    }
 
-    @JsonProperty("categoryID")
-    public int getCategoryID() { return categoryID; }
+    public void setCategoryId(int categoryId) {
+        fCategoryId = categoryId;
+    }
 
-    @JsonProperty("categoryID")
-    public void setCategoryID(int categoryID) { this.categoryID = categoryID; }
+    public String getDescription() {
+        return fDescription;
+    }
 
-    @JsonProperty("recipeName")
-    public String getRecipeName() { return recipeName; }
+    public void setDescription(String description) {
+        fDescription = description;
+    }
 
-    @JsonProperty("recipeName")
-    public void setRecipeName(String recipeName) { this.recipeName = recipeName; }
+    public double getTotalCalories() {
+        return fTotalCalories;
+    }
 
-    @JsonProperty("userID")
-    public int getUserID() { return userID; }
+    public void setTotalCalories(double totalCalories) {
+        fTotalCalories = totalCalories;
+    }
 
-    @JsonProperty("userID")
-    public void setUserID(int userID) { this.userID = userID; }
+    public boolean getIsPublic() {
+        return fIsPublic;
+    }
+
+    public void setIsPublic(boolean isPublic) {
+        fIsPublic = isPublic;
+    }
+
+    //Helper
 
     @Override
     public int hashCode() {
-        return Integer.hashCode(recipeID);
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Recipe)) return false;
-        Recipe other = (Recipe) o;
-        return recipeID == other.recipeID;
+        return Objects.hash(fRecipeId, fUserId, fRecipeName, fCategoryId, fDescription, fTotalCalories, fIsPublic);
     }
 
     @Override
     public String toString() {
-        return "Recipe{" +
-                "recipeID=" + recipeID +
-                ", userID=" + userID +
-                ", recipeName='" + recipeName + '\'' +
-                ", categoryID=" + categoryID +
-                ", description='" + description + '\'' +
-                ", totalCalories=" + totalCalories +
-                ", isPublic=" + isPublic +
-                '}';
+        return "Recipe{recipeId=" + fRecipeId
+                + ", userId=" + fUserId
+                + ", recipeName='" + fRecipeName + '\''
+                + ", categoryId=" + fCategoryId
+                + ", description='" + fDescription + '\''
+                + ", totalCalories=" + fTotalCalories
+                + ", isPublic=" + fIsPublic + "}";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Recipe)) {
+            return false;
+        }
+        Recipe other = (Recipe) o;
+        return fRecipeId == other.fRecipeId
+                && fUserId == other.fUserId
+                && fCategoryId == other.fCategoryId
+                && Double.compare(fTotalCalories, other.fTotalCalories) == 0
+                && fIsPublic == other.fIsPublic
+                && Objects.equals(fRecipeName, other.fRecipeName)
+                && Objects.equals(fDescription, other.fDescription);
     }
 }
-
-
