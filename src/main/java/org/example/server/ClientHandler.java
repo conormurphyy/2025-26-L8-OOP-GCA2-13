@@ -5,6 +5,7 @@ import org.example.client.Client;
 import org.example.dao.IngredientDao;
 import org.example.dao.RecipeDao;
 import org.example.dao.UserDao;
+import org.example.domain.Ingredient;
 import org.example.domain.Recipe;
 import org.example.domain.User;
 import org.example.shared.ClientRequest;
@@ -97,7 +98,7 @@ String threadName = Thread.currentThread().getName();
         }
         catch(Exception e)
         {
-            return buildErrorJson("BAD Request" + e.getMessage());
+            return toErrorJson("BAD Request" + e.getMessage());
         }
     }
     private ServerResponse <?> dispatch (ClientRequest request)
@@ -108,7 +109,7 @@ String threadName = Thread.currentThread().getName();
         }
 
             try{
-                return handle(request)
+                return handle(request);
             }
             catch (IllegalArgumentException e)
             {
@@ -152,7 +153,7 @@ String threadName = Thread.currentThread().getName();
     private ServerResponse<?> handleGetAllUsers(ClientRequest request) throws Exception
     {
         List<User> users = _userDao.findAll();
-        return ServerResponse.ok("retrieved" + users.size() + " users", users);
+        return ServerResponse.success("retrieved" + users.size() + " users", users);
     }
     private ServerResponse <?> handleGetUserById (ClientRequest request) throws Exception
     {
@@ -307,6 +308,79 @@ String threadName = Thread.currentThread().getName();
         return ServerResponse.success("Recipe deleted", deleted);
     }
 
+    //Ingredient
+    public ServerResponse<?> handleGetAllIngredients(ClientRequest request) throws Exception {
+        List<Ingredient> ingredients = _ingredientDao.getAllIngredients();
+        return ServerResponse.success("Retrieved " + ingredients.size() + " ingredients", ingredients);
+    }
+
+    public ServerResponse<?> handleGetIngredientById(ClientRequest request) throws Exception {
+        int id = request.getInt("id");
+        if (id <= 0) {
+            return ServerResponse.error("Invalid ingredient id");
+        }
+        Optional<Ingredient> found = _ingredientDao.getIngredientById(id);
+        if (found.isEmpty()) {
+            return ServerResponse.error("Ingredient not found");
+        }
+        return ServerResponse.success("Ingredient found", found.get());
+    }
+
+    public ServerResponse<?> handleCreateIngredient(ClientRequest request) throws Exception {
+        int ingredientId = request.getInt("id");
+        if (ingredientId < 1 || ingredientId > 1_000_000_000) {
+            return ServerResponse.error("Invalid ingredient id");
+        }
+
+        String name = request.getString("name");
+        double calories = request.getDouble("calories");
+        double protein = request.getDouble("protein");
+        double carbs = request.getDouble("carbs");
+        double fat = request.getDouble("fat");
+
+        Ingredient newIngredient = new Ingredient(ingredientId, name, calories, protein, carbs, fat);
+        boolean added = _ingredientDao.addIngredient(newIngredient);
+
+        if (!added) {
+            return ServerResponse.error("Failed to create ingredient");
+        }
+
+        return ServerResponse.success("Ingredient created", newIngredient);
+    }
+
+    public ServerResponse<?> handleUpdateIngredient(ClientRequest request) throws Exception {
+        int ingredientId = request.getInt("id");
+        String name = request.getString("name");
+        double calories = request.getDouble("calories");
+        double protein = request.getDouble("protein");
+        double carbs = request.getDouble("carbs");
+        double fat = request.getDouble("fat");
+
+        Ingredient updatedIngredient = new Ingredient(ingredientId, name, calories, protein, carbs, fat);
+        boolean updated = _ingredientDao.updateIngredient(updatedIngredient);
+
+        if (!updated) {
+            return ServerResponse.error("Failed to update ingredient");
+        }
+
+        return ServerResponse.success("Ingredient updated", updatedIngredient);
+    }
+
+    public ServerResponse<?> handleDeleteIngredient(ClientRequest request) throws Exception {
+        int ingredientId = request.getInt("id");
+        if (ingredientId <= 0 || ingredientId > 1_000_000_000) {
+            return ServerResponse.error("Invalid ingredient id");
+        }
+
+        boolean deleted = _ingredientDao.deleteIngredient(ingredientId);
+
+        if (!deleted) {
+            return ServerResponse.error("Failed to delete ingredient");
+        }
+
+        return ServerResponse.success("Ingredient deleted", deleted);
+    }
+
 
     //DISCONNECT
     private ServerResponse<?> handleDisconnect(ClientRequest request)
@@ -314,6 +388,10 @@ String threadName = Thread.currentThread().getName();
         _running = false;
         System.out.println("Client disconnected");
         return ServerResponse.success("Client disconnected",null);
+    }
+
+    private String toErrorJson(String message) {
+        return "{\"status\":\"ERROR\",\"message\":\"" + message + "\",\"data\":null}";
     }
 
 }
