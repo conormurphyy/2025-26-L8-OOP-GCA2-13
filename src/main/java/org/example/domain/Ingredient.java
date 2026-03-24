@@ -108,7 +108,7 @@ public class Ingredient {
                 + ", carbs=" + fCarbs
                 + ", fat=" + fFat + "}";
     }
-    
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {

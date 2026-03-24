@@ -2,52 +2,54 @@ package org.example.shared;
 
 public class ServerResponse<T> {
 
-    private String status;
-    private String message;
-    private T data;
+    //Fields
+    private String fStatus;
+    private String fMessage;
+    private T fData;
 
+    // Constructors
     public ServerResponse() {
-        status = "";
-        message = "";
-        data = null;
+        fStatus = "";
+        fMessage = "";
+        fData = null;
     }
 
     public ServerResponse(String status, String message, T data) {
-        this.status = status;
-        this.message = message;
-        this.data = data;
+        fStatus = status;
+        fMessage = message;
+        fData = data;
     }
 
-    public T getData() {
-        return data;
-    }
-
-    public void setData(T data) {
-        this.data = data;
-    }
-
+    // Public API
     public String getStatus() {
-        return status;
+        return fStatus;
     }
 
     public void setStatus(String status) {
-        this.status = status;
+        fStatus = status;
     }
 
     public String getMessage() {
-        return message;
+        return fMessage;
     }
 
     public void setMessage(String message) {
-        this.message = message;
+        fMessage = message;
     }
 
-    // HELPERS:
+    public T getData() {
+        return fData;
+    }
+
+    public void setData(T data) {
+        fData = data;
+    }
+
     public static <T> ServerResponse<T> success(String message, T data) {
-        return new ServerResponse<>("Success...", message, data);
+        return new ServerResponse<>("SUCCESS", message, data);
     }
 
-    public static <T> ServerResponse<T> failure(String message) {
-        return new ServerResponse<>("Failure...", message, null);
+    public static <T> ServerResponse<T> error(String message) {
+        return new ServerResponse<>("ERROR", message, null);
     }
 }
