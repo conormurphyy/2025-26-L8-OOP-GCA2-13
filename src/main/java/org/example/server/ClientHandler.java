@@ -109,7 +109,7 @@ String threadName = Thread.currentThread().getName();
         }
 
             try{
-                return handle(request);
+                return handler.handle(request);
             }
             catch (IllegalArgumentException e)
             {
