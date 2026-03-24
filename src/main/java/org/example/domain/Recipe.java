@@ -51,9 +51,9 @@ public class Recipe {
 
         fRecipeId = recipeId;
         fUserId = userId;
-        fRecipeName = recipeName.trim();
+        fRecipeName = recipeName;
         fCategoryId = categoryId;
-        fDescription = description.trim();
+        fDescription = description;
         fTotalCalories = totalCalories;
         fIsPublic = isPublic;
     }
