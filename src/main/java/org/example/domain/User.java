@@ -1,86 +1,106 @@
 package org.example.domain;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import java.util.Objects;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class User {
-    private int id;
-    private String username;
-    private String userType;
-    private double userRating;
 
-    public User()
-    {
-        this.username="";
-        this.userType="";
-        this.userRating=0;
-        this.id=0;
+    //Fields
+    private int fId;
+    private String fUsername;
+    private String fUserType;
+    private double fUserRating;
+
+    //Constructors
+    //empty user
+    public User() {
+        fId = 0;
+        fUsername = "";
+        fUserType = "";
+        fUserRating = 0.0;
     }
 
+    //User constructor
     public User(int id, String username, String userType, double userRating) {
-        if(id<0)
-        {
-            throw new IllegalArgumentException("Id must be positive");
+        if (id < 0) {
+            throw new IllegalArgumentException("id must be >= 0");
         }
-        if(username == null || username.isEmpty())
-        {
-            throw new IllegalArgumentException("Username must not be empty");
+        if (username == null || username.isBlank()) {
+            throw new IllegalArgumentException("username is required");
         }
-        if(userType == null || userType.isEmpty())
-        {
-            throw new IllegalArgumentException("UserType must not be empty");
+        if (userType == null || userType.isBlank()) {
+            throw new IllegalArgumentException("userType is required");
         }
-        if(userRating < 0 || userRating > 5)
-        {
-            throw new IllegalArgumentException("UserRating must be between 0 and 5");
+        if (userRating < 0.0 || userRating > 5.0) {
+            throw new IllegalArgumentException("userRating must be 0-5");
         }
 
-        this.id = id;
-        this.username = username;
-        this.userType = userType;
-        this.userRating = userRating;
+        fId = id;
+        fUsername = username.trim();
+        fUserType = userType.trim();
+        fUserRating = userRating;
     }
 
-    public int getId()
-    {
-        return id;
-    }
-    public String getUsername()
-    {
-        return username;
+    //Public API
+    public int getId() {
+        return fId;
     }
 
-    public String getUserType()
-    {
-        return userType;
-    }
-    public double getUserRating()
-    {
-        return userRating;
+    public void setId(int id) {
+        fId = id;
     }
 
+    public String getUsername() {
+        return fUsername;
+    }
+
+    public void setUsername(String username) {
+        fUsername = username;
+    }
+
+    public String getUserType() {
+        return fUserType;
+    }
+
+    public void setUserType(String userType) {
+        fUserType = userType;
+    }
+
+    public double getUserRating() {
+        return fUserRating;
+    }
+
+    public void setUserRating(double userRating) {
+        fUserRating = userRating;
+    }
+
+    //Helpers
+    @Override
+    public int hashCode() {
+        return Objects.hash(fId, fUsername, fUserType, fUserRating);
+    }
 
     @Override
-    public int hashCode()
-    {
-        return Integer.hashCode(id);
+    public String toString() {
+        return "User{id=" + fId
+                + ", username='" + fUsername + '\''
+                + ", userType='" + fUserType + '\''
+                + ", userRating=" + fUserRating + "}";
     }
+    
     @Override
-    public boolean equals (Object o)
-    {
-        if (this ==o)
-        {
+    public boolean equals(Object o) {
+        if (this == o) {
             return true;
         }
-        else if(!(o instanceof User))
-        {
+        if (!(o instanceof User)) {
             return false;
         }
-        User u = (User) o;
-        return id == u.id && username.equals(u.username) && userType.equals(u.userType) && userRating == u.userRating ;
-    }
-    @Override
-    public String toString()
-    {
-        return "User{" + "id=" + id + ", username='" + username + '\'' + ", getUserType='" + userType + '\'' + ", getUserRating=" + userRating + '}';
+        User other = (User) o;
+        return fId == other.fId
+                && Double.compare(fUserRating, other.fUserRating) == 0
+                && Objects.equals(fUsername, other.fUsername)
+                && Objects.equals(fUserType, other.fUserType);
     }
 }

@@ -1,13 +1,13 @@
 -- Table Creation
 -- Recipe
 CREATE TABLE recipe (
-                        recipe_id INT PRIMARY KEY,
-                        user_id INT,
-                        recipe_name VARCHAR(100),
-                        category_id INT,
-                        description VARCHAR(250),
-                        total_calories DOUBLE,
-                        is_public BOOLEAN
+    recipe_id INT PRIMARY KEY,
+    user_id INT,
+    recipe_name VARCHAR(100),
+    category_id INT,
+    description VARCHAR(250),
+    total_calories DOUBLE,
+    is_public BOOLEAN
 );
 
 -- Insertion of data
