@@ -1,3 +1,4 @@
+<img src="RecipeHub.png">
 # RecipeHub — GCA2 Project
 
 Entities:
