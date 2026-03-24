@@ -83,6 +83,18 @@ String threadName = Thread.currentThread().getName();
             System.out.println(threadName + " thread stopped");
         }
     }
+    private String handle(String rawJson)
+    {
+        try{
+            ClientRequest request = _mapper.readValue(rawJson, ClientRequest.class);
+            ServerResponse<?> response = dispatch(request);
+            return _mapper.writeValueAsString(response);
+        }
+        catch(Exception e)
+        {
+            return buildErrorJson("BAD Request" + e.getMessage());
+        }
+    }
 
 
 }
