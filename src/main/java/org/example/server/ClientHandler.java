@@ -95,6 +95,43 @@ String threadName = Thread.currentThread().getName();
             return buildErrorJson("BAD Request" + e.getMessage());
         }
     }
+    private ServerResponse <?> dispatch (ClientRequest request)
+    {
+        RequestHandler handler = _handlers.get(request.getRequestType());
+        if(handler == null) {
+            return ServerResponse.error("BAD Request" + "No handler for request type: " + request.getRequestType());
+        }
+
+            try{
+                return handle(request)
+            }
+            catch (IllegalArgumentException e)
+            {
+                return ServerResponse.error(e.getMessage());
+            }
+            catch (Exception e)
+            {
+                System.out.println("Error handling request: " + e.getMessage());
+                return ServerResponse.error("Internal Server Error");
+            }
+
+
+    }
+
+    private void registerHandlers()
+    {
+        //USERS
+        _handlers.put("GET_ALL_USERS", this::handleGetAllUsers);
+        _handlers.put("GET_USER_BY_ID", this::handleGetUserById);
+        _handlers.put("CREATE_USER", this::handleCreateUser);
+        _handlers.put("UPDATE_USER", this::handleUpdateUser);
+        _handlers.put("DELETE_USER", this::handleDeleteUser);
+
+
+        //RECIPES
+
+        //INGREDIENTS
+    }
 
 
 }
