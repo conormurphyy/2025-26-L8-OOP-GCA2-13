@@ -32,4 +32,5 @@ public class ClientRequest {
     public int getInt(String id) {
         return 0;
     }
+
 }

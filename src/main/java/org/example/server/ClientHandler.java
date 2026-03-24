@@ -5,6 +5,7 @@ import org.example.client.Client;
 import org.example.dao.IngredientDao;
 import org.example.dao.RecipeDao;
 import org.example.dao.UserDao;
+import org.example.domain.Recipe;
 import org.example.domain.User;
 import org.example.shared.ClientRequest;
 import org.example.shared.ServerResponse;
@@ -133,12 +134,21 @@ String threadName = Thread.currentThread().getName();
 
 
         //RECIPES
-
+        _handlers.put("GET_ALL_RECIPES", this::handleGetAllRecipes);
+        _handlers.put("GET_RECIPE_BY_ID", this::handleGetRecipeById);
+        _handlers.put("CREATE_RECIPE", this::handleCreateRecipe);
+        _handlers.put("UPDATE_RECIPE", this::handleUpdateRecipe);
+        _handlers.put("DELETE_RECIPE", this::handleDeleteRecipe);
         //INGREDIENTS
-
+        _handlers.put("GET_ALL_INGREDIENTS", this::handleGetAllIngredients);
+        _handlers.put("GET_RECIPE_BY_INGREDIENT", this::handleGetIngredientById);
+        _handlers.put("CREATE_INGREDIENT", this::handleCreateIngredient);
+        _handlers.put("UPDATE_INGREDIENT", this::handleUpdateIngredient);
+        _handlers.put("DELETE_INGREDIENT", this::handleDeleteIngredient);
         //Session
         _handlers.put("Disconnect", this::handleDisconnect);
     }
+    //USERS
     private ServerResponse<?> handleGetAllUsers(ClientRequest request) throws Exception
     {
         List<User> users = _userDao.findAll();
@@ -221,6 +231,84 @@ String threadName = Thread.currentThread().getName();
         return ServerResponse.success("User deleted", deletedUser);
 
     }
+
+    //RECIPE
+    private ServerResponse<?> handleGetAllRecipes(ClientRequest request) throws Exception {
+        List<Recipe> recipes = _recipeDao.getAllRecipes();
+        return ServerResponse.success("Retrieved " + recipes.size() + " recipes", recipes);
+    }
+
+    private ServerResponse<?> handleGetRecipeById(ClientRequest request) throws Exception {
+        int id = request.getInt("id");
+        if (id <= 0) {
+            return ServerResponse.error("Invalid recipe id");
+        }
+        Optional<Recipe> found = _recipeDao.getRecipeById(id);
+        if (found.isEmpty()) {
+            return ServerResponse.error("Recipe not found");
+        }
+        return ServerResponse.success("Recipe found", found.get());
+    }
+
+    private ServerResponse<?> handleCreateRecipe(ClientRequest request) throws Exception {
+        int recipeId = request.getInt("id");
+        if (recipeId < 1 || recipeId > 1_000_000_000) {
+            return ServerResponse.error("Invalid recipe id");
+        }
+
+        int userId = request.getInt("userId");
+        String recipeName = request.getString("recipeName");
+        int categoryId = request.getInt("categoryId");
+        String description = request.getString("description");
+        double totalCalories = request.getDouble("totalCalories");
+        boolean isPublic = request.getBoolean("isPublic");
+
+        Recipe newRecipe = new Recipe(recipeId, userId, recipeName, categoryId, description, totalCalories, isPublic);
+        boolean added = _recipeDao.addRecipe(newRecipe);
+
+        if (!added) {
+            return ServerResponse.error("Failed to create recipe");
+        }
+
+        return ServerResponse.success("Recipe created", newRecipe);
+    }
+
+    private ServerResponse<?> handleUpdateRecipe(ClientRequest request) throws Exception {
+        int recipeId = request.getInt("id");
+        int userId = request.getInt("userId");
+        String recipeName = request.getString("recipeName");
+        int categoryId = request.getInt("categoryId");
+        String description = request.getString("description");
+        double totalCalories = request.getDouble("totalCalories");
+        boolean isPublic = request.getBoolean("isPublic");
+
+        Recipe updatedRecipe = new Recipe(recipeId, userId, recipeName, categoryId, description, totalCalories, isPublic);
+        boolean updated = _recipeDao.updateRecipe(updatedRecipe);
+
+        if (!updated) {
+            return ServerResponse.error("Failed to update recipe");
+        }
+
+        return ServerResponse.success("Recipe updated", updatedRecipe);
+    }
+
+    private ServerResponse<?> handleDeleteRecipe(ClientRequest request) throws Exception {
+        int recipeId = request.getInt("id");
+        if (recipeId <= 0 || recipeId > 1_000_000_000) {
+            return ServerResponse.error("Invalid recipe id");
+        }
+
+        boolean deleted = _recipeDao.deleteRecipe(recipeId);
+
+        if (!deleted) {
+            return ServerResponse.error("Failed to delete recipe");
+        }
+
+        return ServerResponse.success("Recipe deleted", deleted);
+    }
+
+
+    //DISCONNECT
     private ServerResponse<?> handleDisconnect(ClientRequest request)
     {
         _running = false;
