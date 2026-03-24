@@ -1,4 +1,5 @@
-//RECIPE QUERIES
+-- Table Creation
+-- Recipe
 CREATE TABLE recipe (
                         recipe_id INT PRIMARY KEY,
                         user_id INT,
@@ -9,6 +10,7 @@ CREATE TABLE recipe (
                         is_public BOOLEAN
 );
 
+-- Insertion of data
 INSERT INTO recipe (recipe_id, user_id, recipe_name, category_id, description, total_calories, is_public)
 VALUES
     (1, 1, 'Chicken Stir Fry', 1, 'Delicious Chicken, Broccoli, and Rice Stir Fry', 650, TRUE),
