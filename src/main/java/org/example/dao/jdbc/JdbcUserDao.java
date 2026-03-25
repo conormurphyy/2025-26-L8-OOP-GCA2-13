@@ -151,6 +151,45 @@ public class JdbcUserDao implements UserDao {
             return rows==1;
         }
     }
+
+    @Override
+    public User updateAll(User user) throws Exception {
+        if (user == null) {
+            throw new IllegalArgumentException("user must not be null");
+        }
+        if (user.getId() <= 0) {
+            throw new IllegalArgumentException("invalid id");
+        }
+        if (user.getUsername() == null || user.getUsername().isEmpty()) {
+            throw new IllegalArgumentException("username must not be empty");
+        }
+        if (user.getUserType() == null || user.getUserType().isEmpty()) {
+            throw new IllegalArgumentException("userType must not be empty");
+        }
+        if (user.getUserRating() < 0 || user.getUserRating() > 5) {
+            throw new IllegalArgumentException("rating must be between 0 and 5");
+        }
+
+        String sql = "UPDATE users SET username = ?, userType = ?, userRating = ? WHERE id = ?";
+
+        try (Connection c = open();
+             PreparedStatement ps = c.prepareStatement(sql)) {
+
+            ps.setString(1, user.getUsername());
+            ps.setString(2, user.getUserType());
+            ps.setDouble(3, user.getUserRating());
+            ps.setInt(4, user.getId());
+
+            int rows = ps.executeUpdate();
+
+            if (rows != 1) {
+                throw new IllegalStateException("Update failed");
+            }
+
+            return user;
+        }
+    }
+
     @Override public boolean deleteById (int id) throws Exception {
         if(id<0)
         {

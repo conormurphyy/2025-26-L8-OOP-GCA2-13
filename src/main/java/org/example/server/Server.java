@@ -89,7 +89,7 @@ public class Server {
 
     public static void main(String[] args) throws IOException, SQLException {
         String url = "jdbc:mysql://localhost:3306/recipehub";
-        String user = "admin";
+        String user = "root";
         String pass = "";
 
         UserDao userDao = new JdbcUserDao(url, user, pass);

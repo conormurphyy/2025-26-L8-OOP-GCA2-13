@@ -43,7 +43,6 @@ public class Client {
 
             System.out.println("Connected\n");
 
-            send(out,in,"DISCONNECT", Map.of());
             System.out.println("Disconnected\n");
         }
     }
