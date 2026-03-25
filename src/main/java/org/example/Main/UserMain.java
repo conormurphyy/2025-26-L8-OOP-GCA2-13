@@ -6,6 +6,7 @@ import org.example.domain.User;
 import org.example.service.UserService;
 
 import java.util.List;
+import java.util.Optional;
 
 public class UserMain {
     public static void main(String[] args) throws Exception{
@@ -19,6 +20,10 @@ public class UserMain {
       User created = service.addUser(new User(100011, "test", "user", 3.0));
       System.out.println(created);
 
+
+        System.out.println("find by id");
+       Optional<User> uTest = service.findById(1);
+       System.out.println(uTest);
         for(User u :service.list())
         {
             System.out.println(u);
@@ -38,6 +43,8 @@ public class UserMain {
         {
             System.out.println(u);
         }
+
+
 
         System.out.println("testing predicate");
         List <User> nonTests =UserService.filter(service.list(),u ->"test".equalsIgnoreCase(u.getUsername()));
