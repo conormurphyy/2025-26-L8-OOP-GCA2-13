@@ -17,12 +17,12 @@ public class UserMain {
       UserDao dao = new JdbcUserDao(url, user, password);
       UserService service = new UserService(dao);
 
-      User created = service.addUser(new User(100011, "test", "user", 3.0));
-      System.out.println(created);
+      //User created = service.addUser(new User(100011, "test", "user", 3.0));
+      //System.out.println(created);
 
 
         System.out.println("find by id");
-       Optional<User> uTest = service.findById(1);
+       Optional<User> uTest = service.findById(2);
        System.out.println(uTest);
         for(User u :service.list())
         {
