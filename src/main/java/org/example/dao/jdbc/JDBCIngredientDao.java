@@ -56,6 +56,29 @@ public class JDBCIngredientDao implements IngredientDao {
     }
 
     @Override
+    public List<Ingredient> filterIngredients(String name, Double maxCalories, Double minProtein) throws Exception {
+        List<Ingredient> allIngredients = getAllIngredients();
+        List<Ingredient> filtered = new ArrayList<>();
+
+        for (Ingredient ingredient : allIngredients) {
+            boolean match = true;
+            if (name != null && !ingredient.getName().toLowerCase().contains(name.toLowerCase())) {
+                match = false;
+            }
+            if (maxCalories != null && ingredient.getCalories() > maxCalories) {
+                match = false;
+            }
+            if (minProtein != null && ingredient.getProtein() < minProtein) {
+                match = false;
+            }
+            if (match) {
+                filtered.add(ingredient);
+            }
+        }
+        return filtered;
+    }
+
+    @Override
     public boolean addIngredient(Ingredient ingredient) throws Exception {
         String sql = "INSERT INTO ingredient (ingredient_id, ingredient_name, ingredient_calories, ingredient_protein, ingredient_carbs, ingredient_fats) VALUES (?, ?, ?, ?, ?, ?)";
         PreparedStatement ps = connection.prepareStatement(sql);
@@ -70,7 +93,7 @@ public class JDBCIngredientDao implements IngredientDao {
 
     @Override
     public boolean updateIngredient(Ingredient ingredient) throws Exception {
-        String sql = "UPDATE ingredient SET name=?, calories=?, protein=?, carbs=?, fat=? WHERE ingredient_id=?";
+        String sql = "UPDATE ingredient SET ingredient_name=?, ingredient_calories=?, ingredient_protein=?, ingredient_carbs=?, ingredient_fats=? WHERE ingredient_id=?";
         PreparedStatement ps = connection.prepareStatement(sql);
         ps.setString(1, ingredient.getName());
         ps.setDouble(2, ingredient.getCalories());

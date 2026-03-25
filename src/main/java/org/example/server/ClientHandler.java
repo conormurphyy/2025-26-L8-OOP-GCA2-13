@@ -140,15 +140,13 @@ String threadName = Thread.currentThread().getName();
         _handlers.put("DELETE_USER", this::handleDeleteUser);
         _handlers.put("FILTER_USERS", this::handleFilterUsers);
 
-
-
-
         //RECIPES
         _handlers.put("GET_ALL_RECIPES", this::handleGetAllRecipes);
         _handlers.put("GET_RECIPE_BY_ID", this::handleGetRecipeById);
         _handlers.put("CREATE_RECIPE", this::handleCreateRecipe);
         _handlers.put("UPDATE_RECIPE", this::handleUpdateRecipe);
         _handlers.put("DELETE_RECIPE", this::handleDeleteRecipe);
+        _handlers.put("FILTER_RECIPES", this::handleFilterRecipes);
 
         //INGREDIENTS
         _handlers.put("GET_ALL_INGREDIENTS", this::handleGetAllIngredients);
@@ -156,6 +154,8 @@ String threadName = Thread.currentThread().getName();
         _handlers.put("CREATE_INGREDIENT", this::handleCreateIngredient);
         _handlers.put("UPDATE_INGREDIENT", this::handleUpdateIngredient);
         _handlers.put("DELETE_INGREDIENT", this::handleDeleteIngredient);
+        _handlers.put("FILTER_INGREDIENTS", this::handleFilterIngredients);
+
         //Session
         _handlers.put("DISCONNECT", this::handleDisconnect);
     }
@@ -293,6 +293,15 @@ String threadName = Thread.currentThread().getName();
         return ServerResponse.success("Recipe created", newRecipe);
     }
 
+    private ServerResponse<?> handleFilterRecipes(ClientRequest request) throws Exception {
+        Boolean isPublic = request.getBoolean("isPublic");
+        Double minCalories = request.getDouble("minCalories");
+
+        List<Recipe> filtered = _recipeDao.filterRecipes(isPublic, minCalories);
+
+        return ServerResponse.success("Found " + filtered.size() + " recipes", filtered);
+    }
+
     private ServerResponse<?> handleUpdateRecipe(ClientRequest request) throws Exception {
         int recipeId = request.getInt("id");
         int userId = request.getInt("userId");
@@ -383,6 +392,16 @@ String threadName = Thread.currentThread().getName();
         }
 
         return ServerResponse.success("Ingredient updated", updatedIngredient);
+    }
+
+    private ServerResponse<?> handleFilterIngredients(ClientRequest request) throws Exception {
+        String name = request.getString("name");
+        Double maxCalories = request.getDouble("maxCalories");
+        Double minProtein = request.getDouble("minProtein");
+
+        List<Ingredient> filtered = _ingredientDao.filterIngredients(name, maxCalories, minProtein);
+
+        return ServerResponse.success("Found " + filtered.size() + " ingredients", filtered);
     }
 
     public ServerResponse<?> handleDeleteIngredient(ClientRequest request) throws Exception {

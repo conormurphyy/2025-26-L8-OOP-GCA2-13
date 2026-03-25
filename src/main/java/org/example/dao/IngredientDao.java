@@ -14,6 +14,7 @@ public interface IngredientDao {
     boolean addIngredient(Ingredient ingredient) throws Exception;
     boolean updateIngredient(Ingredient ingredient) throws Exception;
     boolean deleteIngredient(int ingredientId) throws Exception;
+    List<Ingredient> filterIngredients(String name, Double maxCalories, Double minProtein) throws Exception;
 
 }
 

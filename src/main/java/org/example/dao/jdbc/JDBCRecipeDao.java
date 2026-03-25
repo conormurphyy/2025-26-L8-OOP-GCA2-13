@@ -51,6 +51,30 @@ public class JDBCRecipeDao implements RecipeDao {
         return recipes;
     }
 
+
+
+
+    @Override
+    public List<Recipe> filterRecipes(Boolean isPublic, Double minCalories) throws Exception {
+        List<Recipe> allRecipes = getAllRecipes();
+        List<Recipe> filtered = new ArrayList<>();
+
+        for (Recipe recipe : allRecipes) {
+            boolean match = true;
+            if (isPublic != null && recipe.getIsPublic() != isPublic) {
+                match = false;
+            }
+            if (minCalories != null && recipe.getTotalCalories() < minCalories) {
+                match = false;
+            }
+            if (match) {
+                filtered.add(recipe);
+            }
+        }
+        return filtered;
+    }
+
+
     @Override
     public Optional<Recipe> getRecipeById(int recipeID) throws Exception {
         if (recipeID <= 0) return Optional.empty();
