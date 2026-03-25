@@ -105,7 +105,7 @@ public class RecipeHubTest {
 
     }
     @Test
-    void testUpdateSuccess() throws Exception {
+    void testUserUpdateSuccess() throws Exception {
         ClientRequest req = new ClientRequest();
         req.setType("UPDATE_USER");
         Map<String, Object> payload = new HashMap<>();
