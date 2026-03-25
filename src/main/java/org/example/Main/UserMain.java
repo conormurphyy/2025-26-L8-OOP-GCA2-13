@@ -16,7 +16,7 @@ public class UserMain {
       UserDao dao = new JdbcUserDao(url, user, password);
       UserService service = new UserService(dao);
 
-      User created = service.addUser(new User(10001, "test", "user", 3.0));
+      User created = service.addUser(new User(100011, "test", "user", 3.0));
       System.out.println(created);
 
         for(User u :service.list())
