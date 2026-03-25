@@ -181,4 +181,12 @@ public class RecipeHubTest {
         assertEquals("SUCCESS", res.getStatus());
 
     }
+    @Test
+    void getRecipeByIDSuccess() throws Exception {
+        ClientRequest req = new ClientRequest();
+        req.setType("GET_RECIPE_BY_ID");
+        Map<String, Object> payload = new HashMap<>();
+        payload.put("id", 200001);
+        req.setPayload(payload);
+    }
 }
