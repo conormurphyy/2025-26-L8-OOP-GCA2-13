@@ -125,4 +125,24 @@ public class RecipeHubTest {
         assertEquals("Recipe created", res.getMessage());
         assertNotNull(res.getData());
     }
+    @Test
+    void testInsertIngredientSuccess() throws Exception {
+        ClientRequest req = new ClientRequest();
+        req.setType("CREATE_INGREDIENT");
+
+        Map<String,Object> payload = new HashMap<>();
+        payload.put("id", 1006701);
+        payload.put("name", "Tomato");
+        payload.put("calories", 100.0);
+        payload.put("protein", 1.0);
+        payload.put("carbs", 4.0);
+        payload.put("fat", 0.2);
+        req.setPayload(payload);
+        writer.println(mapper.writeValueAsString(req));
+        String rawJson = reader.readLine();
+        ServerResponse res = mapper.readValue(rawJson, ServerResponse.class);
+        assertEquals("SUCCESS", res.getStatus());
+        assertEquals("Ingredient created", res.getMessage());
+        assertNotNull(res.getData());
+    }
 }
