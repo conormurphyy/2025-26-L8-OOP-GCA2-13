@@ -119,6 +119,7 @@ public class RecipeHubTest {
         ServerResponse res = mapper.readValue(rawJson, ServerResponse.class);
         assertEquals("SUCCESS", res.getStatus());
     }
+
     @Test
     void testInsertRecipeSuccess() throws Exception {
         ClientRequest req = new ClientRequest();
