@@ -43,8 +43,10 @@ Maven/Gradle
 
 ## 2.4 Run the client
 
-## 3 Architecture Summary
+## 3 Architecture Summary 🏗️
+
 <img src="Diagram.drawio.png">
+
 ## Entities:
 ---
 ### User 👨‍🦲
