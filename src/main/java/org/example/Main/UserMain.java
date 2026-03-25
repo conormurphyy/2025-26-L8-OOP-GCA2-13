@@ -28,16 +28,19 @@ public class UserMain {
         {
             System.out.println(u);
         }
+        //update user rating
         service.updateRating(1, 5);
         for(User u :service.list())
         {
             System.out.println(u);
         }
+        //update user type
         service.updateType(1, "admin");
         for(User u :service.list())
         {
             System.out.println(u);
         }
+        //delete 1
         service.delete(1);
         for(User u :service.list())
         {
@@ -46,19 +49,19 @@ public class UserMain {
 
 
 
-        System.out.println("testing predicate");
-        List <User> nonTests =UserService.filter(service.list(),u ->"test".equalsIgnoreCase(u.getUsername()));
-        for(User u :nonTests)
-        {
-            System.out.println(u);
-        }
-
-        System.out.println("Testing predicate 2");
-        List <User> admins =UserService.filter(service.list(),u ->"admin".equalsIgnoreCase(u.getUserType()));
-        for(User u :admins)
-        {
-            System.out.println(u);
-        }
+//        System.out.println("testing predicate");
+//        List <User> nonTests =UserService.filter(service.list(),u ->"test".equalsIgnoreCase(u.getUsername()));
+//        for(User u :nonTests)
+//        {
+//            System.out.println(u);
+//        }
+//
+//        System.out.println("Testing predicate 2");
+//        List <User> admins =UserService.filter(service.list(),u ->"admin".equalsIgnoreCase(u.getUserType()));
+//        for(User u :admins)
+//        {
+//            System.out.println(u);
+//        }
 
 
     }
