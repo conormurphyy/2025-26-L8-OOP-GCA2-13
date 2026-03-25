@@ -42,7 +42,7 @@ public class Client {
                       socket.getOutputStream(), true)) {
 
             System.out.println("Connected\n");
-
+            //TODO Add disconntect functionatliy
             System.out.println("Disconnected\n");
         }
     }

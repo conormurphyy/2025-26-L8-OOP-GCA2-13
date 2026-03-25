@@ -26,11 +26,11 @@ public class JDBCIngredientDao implements IngredientDao {
         while (rs.next()) {
             ingredients.add(new Ingredient(
                     rs.getInt("ingredient_id"),
-                    rs.getString("name"),
-                    rs.getDouble("calories"),
-                    rs.getDouble("protein"),
-                    rs.getDouble("carbs"),
-                    rs.getDouble("fat")
+                    rs.getString("ingredient_name"),
+                    rs.getDouble("ingredient_calories"),
+                    rs.getDouble("ingredient_protein"),
+                    rs.getDouble("ingredient_carbs"),
+                    rs.getDouble("ingredient_fats")
             ));
         }
         return ingredients;
@@ -45,11 +45,11 @@ public class JDBCIngredientDao implements IngredientDao {
         if (rs.next()) {
             return Optional.of(new Ingredient(
                     rs.getInt("ingredient_id"),
-                    rs.getString("name"),
-                    rs.getDouble("calories"),
-                    rs.getDouble("protein"),
-                    rs.getDouble("carbs"),
-                    rs.getDouble("fat")
+                    rs.getString("ingredient_name"),
+                    rs.getDouble("ingredient_calories"),
+                    rs.getDouble("ingredient_protein"),
+                    rs.getDouble("ingredient_carbs"),
+                    rs.getDouble("ingredient_fats")
             ));
         }
         return Optional.empty();
@@ -57,13 +57,14 @@ public class JDBCIngredientDao implements IngredientDao {
 
     @Override
     public boolean addIngredient(Ingredient ingredient) throws Exception {
-        String sql = "INSERT INTO ingredient (name, calories, protein, carbs, fat) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO ingredient (ingredient_id, ingredient_name, ingredient_calories, ingredient_protein, ingredient_carbs, ingredient_fats) VALUES (?, ?, ?, ?, ?, ?)";
         PreparedStatement ps = connection.prepareStatement(sql);
-        ps.setString(1, ingredient.getName());
-        ps.setDouble(2, ingredient.getCalories());
-        ps.setDouble(3, ingredient.getProtein());
-        ps.setDouble(4, ingredient.getCarbs());
-        ps.setDouble(5, ingredient.getFat());
+        ps.setInt(1, ingredient.getIngredientId());
+        ps.setString(2, ingredient.getName());
+        ps.setDouble(3, ingredient.getCalories());
+        ps.setDouble(4, ingredient.getProtein());
+        ps.setDouble(5, ingredient.getCarbs());
+        ps.setDouble(6, ingredient.getFat());
         return ps.executeUpdate() > 0;
     }
 
