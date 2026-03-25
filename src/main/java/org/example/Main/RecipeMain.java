@@ -17,12 +17,12 @@ public class RecipeMain {
 
         Recipe newRecipe = new Recipe(
                 11,
-                true,
-                1,
-                "Protein Pancakes",
                 2,
+                "Protein Pancakes",
+                4,
+                "High protein pancakes with oats",
                 550,
-                "High protein pancakes with oats"
+                true
         );
 
         boolean created = service.createRecipe(newRecipe);

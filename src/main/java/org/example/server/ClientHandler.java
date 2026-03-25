@@ -38,27 +38,29 @@ public class ClientHandler implements Runnable{
     private final Map<String, RequestHandler> _handlers;
     private boolean _running;
 
-    public ClientHandler(Socket socket, UserDao userDao, RecipeDao recipeDao, IngredientDao ingredientDao, ObjectMapper mapper, Map<String, RequestHandler> handlers) {
+    public ClientHandler(Socket socket, UserDao userDao, RecipeDao recipeDao, IngredientDao ingredientDao) {
         if (socket == null) {
-            throw new IllegalArgumentException("socket must not be null");
+            throw new IllegalArgumentException("Socket must not be null");
         }
         if (userDao == null) {
-            throw new IllegalArgumentException("userDao must not be null");
+            throw new IllegalArgumentException("UserDao must not be null");
         }
         if (recipeDao == null) {
-            throw new IllegalArgumentException("recipeDao must not be null");
+            throw new IllegalArgumentException("RecipeDao must not be null");
         }
         if (ingredientDao == null) {
-            throw new IllegalArgumentException("ingredientDao must not be null");
+            throw new IllegalArgumentException("IngredientDao must not be null");
         }
 
-        _socket = socket;
-        _userDao = userDao;
-        _recipeDao = recipeDao;
-        _ingredientDao = ingredientDao;
-        _mapper = JsonUtil.getMapper();
-        _handlers = new HashMap<>();
-        _running = true;
+        this._socket = socket;
+        this._userDao = userDao;
+        this._recipeDao = recipeDao;
+        this._ingredientDao = ingredientDao;
+
+        this._mapper = JsonUtil.getMapper();
+        this._handlers = new HashMap<>();
+        this._running = true;
+
         registerHandlers();
     }
 
