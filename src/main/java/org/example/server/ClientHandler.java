@@ -98,15 +98,16 @@ String threadName = Thread.currentThread().getName();
     private String handle(String rawJson)
     {
         try{
-            ClientRequest request = _mapper.readValue(rawJson, ClientRequest.class);
+            ClientRequest request = JsonUtil.fromJson(rawJson, ClientRequest.class);
             ServerResponse<?> response = dispatch(request);
-            return _mapper.writeValueAsString(response);
+            return JsonUtil.toJson(response);
         }
         catch(Exception e)
         {
             return toErrorJson("BAD Request" + e.getMessage());
         }
     }
+
     private ServerResponse <?> dispatch (ClientRequest request)
     {
         RequestHandler handler = _handlers.get(request.getType());
