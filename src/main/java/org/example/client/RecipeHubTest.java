@@ -145,4 +145,24 @@ public class RecipeHubTest {
         assertEquals("Ingredient created", res.getMessage());
         assertNotNull(res.getData());
     }
+
+    @Test
+    void testGetAllRecipesSuccess() throws Exception {
+        ClientRequest req = new ClientRequest();
+        req.setType("GET_ALL_RECIPES");
+        req.setPayload(null);
+        writer.println(mapper.writeValueAsString(req));
+        String rawJson = reader.readLine();
+        ServerResponse res = mapper.readValue(rawJson, ServerResponse.class);
+        assertEquals("SUCCESS", res.getStatus());
+    }
+
+    @Test
+    void getAllIngredientsSuccess() throws Exception {
+        ClientRequest req = new ClientRequest();
+        req.setType("GET_ALL_INGREDIENTS");
+        req.setPayload(null);
+        writer.println(mapper.writeValueAsString(req));
+        String rawJson = reader.readLine();
+    }
 }
