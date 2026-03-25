@@ -9,6 +9,7 @@ public class ClientRequest {
 
     private String   _type;
     private Map<String, Object> _payload;
+    private String _requestType;
 
     public ClientRequest() {
         _type    = "";
@@ -64,4 +65,8 @@ public class ClientRequest {
         return Boolean.parseBoolean(v.toString());
     }
 
+    public void setRequestType(String requestType)
+    {
+        _requestType = requestType;
+    }
 }
