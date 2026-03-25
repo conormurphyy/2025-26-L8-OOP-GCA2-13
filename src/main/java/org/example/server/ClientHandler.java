@@ -63,6 +63,8 @@ public class ClientHandler implements Runnable{
     }
 
 
+
+
     @Override
     public void run(){
 String threadName = Thread.currentThread().getName();
@@ -134,6 +136,9 @@ String threadName = Thread.currentThread().getName();
         _handlers.put("CREATE_USER", this::handleCreateUser);
         _handlers.put("UPDATE_USER", this::handleUpdateUser);
         _handlers.put("DELETE_USER", this::handleDeleteUser);
+        _handlers.put("FILTER_USERS", this::handleFilterUsers);
+
+
 
 
         //RECIPES
@@ -142,6 +147,7 @@ String threadName = Thread.currentThread().getName();
         _handlers.put("CREATE_RECIPE", this::handleCreateRecipe);
         _handlers.put("UPDATE_RECIPE", this::handleUpdateRecipe);
         _handlers.put("DELETE_RECIPE", this::handleDeleteRecipe);
+
         //INGREDIENTS
         _handlers.put("GET_ALL_INGREDIENTS", this::handleGetAllIngredients);
         _handlers.put("GET_RECIPE_BY_INGREDIENT", this::handleGetIngredientById);
@@ -197,6 +203,15 @@ String threadName = Thread.currentThread().getName();
 
         User insertedUser = _userDao.insert(new User(id, username, userType, userRating));
         return ServerResponse.success("User created", insertedUser);
+    }
+
+    private ServerResponse<?> handleFilterUsers(ClientRequest request) throws Exception {
+        String userType = request.getString("userType");
+        Double minRating = request.getDouble("minRating");
+
+        List<User> filtered = _userDao.filterUsers(userType, minRating);
+
+        return ServerResponse.success("Found " + filtered.size() + " users", filtered);
     }
 
     private ServerResponse<?> handleUpdateUser (ClientRequest request) throws Exception {

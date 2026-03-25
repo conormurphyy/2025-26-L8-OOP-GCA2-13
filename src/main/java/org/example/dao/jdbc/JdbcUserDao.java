@@ -165,6 +165,27 @@ public class JdbcUserDao implements UserDao {
             return ps.executeUpdate()==1;
         }
     }
+
+    @Override
+    public List<User> filterUsers(String userType, Double minRating) throws Exception {
+        List<User> allUsers = findAll();
+        List<User> filtered = new ArrayList<>();
+
+        for (User user : allUsers) {
+            boolean match = true;
+            if (userType != null && !user.getUserType().equals(userType)) {
+                match = false;
+            }
+            if (minRating != null && user.getUserRating() < minRating) {
+                match = false;
+            }
+            if (match) {
+                filtered.add(user);
+            }
+        }
+        return filtered;
+    }
+
     private static User mapRow(ResultSet rs) throws SQLException {
         int id =rs.getInt("id");
         String username = rs.getString("username");

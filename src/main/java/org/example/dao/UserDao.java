@@ -13,6 +13,5 @@ public interface UserDao {
     boolean updateType(int id, String type) throws Exception;
     User updateAll(User user) throws Exception;
     boolean deleteById(int id) throws Exception;
-
-
+    List<User> filterUsers(String userType, Double minRating) throws Exception;
 }
