@@ -155,7 +155,7 @@ String threadName = Thread.currentThread().getName();
         _handlers.put("UPDATE_INGREDIENT", this::handleUpdateIngredient);
         _handlers.put("DELETE_INGREDIENT", this::handleDeleteIngredient);
         //Session
-        _handlers.put("Disconnect", this::handleDisconnect);
+        _handlers.put("DISCONNECT", this::handleDisconnect);
     }
     //USERS
     private ServerResponse<?> handleGetAllUsers(ClientRequest request) throws Exception
