@@ -23,7 +23,10 @@ public class UserService
         }
         _userDao = dao;
     }
-
+    public Optional<User> findById (int id) throws Exception
+    {
+        return _userDao.findById(id);
+    }
     public User addUser(User user) throws Exception
     {
         return _userDao.insert(user);
@@ -37,6 +40,7 @@ public class UserService
     {
         return _userDao.findAll();
     }
+
     public void updateRating(int id, double rating) throws Exception
     {
         _userDao.updateRating(id, rating);
