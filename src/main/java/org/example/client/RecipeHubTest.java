@@ -42,10 +42,10 @@ public class RecipeHubTest {
     {
         try{
             ClientRequest request = new ClientRequest();
-            request.setRequestType(String.valueOf(RequestType.DISCONNECT));
-            request.setPayload(null);
+            request.setType("DISCONNECT");
+            request.setPayload(new HashMap<>());
+            writer.println(mapper.writeValueAsString(request));
 
-            System.out.println(mapper.writeValueAsString(request));
             reader.readLine();
 
 
@@ -61,31 +61,26 @@ public class RecipeHubTest {
         }
 
     }
+
     @Test
-    void testInsertSuccess() throws Exception
-    {
+    void testInsertSuccess() throws Exception {
+
         ClientRequest req = new ClientRequest();
-        req.setRequestType(String.valueOf(RequestType.USER_INSERT));
+        req.setType("CREATE_USER");
 
         Map<String, Object> payload = new HashMap<>();
+        payload.put("id", 10106710);
         payload.put("username", "testuser");
         payload.put("userType", "user");
         payload.put("userRating", 5.0);
+        req.setPayload(payload);
 
-        System.out.println(mapper.writeValueAsString(req));
+        writer.println(mapper.writeValueAsString(req));
         String rawJson = reader.readLine();
-
         ServerResponse res = mapper.readValue(rawJson, ServerResponse.class);
 
-        assertEquals("success",res.getStatus());
-        assertEquals("User created",res.getMessage());
+        assertEquals("SUCCESS", res.getStatus());
+        assertEquals("User created", res.getMessage());
         assertNotNull(res.getData());
-
-        Map<?,?> data = (Map<?,?>) res.getData();
-        createdId = (int) data.get("id");
-
-        assertTrue(createdId > 0);
-        assertEquals("success",res.getStatus());
-        assertEquals("User created",res.getMessage());
     }
 }

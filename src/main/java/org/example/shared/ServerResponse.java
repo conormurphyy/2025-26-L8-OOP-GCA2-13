@@ -1,5 +1,7 @@
 package org.example.shared;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class ServerResponse<T> {
 
     //Fields
@@ -48,8 +50,9 @@ public class ServerResponse<T> {
     public void setData(T data) {
         _fData = data;
     }
-
+    @JsonIgnore
     public boolean isSuccess() {return "success".equals(_fStatus); }
+
 
     public static <T> ServerResponse<T> success(String message, T data) {
         return new ServerResponse<>("SUCCESS", message, data);

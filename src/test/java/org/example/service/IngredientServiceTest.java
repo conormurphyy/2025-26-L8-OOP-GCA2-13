@@ -23,6 +23,11 @@ class IngredientServiceTest {
         public boolean updateIngredient(Ingredient ingredient) { return true; }
         @Override
         public boolean deleteIngredient(int id) { return true; }
+
+        @Override
+        public List<Ingredient> filterIngredients(String name, Double maxCalories, Double minProtein) throws Exception {
+            return List.of();
+        }
     }
 
     @Test

@@ -39,6 +39,12 @@ class RecipeServiceTest {
         public List<Recipe> getAllRecipes() { return List.of(new Recipe()); }
         @Override
         public List<Recipe> getPublicRecipes() { return List.of(new Recipe()); }
+
+        @Override
+        public List<Recipe> filterRecipes(Boolean isPublic, Double minCalories) throws Exception {
+            return List.of();
+        }
+
         @Override
         public List<Recipe> getRecipeByName(String name) { return List.of(new Recipe()); }
         @Override
