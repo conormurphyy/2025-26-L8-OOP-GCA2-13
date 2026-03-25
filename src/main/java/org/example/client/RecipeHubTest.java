@@ -165,4 +165,20 @@ public class RecipeHubTest {
         writer.println(mapper.writeValueAsString(req));
         String rawJson = reader.readLine();
     }
+
+    @Test
+    void getUserByIDSuccess() throws Exception {
+        ClientRequest req = new ClientRequest();
+        req.setType("GET_USER_BY_ID");
+        Map<String, Object> payload = new HashMap<>();
+        payload.put("id", 10101010);
+        req.setPayload(payload);
+
+        writer.println(mapper.writeValueAsString(req));
+        String rawJson = reader.readLine();
+
+        ServerResponse res = mapper.readValue(rawJson, ServerResponse.class);
+        assertEquals("SUCCESS", res.getStatus());
+
+    }
 }
