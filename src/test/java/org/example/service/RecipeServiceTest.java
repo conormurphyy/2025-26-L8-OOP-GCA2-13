@@ -11,8 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class RecipeServiceTest {
 
-    // Simple stub DAO
-    static class StubDao implements RecipeDao {
+    static class TestDao implements RecipeDao {
         boolean addCalled = false;
         boolean updateCalled = false;
         boolean deleteCalled = false;
@@ -47,15 +46,14 @@ class RecipeServiceTest {
     }
 
     @Test
-    void testRecipeServiceSimple() throws Exception {
-        StubDao dao = new StubDao();
+    void testRecipeService() throws Exception {
+        TestDao dao = new TestDao();
         RecipeService service = new RecipeService(dao);
 
         Recipe r = new Recipe();
         r.setRecipeName("Pizza");
         r.setTotalCalories(500);
 
-        // createRecipe
         assertTrue(service.createRecipe(r));
         assertFalse(service.createRecipe(null));
         r.setRecipeName(" ");
@@ -66,28 +64,21 @@ class RecipeServiceTest {
         r.setTotalCalories(-1);
         assertFalse(service.createRecipe(r));
 
-        // updateRecipe
         assertTrue(service.updateRecipe(r));
         assertFalse(service.updateRecipe(null));
 
-        // deleteRecipe
         assertTrue(service.deleteRecipe(1));
 
-        // getRecipe
         assertTrue(service.getRecipe(1).isPresent());
 
-        // listAllRecipes
         assertEquals(1, service.listAllRecipes().size());
 
-        // getPublicRecipes
         assertEquals(1, service.getPublicRecipes().size());
 
-        // searchByName
         assertEquals(1, service.searchByName("Cake").size());
         assertTrue(service.searchByName(" ").isEmpty());
         assertTrue(service.searchByName(null).isEmpty());
 
-        // searchByCalories
         assertEquals(1, service.searchByCalories(100, 200).size());
         assertTrue(service.searchByCalories(200, 100).isEmpty());
         assertTrue(service.searchByCalories(-1, 100).isEmpty());
@@ -99,5 +90,3 @@ class RecipeServiceTest {
         assertThrows(IllegalArgumentException.class, () -> new RecipeService(null));
     }
 }
-
-// This test was written using chatgpt

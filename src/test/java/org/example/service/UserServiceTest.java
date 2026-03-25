@@ -12,8 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class UserServiceTest {
 
-    // Stub DAO
-    static class StubDao implements UserDao {
+    static class TestDao implements UserDao {
         @Override
         public Optional<User> findById(int id) { return Optional.of(new User()); }
         @Override
@@ -47,29 +46,23 @@ class UserServiceTest {
 
     @Test
     void testUserServiceSimple() throws Exception {
-        StubDao dao = new StubDao();
+        TestDao dao = new TestDao();
         UserService service = new UserService(dao);
 
         User user = new User();
 
-        // addUser
         assertEquals(user, service.addUser(user));
 
-        // findById
         assertTrue(service.findById(1).isPresent());
 
-        // get
         assertTrue(service.get(1).isPresent());
 
-        // list
         assertEquals(1, service.list().size());
 
-        // void methods — just call them
         service.updateRating(1, 4.5);
         service.updateType(1, "admin");
         service.delete(1);
 
-        // static filter
         Predicate<User> alwaysTrue = u -> true;
         Predicate<User> alwaysFalse = u -> false;
         List<User> users = List.of(user);
