@@ -11,6 +11,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -82,5 +83,25 @@ public class RecipeHubTest {
         assertEquals("SUCCESS", res.getStatus());
         assertEquals("User created", res.getMessage());
         assertNotNull(res.getData());
+    }
+
+    @Test
+    void testGetAllSuccess() throws Exception {
+        ClientRequest req = new ClientRequest();
+        req.setType("GET_ALL_USERS");
+        req.setPayload(null);
+
+        writer.println(mapper.writeValueAsString(req));
+        String rawJson = reader.readLine();
+
+        ServerResponse res = mapper.readValue(rawJson, ServerResponse.class);
+
+        assertEquals("SUCCESS", res.getStatus());
+        assertNotNull(res.getData());
+
+        List<?> users = (List<?>) res.getData();
+        assertTrue(users.size() > 0);
+
+
     }
 }
