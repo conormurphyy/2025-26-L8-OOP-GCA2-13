@@ -104,4 +104,25 @@ public class RecipeHubTest {
 
 
     }
+    @Test
+    void testInsertRecipeSuccess() throws Exception {
+        ClientRequest req = new ClientRequest();
+        req.setType("CREATE_RECIPE");
+
+        Map<String, Object> payload = new HashMap<>();
+        payload.put("id", 200001);
+        payload.put("userId", 10101010); // must exist if DB has FK
+        payload.put("recipeName", "Pasta");
+        payload.put("categoryId", 1);
+        payload.put("description", "Simple pasta");
+        payload.put("totalCalories", 550.0);
+        payload.put("isPublic", true);
+        req.setPayload(payload);
+        writer.println(mapper.writeValueAsString(req));
+        String rawJson = reader.readLine();
+        ServerResponse res = mapper.readValue(rawJson, ServerResponse.class);
+        assertEquals("SUCCESS", res.getStatus());
+        assertEquals("Recipe created", res.getMessage());
+        assertNotNull(res.getData());
+    }
 }
