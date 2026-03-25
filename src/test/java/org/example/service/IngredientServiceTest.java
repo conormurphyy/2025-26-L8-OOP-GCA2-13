@@ -12,8 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class IngredientServiceTest {
 
-    // Stub DAO that just returns dummy values
-    static class StubDao implements IngredientDao {
+    static class TestDao implements IngredientDao {
         @Override
         public List<Ingredient> getAllIngredients() { return List.of(new Ingredient()); }
         @Override
@@ -28,27 +27,21 @@ class IngredientServiceTest {
 
     @Test
     void testIngredientServiceSimple() throws Exception {
-        StubDao dao = new StubDao();
+        TestDao dao = new TestDao();
         IngredientService service = new IngredientService(dao);
 
         Ingredient ingredient = new Ingredient();
 
-        // addIngredient
         assertTrue(service.addIngredient(ingredient));
 
-        // updateIngredient
         assertTrue(service.updateIngredient(ingredient));
 
-        // deleteIngredient
         assertTrue(service.deleteIngredient(1));
 
-        // getAllIngredients
         assertEquals(1, service.getAllIngredients().size());
 
-        // getIngredientById
         assertTrue(service.getIngredientById(1).isPresent());
 
-        // findByFilter
         Predicate<Ingredient> alwaysTrue = i -> true;
         Predicate<Ingredient> alwaysFalse = i -> false;
 
@@ -58,7 +51,9 @@ class IngredientServiceTest {
 
     @Test
     void testConstructor() {
-        IngredientService service = new IngredientService(new StubDao());
+        IngredientService service = new IngredientService(new TestDao());
         assertNotNull(service);
     }
 }
+
+// This test was written using chatgpt

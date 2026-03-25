@@ -82,3 +82,5 @@ class UserServiceTest {
         assertThrows(IllegalArgumentException.class, () -> new UserService(null));
     }
 }
+
+// This test was written using chatgpt
