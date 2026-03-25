@@ -228,8 +228,8 @@ public class JdbcUserDao implements UserDao {
     private static User mapRow(ResultSet rs) throws SQLException {
         int id =rs.getInt("id");
         String username = rs.getString("username");
-        String userType = rs.getString("getUserType");
-        double userRating = rs.getDouble("getUserRating");
+        String userType = rs.getString("userType");
+        double userRating = rs.getDouble("userRating");
         return new User(id, username, userType, userRating);
     }
 
