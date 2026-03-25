@@ -17,7 +17,7 @@ public class IngredientMain {
         IngredientDao dao = new JDBCIngredientDao(url, user, pass);
         IngredientService service = new IngredientService(dao);
 
-        Ingredient rice = new Ingredient(0, "Rice", 130, 2.7, 28, 0.3);
+        Ingredient rice = new Ingredient(110, "Rice", 130, 2.7, 28, 0.3);
         boolean created = service.addIngredient(rice);
         System.out.println("Ingredient created: " + created);
 

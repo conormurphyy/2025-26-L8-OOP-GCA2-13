@@ -20,10 +20,10 @@ CREATE TABLE ingredient (
 );
 
 CREATE TABLE users (
-    user_id INT PRIMARY KEY,
-    user_username VARCHAR(100),
-    user_type ENUM('Admin', 'User'),
-    user_rating FLOAT
+    id INT PRIMARY KEY,
+    username VARCHAR(100),
+    userType ENUM('Admin', 'User'),
+    userRating FLOAT
 );
 
 -- Insertion of data
@@ -59,7 +59,7 @@ VALUES
     (14, 'Skyr', 60, 11, 4, 0),
     (15, 'Strawberries', 32, 1, 8, 0);
 
-INSERT INTO users (user_id, user_username, user_type, user_rating)
+INSERT INTO users (id, username, userType, userRating)
 VALUES
     (1,'MikeCooks123', 'User', 4.3),
     (2,'Jason123', 'User', 3.3),
