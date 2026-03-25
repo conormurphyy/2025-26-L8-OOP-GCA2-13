@@ -105,6 +105,21 @@ public class RecipeHubTest {
 
     }
     @Test
+    void testUpdateSuccess() throws Exception {
+        ClientRequest req = new ClientRequest();
+        req.setType("UPDATE_USER");
+        Map<String, Object> payload = new HashMap<>();
+        payload.put("id", 10101010);
+        payload.put("username", "testuser2");
+        payload.put("userType", "user");
+        payload.put("userRating", 5.0);
+        req.setPayload(payload);
+        writer.println(mapper.writeValueAsString(req));
+        String rawJson = reader.readLine();
+        ServerResponse res = mapper.readValue(rawJson, ServerResponse.class);
+        assertEquals("SUCCESS", res.getStatus());
+    }
+    @Test
     void testInsertRecipeSuccess() throws Exception {
         ClientRequest req = new ClientRequest();
         req.setType("CREATE_RECIPE");
@@ -189,4 +204,5 @@ public class RecipeHubTest {
         payload.put("id", 200001);
         req.setPayload(payload);
     }
+
 }
