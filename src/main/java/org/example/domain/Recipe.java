@@ -1,5 +1,6 @@
 package org.example.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.Objects;
 
@@ -15,6 +16,11 @@ public class Recipe {
     private double fTotalCalories;
     private boolean fIsPublic;
 
+    @JsonIgnore
+    private byte[] _recipeImage;
+    private String _imageFileName;
+    private String _imageContentType;
+    private int _imageSize;
     //Constructors
     // empty recipe
     public Recipe() {
