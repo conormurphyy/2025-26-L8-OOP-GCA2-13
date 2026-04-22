@@ -31,6 +31,10 @@ public class Recipe {
         fDescription = "";
         fTotalCalories = 0.0;
         fIsPublic = false;
+        _recipeImage = null;
+        _imageFileName = "";
+        _imageContentType = "";
+        _imageSize = 0;
 
     }
 
