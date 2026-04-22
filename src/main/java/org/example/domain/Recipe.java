@@ -32,6 +32,7 @@ public class Recipe {
         fTotalCalories = 0.0;
         fIsPublic = false;
 
+
     }
 
     //Constructor
@@ -63,6 +64,15 @@ public class Recipe {
         fDescription = description;
         fTotalCalories = totalCalories;
         fIsPublic = isPublic;
+    }
+
+    public Recipe(int recipeId, int userId, String recipeName, int categoryID,
+                  String description, double totalCalories, boolean isPublic, byte[] recipeImage, String imageFileName, String imageContentType, int imageSize) {
+        this(recipeId, userId, recipeName, categoryID, description, totalCalories, isPublic);
+        _recipeImage = recipeImage;
+        _imageFileName = imageFileName;
+        _imageContentType = imageContentType;
+        _imageSize = imageSize;
     }
 
     //Public API
@@ -122,7 +132,39 @@ public class Recipe {
     public void setIsPublic(boolean isPublic) {
         fIsPublic = isPublic;
     }
+    //Image handler getter and setters
+    
+    public byte[] getRecipeImage() {
+        return _recipeImage;
+    }
 
+    public void setRecipeImage(byte[] recipeImage) {
+        _recipeImage = recipeImage;
+    }
+
+    public String getImageFileName() {
+        return _imageFileName;
+    }
+
+    public void setImageFileName(String imageFileName) {
+        _imageFileName = imageFileName;
+    }
+
+    public String getImageContentType() {
+        return _imageContentType;
+    }
+
+    public void setImageContentType(String imageContentType) {
+        _imageContentType = imageContentType;
+    }
+
+    public int getImageSize() {
+        return _imageSize;
+    }
+
+    public void setImageSize(int imageSize) {
+        _imageSize = imageSize;
+    }
     //Helper
 
     @Override
