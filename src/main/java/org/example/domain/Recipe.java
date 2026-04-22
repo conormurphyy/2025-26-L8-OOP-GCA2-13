@@ -31,6 +31,7 @@ public class Recipe {
         fDescription = "";
         fTotalCalories = 0.0;
         fIsPublic = false;
+
     }
 
     //Constructor
