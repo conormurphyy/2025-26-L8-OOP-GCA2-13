@@ -17,10 +17,10 @@ public class Recipe {
     private boolean fIsPublic;
 
     @JsonIgnore
-    private byte[] _recipeImage;
-    private String _imageFileName;
-    private String _imageContentType;
-    private int _imageSize;
+    private byte[] frecipeImage;
+    private String fimageFileName;
+    private String fimageContentType;
+    private int fimageSize;
     //Constructors
     // empty recipe
     public Recipe() {
@@ -31,10 +31,10 @@ public class Recipe {
         fDescription = "";
         fTotalCalories = 0.0;
         fIsPublic = false;
-        _recipeImage = null;
-        _imageFileName = "";
-        _imageContentType = "";
-        _imageSize = 0;
+        frecipeImage = null;
+        fimageFileName = "";
+        fimageContentType = "";
+        fimageSize = 0;
 
 
     }
@@ -73,10 +73,10 @@ public class Recipe {
     public Recipe(int recipeId, int userId, String recipeName, int categoryID,
                   String description, double totalCalories, boolean isPublic, byte[] recipeImage, String imageFileName, String imageContentType, int imageSize) {
         this(recipeId, userId, recipeName, categoryID, description, totalCalories, isPublic);
-        _recipeImage = recipeImage;
-        _imageFileName = imageFileName;
-        _imageContentType = imageContentType;
-        _imageSize = imageSize;
+        frecipeImage = recipeImage;
+        fimageFileName = imageFileName;
+        fimageContentType = imageContentType;
+        fimageSize = imageSize;
     }
 
     //Public API
@@ -139,35 +139,35 @@ public class Recipe {
     //Image handler getter and setters
     
     public byte[] getRecipeImage() {
-        return _recipeImage;
+        return frecipeImage;
     }
 
     public void setRecipeImage(byte[] recipeImage) {
-        _recipeImage = recipeImage;
+        frecipeImage = recipeImage;
     }
 
     public String getImageFileName() {
-        return _imageFileName;
+        return fimageFileName;
     }
 
     public void setImageFileName(String imageFileName) {
-        _imageFileName = imageFileName;
+        fimageFileName = imageFileName;
     }
 
     public String getImageContentType() {
-        return _imageContentType;
+        return fimageContentType;
     }
 
     public void setImageContentType(String imageContentType) {
-        _imageContentType = imageContentType;
+        fimageContentType = imageContentType;
     }
 
     public int getImageSize() {
-        return _imageSize;
+        return fimageSize;
     }
 
     public void setImageSize(int imageSize) {
-        _imageSize = imageSize;
+        fimageSize = imageSize;
     }
     //Helper
 

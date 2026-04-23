@@ -8,10 +8,10 @@ CREATE TABLE recipe (
     description VARCHAR(250),
     total_calories DOUBLE,
     is_public BOOLEAN,
-    recipeImage LONGBLOB,
-    imageFileName VARCHAR (100),
-    imageContentType VARCHAR (100),
-    imageSize INT
+    recipe_image MEDIUMBLOB,
+    image_file_name VARCHAR (100),
+    image_content_type VARCHAR (100),
+    image_size INT
 );
 
 CREATE TABLE ingredient (
