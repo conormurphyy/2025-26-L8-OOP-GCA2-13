@@ -10,7 +10,7 @@ import java.util.Optional;
 
 public class UserMain {
     public static void main(String[] args) throws Exception{
-      String url = "jdbc:mysql://localhost:3306/taskhub?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true";
+      String url = "jdbc:mysql://http://localhost/phpmyadmin/index.php?route=/sql&pos=0&db=recipehub&table=users";
       String user = "root";
       String password = "";
 

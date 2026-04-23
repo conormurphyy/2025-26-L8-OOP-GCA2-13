@@ -5,18 +5,21 @@ import org.example.dao.jdbc.JDBCRecipeDao;
 import org.example.domain.Recipe;
 import org.example.service.RecipeService;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+
 public class RecipeMain {
     public static void main(String[] args) throws Exception {
-        String url = "jdbc:mysql://localhost:3306/recipehub?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true";
-        String user = "admin";
-        String pass = "root";
+        String url = "jdbc:mysql://localhost:3306/recipehub";
+        String user = "root";
+        String pass = "";
 
         RecipeDao dao = new JDBCRecipeDao(url, user, pass);
         RecipeService service = new RecipeService(dao);
 
 
         Recipe newRecipe = new Recipe(
-                11111,
+                123163,
                 2,
                 "Protein Pancakes",
                 4,
@@ -42,5 +45,20 @@ public class RecipeMain {
         for (Recipe r : service.getPublicRecipes()) {
             System.out.println(" - " + r);
         }
+
+        Path path = Path.of("test.png");
+
+        byte[] bytes = Files.readAllBytes(path);
+
+        Recipe recipe = new Recipe(
+                9999, 2, "Test Recipe", 1,
+                "desc", 500, true,
+                bytes,
+                "test.png",
+                "image/png",
+                bytes.length
+        );
+
+        dao.addRecipe(recipe);
     }
 }

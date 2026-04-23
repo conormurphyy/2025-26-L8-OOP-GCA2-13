@@ -44,7 +44,11 @@ public class JDBCRecipeDao implements RecipeDao {
                         rs.getInt("category_id"),
                         rs.getString("description"),
                         rs.getDouble("total_calories"),
-                        rs.getBoolean("is_public")
+                        rs.getBoolean("is_public"),
+                        rs.getBytes("recipe_image"),
+                        rs.getString("image_file_name"),
+                        rs.getString("image_content_type"),
+                        rs.getInt("image_size")
                 ));
             }
         }
@@ -94,7 +98,11 @@ public class JDBCRecipeDao implements RecipeDao {
                         rs.getInt("category_id"),
                         rs.getString("description"),
                         rs.getDouble("total_calories"),
-                        rs.getBoolean("is_public")
+                        rs.getBoolean("is_public"),
+                        rs.getBytes("recipe_image"),
+                        rs.getString("image_file_name"),
+                        rs.getString("image_content_type"),
+                        rs.getInt("image_size")
                 ));
             }
         }
@@ -119,7 +127,11 @@ public class JDBCRecipeDao implements RecipeDao {
                         rs.getInt("category_id"),
                         rs.getString("description"),
                         rs.getDouble("total_calories"),
-                        rs.getBoolean("is_public")
+                        rs.getBoolean("is_public"),
+                        rs.getBytes("recipe_image"),
+                        rs.getString("image_file_name"),
+                        rs.getString("image_content_type"),
+                        rs.getInt("image_size")
                 ));
             }
         }
@@ -144,7 +156,12 @@ public class JDBCRecipeDao implements RecipeDao {
                         rs.getInt("category_id"),
                         rs.getString("description"),
                         rs.getDouble("total_calories"),
-                        rs.getBoolean("is_public")
+                        rs.getBoolean("is_public"),
+                        rs.getBytes("recipe_image"),
+                        rs.getString("image_file_name"),
+                        rs.getString("image_content_type"),
+                        rs.getInt("image_size")
+
                 ));
             }
         }
@@ -152,7 +169,7 @@ public class JDBCRecipeDao implements RecipeDao {
 
     @Override
     public boolean addRecipe(Recipe recipe) throws Exception {
-        String sql = "INSERT INTO recipe (recipe_id, user_id, recipe_name, category_id, description, total_calories, is_public, recipe_image,recipe_file_name,recipe_content_type,recipe_size) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO recipe (recipe_id, user_id, recipe_name, category_id, description, total_calories, is_public, recipe_image,image_file_name,image_content_type,image_size) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection c = open();
              PreparedStatement ps = c.prepareStatement(sql)) {
 
@@ -164,9 +181,9 @@ public class JDBCRecipeDao implements RecipeDao {
             ps.setDouble(6, recipe.getTotalCalories());
             ps.setBoolean(7, recipe.getIsPublic());
             ps.setBytes(8, recipe.getRecipeImage());
-            ps.setString(8, recipe.getImageFileName());
-            ps.setString(9, recipe.getImageContentType());
-            ps.setInt(10, recipe.getImageSize());
+            ps.setString(9, recipe.getImageFileName());
+            ps.setString(10, recipe.getImageContentType());
+            ps.setInt(11, recipe.getImageSize());
 
             return ps.executeUpdate() == 1;
         }
@@ -185,6 +202,10 @@ public class JDBCRecipeDao implements RecipeDao {
             ps.setDouble(5, recipe.getTotalCalories());
             ps.setBoolean(6, recipe.getIsPublic());
             ps.setInt(7, recipe.getRecipeId());
+            ps.setBytes(8, recipe.getRecipeImage());
+            ps.setString(9, recipe.getImageFileName());
+            ps.setString(10, recipe.getImageContentType());
+            ps.setInt(11, recipe.getImageSize());
 
             return ps.executeUpdate() == 1;
         }
@@ -223,7 +244,11 @@ public class JDBCRecipeDao implements RecipeDao {
                             rs.getInt("category_id"),
                             rs.getString("description"),
                             rs.getDouble("total_calories"),
-                            rs.getBoolean("is_public")
+                            rs.getBoolean("is_public"),
+                            rs.getBytes("recipe_image"),
+                            rs.getString("image_file_name"),
+                            rs.getString("image_content_type"),
+                            rs.getInt("image_size")
                     ));
                 }
             }
@@ -250,7 +275,11 @@ public class JDBCRecipeDao implements RecipeDao {
                             rs.getInt("category_id"),
                             rs.getString("description"),
                             rs.getDouble("total_calories"),
-                            rs.getBoolean("is_public")
+                            rs.getBoolean("is_public"),
+                            rs.getBytes("recipe_image"),
+                            rs.getString("image_file_name"),
+                            rs.getString("image_content_type"),
+                            rs.getInt("image_size")
                     ));
                 }
             }
@@ -275,7 +304,11 @@ public class JDBCRecipeDao implements RecipeDao {
                         rs.getInt("category_id"),
                         rs.getString("description"),
                         rs.getDouble("total_calories"),
-                        rs.getBoolean("is_public")
+                        rs.getBoolean("is_public"),
+                        rs.getBytes("recipe_image"),
+                        rs.getString("image_file_name"),
+                        rs.getString("image_content_type"),
+                        rs.getInt("image_size")
                 ));
             }
         }
