@@ -7,7 +7,11 @@ CREATE TABLE recipe (
     category_id INT,
     description VARCHAR(250),
     total_calories DOUBLE,
-    is_public BOOLEAN
+    is_public BOOLEAN,
+    recipe_image MEDIUMBLOB,
+    image_file_name VARCHAR (100),
+    image_content_type VARCHAR (100),
+    image_size INT
 );
 
 CREATE TABLE ingredient (

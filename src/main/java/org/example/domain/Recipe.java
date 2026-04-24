@@ -17,10 +17,10 @@ public class Recipe {
     private boolean fIsPublic;
 
     @JsonIgnore
-    private byte[] _recipeImage;
-    private String _imageFileName;
-    private String _imageContentType;
-    private int _imageSize;
+    private byte[] frecipeImage;
+    private String fimageFileName;
+    private String fimageContentType;
+    private int fimageSize;
     //Constructors
     // empty recipe
     public Recipe() {
@@ -31,6 +31,11 @@ public class Recipe {
         fDescription = "";
         fTotalCalories = 0.0;
         fIsPublic = false;
+        frecipeImage = null;
+        fimageFileName = "";
+        fimageContentType = "";
+        fimageSize = 0;
+
 
     }
 
@@ -63,6 +68,15 @@ public class Recipe {
         fDescription = description;
         fTotalCalories = totalCalories;
         fIsPublic = isPublic;
+    }
+
+    public Recipe(int recipeId, int userId, String recipeName, int categoryID,
+                  String description, double totalCalories, boolean isPublic, byte[] recipeImage, String imageFileName, String imageContentType, int imageSize) {
+        this(recipeId, userId, recipeName, categoryID, description, totalCalories, isPublic);
+        frecipeImage = recipeImage;
+        fimageFileName = imageFileName;
+        fimageContentType = imageContentType;
+        fimageSize = imageSize;
     }
 
     //Public API
@@ -122,7 +136,39 @@ public class Recipe {
     public void setIsPublic(boolean isPublic) {
         fIsPublic = isPublic;
     }
+    //Image handler getter and setters
+    
+    public byte[] getRecipeImage() {
+        return frecipeImage;
+    }
 
+    public void setRecipeImage(byte[] recipeImage) {
+        frecipeImage = recipeImage;
+    }
+
+    public String getImageFileName() {
+        return fimageFileName;
+    }
+
+    public void setImageFileName(String imageFileName) {
+        fimageFileName = imageFileName;
+    }
+
+    public String getImageContentType() {
+        return fimageContentType;
+    }
+
+    public void setImageContentType(String imageContentType) {
+        fimageContentType = imageContentType;
+    }
+
+    public int getImageSize() {
+        return fimageSize;
+    }
+
+    public void setImageSize(int imageSize) {
+        fimageSize = imageSize;
+    }
     //Helper
 
     @Override

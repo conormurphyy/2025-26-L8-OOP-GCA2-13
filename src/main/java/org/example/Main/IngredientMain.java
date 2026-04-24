@@ -10,7 +10,7 @@ import java.util.List;
 public class IngredientMain {
     public static void main(String[] args) throws Exception {
 
-        String url = "jdbc:mysql://localhost:3306/taskhub";
+        String url = "jdbc:mysql://http://localhost/phpmyadmin/index.php?route=/sql&db=recipehub&table=ingredient&pos=0";
         String user = "root";
         String pass = "";
 
