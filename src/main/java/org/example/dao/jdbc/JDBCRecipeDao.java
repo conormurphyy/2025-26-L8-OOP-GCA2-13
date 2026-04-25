@@ -2,6 +2,7 @@ package org.example.dao.jdbc;
 
 import org.example.dao.RecipeDao;
 import org.example.domain.Recipe;
+import org.example.domain.RecipeImageData;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -313,5 +314,51 @@ public class JDBCRecipeDao implements RecipeDao {
             }
         }
         return recipes;
+    }
+
+    @Override
+    public void saveImage(int recipeId, byte[] imageData, String fileName, String contentType, int fileSize) throws Exception {
+        String sql = """
+        UPDATE recipe
+        SET recipe_image = ?, image_file_name = ?, image_content_type = ?, image_size = ?
+        WHERE recipe_id = ?
+        """;
+
+        try (Connection c = open();
+             PreparedStatement ps = c.prepareStatement(sql)) {
+            ps.setBytes(1, imageData);
+            ps.setString(2, fileName);
+            ps.setString(3, contentType);
+            ps.setInt(4, fileSize);
+            ps.setInt(5, recipeId);
+            ps.executeUpdate();
+        }
+    }
+
+    @Override
+    public Optional<RecipeImageData> getImageById(int recipeId) throws Exception {
+        String sql = """
+        SELECT recipe_image, image_file_name, image_content_type, image_size
+        FROM recipe
+        WHERE recipe_id = ?
+        """;
+
+        try (Connection c = open();
+             PreparedStatement ps = c.prepareStatement(sql)) {
+            ps.setInt(1, recipeId);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (!rs.next()) {
+                    return Optional.empty();
+                }
+
+                return Optional.of(new RecipeImageData(
+                        rs.getBytes("recipe_image"),
+                        rs.getString("image_file_name"),
+                        rs.getString("image_content_type"),
+                        rs.getInt("image_size")
+                ));
+            }
+        }
     }
 }

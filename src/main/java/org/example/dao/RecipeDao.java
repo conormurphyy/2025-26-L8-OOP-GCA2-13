@@ -19,8 +19,10 @@ public interface RecipeDao {
     List<Recipe> getRecipeByCalories(double min, double max) throws Exception;
     List<Recipe> getRecipeByName(String recipeName) throws Exception;
     List<Recipe> getPublicRecipes() throws Exception;
-    
+
 
     List<Recipe> filterRecipes(Boolean isPublic, Double minCalories) throws Exception;
 
+    void saveImage(int recipeId, byte[] imageData, String fileName, String contentType, int fileSize) throws Exception;
+    Optional<org.example.domain.RecipeImageData> getImageById(int recipeId) throws Exception;
 }
