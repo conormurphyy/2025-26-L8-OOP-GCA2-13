@@ -8,13 +8,9 @@ import java.net.Socket;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Base64;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.example.domain.FileUploadPayload;
-import org.example.shared.ClientRequest;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class Client {
@@ -46,30 +42,9 @@ public class Client {
               PrintWriter out = new PrintWriter(
                       socket.getOutputStream(), true)) {
 
-            System.out.println("Connected");
-            FileUploadPayload payload = buildUploadPayload(Path.of("test.png"), 7);
-            JsonNode node = _mapper.valueToTree(payload);
-            Map<String, Object> payloadMap = new HashMap<>(_mapper.convertValue(node, Map.class));
-            payloadMap.put("id", payload.getEntityId());
-            payloadMap.put("userId", 1);
-            payloadMap.put("recipeName", "Uploaded Recipe File");
-            payloadMap.put("categoryId", 1);
-            payloadMap.put("description", "recipe created from file upload payload");
-            payloadMap.put("totalCalories", 0.0);
-            payloadMap.put("isPublic", true);
-
-            ClientRequest request = new ClientRequest();
-            request.setType("CREATE_RECIPE");
-            request.setPayload(payloadMap);
-
-            String json = _mapper.writeValueAsString(request);
-            out.println(json);
-            String response = in.readLine();
-            System.out.println("Server response: " + response);
-
-
-            System.out.println("Disconnected");
-
+            System.out.println("Connected\n");
+            //TODO Add disconntect functionatliy
+            System.out.println("Disconnected\n");
         }
     }
 
