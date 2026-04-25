@@ -1,7 +1,16 @@
 package org.example.server;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.example.client.Client;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.Socket;
+import java.util.Base64;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
 import org.example.dao.IngredientDao;
 import org.example.dao.RecipeDao;
 import org.example.dao.UserDao;
@@ -12,17 +21,7 @@ import org.example.shared.ClientRequest;
 import org.example.shared.ServerResponse;
 import org.example.util.JsonUtil;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.net.Socket;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-
-import static sun.misc.Signal.handle;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class ClientHandler implements Runnable{
 
@@ -273,6 +272,9 @@ String threadName = Thread.currentThread().getName();
 
     private ServerResponse<?> handleCreateRecipe(ClientRequest request) throws Exception {
         int recipeId = request.getInt("id");
+        if (recipeId <= 0) {
+            recipeId = request.getInt("entityId");
+        }
         if (recipeId < 1 || recipeId > 1_000_000_000) {
             return ServerResponse.error("Invalid recipe id");
         }
@@ -284,7 +286,41 @@ String threadName = Thread.currentThread().getName();
         double totalCalories = request.getDouble("totalCalories");
         boolean isPublic = request.getBoolean("isPublic");
 
-        Recipe newRecipe = new Recipe(recipeId, userId, recipeName, categoryId, description, totalCalories, isPublic);
+        String fileName = request.getString("fileName");
+        String contentType = request.getString("contentType");
+        int fileSize = request.getInt("fileSize");
+        String fileData = request.getString("fileData");
+
+        byte[] imageBytes = null;
+        if (fileData != null && !fileData.isBlank()) {
+            try {
+                imageBytes = Base64.getDecoder().decode(fileData);
+            } catch (IllegalArgumentException e) {
+                return ServerResponse.error("Invalid Base64 fileData");
+            }
+
+            if (fileSize > 0 && imageBytes.length != fileSize) {
+                return ServerResponse.error("fileSize does not match decoded file length");
+            }
+
+            if (fileSize <= 0) {
+                fileSize = imageBytes.length;
+            }
+        }
+
+        Recipe newRecipe = new Recipe(
+                recipeId,
+                userId,
+                recipeName,
+                categoryId,
+                description,
+                totalCalories,
+                isPublic,
+                imageBytes,
+                fileName,
+                contentType,
+                fileSize
+        );
         boolean added = _recipeDao.addRecipe(newRecipe);
 
         if (!added) {
@@ -419,7 +455,6 @@ String threadName = Thread.currentThread().getName();
 
         return ServerResponse.success("Ingredient deleted", deleted);
     }
-
 
     //DISCONNECT
     private ServerResponse<?> handleDisconnect(ClientRequest request)

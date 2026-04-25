@@ -1,9 +1,9 @@
 package org.example.dao;
 
-import org.example.domain.Recipe;
-
 import java.util.List;
 import java.util.Optional;
+
+import org.example.domain.Recipe;
 
 public interface RecipeDao {
 
@@ -22,6 +22,9 @@ public interface RecipeDao {
 
 
     List<Recipe> filterRecipes(Boolean isPublic, Double minCalories) throws Exception;
+
+   
+    List<Recipe> getRecipeImageMetadata(int recipeID) throws Exception;
 
 
 }
