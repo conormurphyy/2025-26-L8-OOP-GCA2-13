@@ -1,6 +1,7 @@
 package org.example.client;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.example.server.ClientHandler;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -43,8 +44,21 @@ public class Client {
 
             System.out.println("Connected\n");
             //TODO Add disconntect functionatliy
+
             System.out.println("Disconnected\n");
+            while(true){
+            socket.close();
+            }
         }
+    }
+    private void viewAllRecipes(PrintWriter out, BufferedReader in) throws Exception
+    {
+        System.out.println("Fetching all recipes");
+
+    }
+    private void uploadRecipeImage(PrintWriter out, BufferedReader in) throws Exception {
+        System.out.println("Upload Recipe Image");
+
     }
 
 
