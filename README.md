@@ -18,8 +18,8 @@ Members
 | Name                   | Student Number   |
 |------------------------|------------------|
 | Conor Murphy           | D00279403    |
-| Conor McCracken        | D00 |
-| Richie Orji            | D00 |
+| Conor McCracken        | D00280569 |
+| Richie Orji            | D00280247 |
 
 ## 1.2 Key Features:
 Go Here

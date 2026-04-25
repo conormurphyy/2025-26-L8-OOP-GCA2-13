@@ -14,6 +14,7 @@ CREATE TABLE recipe (
     image_size INT
 );
 
+
 CREATE TABLE ingredient (
     ingredient_id INT PRIMARY KEY,
     ingredient_name VARCHAR(100),

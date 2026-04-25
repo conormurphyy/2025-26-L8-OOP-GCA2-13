@@ -23,5 +23,6 @@ public interface RecipeDao {
 
     List<Recipe> filterRecipes(Boolean isPublic, Double minCalories) throws Exception;
 
-
+    void saveImage(int recipeId, byte[] imageData, String fileName, String contentType, int fileSize) throws Exception;
+    Optional<org.example.domain.RecipeImageData> getImageById(int recipeId) throws Exception;
 }
