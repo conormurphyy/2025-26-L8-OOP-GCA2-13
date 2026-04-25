@@ -1,21 +1,22 @@
 package org.example.client;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.example.server.ClientHandler;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.Map;
-import java.util.Scanner;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.Base64;
+
+import org.example.domain.FileUploadPayload;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class Client {
     private final String _host;
     private final int _port;
     private final ObjectMapper _mapper;
-    private final Scanner _scanner;
 
     public Client(String host, int port)
     {
@@ -30,7 +31,6 @@ public class Client {
         _host = host;
         _port = port;
         _mapper = new ObjectMapper();
-        _scanner = new Scanner(System.in);
     }
 
     public void run() throws IOException {
@@ -44,26 +44,19 @@ public class Client {
 
             System.out.println("Connected\n");
             //TODO Add disconntect functionatliy
-
             System.out.println("Disconnected\n");
-            while(true){
-            socket.close();
-            }
         }
     }
-    private void viewAllRecipes(PrintWriter out, BufferedReader in) throws Exception
-    {
-        System.out.println("Fetching all recipes");
 
+    public FileUploadPayload buildUploadPayload(Path filePath, int entityId) throws IOException {
+        byte[] bytes = Files.readAllBytes(filePath);
+        String b64 = Base64.getEncoder().encodeToString(bytes);
+        String name = filePath.getFileName().toString();
+
+        String detectedMime = Files.probeContentType(filePath);
+        String mime = (detectedMime != null) ? detectedMime : "application/octet-stream";
+
+        return new FileUploadPayload(entityId, name, mime, bytes.length, b64);
     }
-    private void uploadRecipeImage(PrintWriter out, BufferedReader in) throws Exception {
-        System.out.println("Upload Recipe Image");
-
-    }
-
-
-
-
-
 
 }

@@ -22,11 +22,6 @@ public final class JsonUtil {
         return MAPPER.writeValueAsString(entity);
     }
 
-    public static <T> String toJson(List<T> list) throws JsonProcessingException {
-        if (list == null) throw new IllegalArgumentException("list must not be null");
-        return MAPPER.writeValueAsString(list);
-    }
-
     public static <T> T fromJson(String json, Class<T> clazz) throws JsonProcessingException {
         if (json == null || json.isBlank()) throw new IllegalArgumentException("json must not be blank");
         if (clazz == null) throw new IllegalArgumentException("clazz must not be null");

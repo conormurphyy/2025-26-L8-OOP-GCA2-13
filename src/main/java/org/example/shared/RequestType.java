@@ -22,6 +22,10 @@ public enum RequestType {
     INGREDIENT_UPDATE,
     INGREDIENT_DELETE,
     INGREDIENT_FILTER,
-
+    //Image file handling
+    RECIPE_UPLOAD_FILE,
+    RECIPE_DOWNLOAD_FILE,
+    RECIPE_GET_FILE_METADATA,
+    //Disconnect
     DISCONNECT
 }
