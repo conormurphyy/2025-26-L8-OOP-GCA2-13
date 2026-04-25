@@ -14,6 +14,7 @@ CREATE TABLE recipe (
     image_size INT
 );
 
+
 CREATE TABLE ingredient (
     ingredient_id INT PRIMARY KEY,
     ingredient_name VARCHAR(100),
@@ -30,6 +31,16 @@ CREATE TABLE users (
     userRating FLOAT
 );
 
+
+CREATE TABLE player (
+     player_id INT AUTO_INCREMENT PRIMARY KEY,
+     name VARCHAR(100),
+     score INT,
+     image_data BLOB,
+     file_name VARCHAR(255),
+     content_type VARCHAR(100),
+     file_size INT
+);
 -- Insertion of data
 INSERT INTO recipe (recipe_id, user_id, recipe_name, category_id, description, total_calories, is_public)
 VALUES
