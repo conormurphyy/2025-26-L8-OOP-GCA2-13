@@ -363,16 +363,15 @@ public class JDBCRecipeDao implements RecipeDao {
         }
     }
 
-    @Override
-    public Optional<RecipeImageData> getRecipeImageMetadataById(int recipeId) throws Exception {
-        return Optional.empty();
-    }
 
     @Override
     public Optional<RecipeImageData> getRecipeImageMetadata(int recipeId) throws Exception {
-        if (recipeId <= 0) {
-            return Optional.empty();
-        }
+        return getRecipeImageMetadataById(recipeId);
+    }
+
+    @Override
+    public Optional<RecipeImageData> getRecipeImageMetadataById(int recipeId) throws Exception {
+    
 
         String sql = """
             SELECT image_file_name, image_content_type, image_size
