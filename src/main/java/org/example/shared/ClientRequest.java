@@ -2,9 +2,6 @@ package org.example.shared;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class ClientRequest {
 
     private String   _type;
@@ -29,13 +26,7 @@ public class ClientRequest {
 
     public JsonNode getPayload() { return (JsonNode) _payload; }
 
-    //public void setPayload(Map<String, Object> payload) { _payload = payload != null ? payload : new HashMap<>(); }
-
-    public String getString(String key) {
-        Object v = _payload.get(key);
-        return v == null ? null : v.toString();
-
-    }
+    public JsonNode setPayload(JsonNode payload) { return _payload = payload; }
 
     public int getInt(String key) {
         Object v = _payload.get(key);
