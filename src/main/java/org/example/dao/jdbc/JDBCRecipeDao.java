@@ -170,11 +170,11 @@ public class JDBCRecipeDao implements RecipeDao {
 
     @Override
     public boolean addRecipe(Recipe recipe) throws Exception {
-        String sql = "INSERT INTO recipe (recipe_id, user_id, recipe_name, category_id, description, total_calories, is_public, recipe_image,image_file_name,image_content_type,image_size) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO recipe ( user_id, recipe_name, category_id, description, total_calories, is_public, recipe_image,image_file_name,image_content_type,image_size) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection c = open();
              PreparedStatement ps = c.prepareStatement(sql)) {
 
-            ps.setInt(1, recipe.getRecipeId());
+
             ps.setInt(2, recipe.getUserId());
             ps.setString(3, recipe.getRecipeName());
             ps.setInt(4, recipe.getCategoryId());
