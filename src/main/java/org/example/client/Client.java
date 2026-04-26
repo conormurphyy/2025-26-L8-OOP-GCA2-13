@@ -48,7 +48,7 @@ public class Client {
 
             FileUploadPayload payload = buildUploadPayload(Path.of("image.png"),7);
             JsonNode node = _mapper.valueToTree(payload);
-            ClientRequest req = new ClientRequest("UPLOAD_FILE",node);
+            ClientRequest req = new ClientRequest("RECIPE_UPLOAD_FILE",node);
             String json = _mapper.writeValueAsString(req);
             out.println(json);
 
