@@ -161,7 +161,7 @@ String threadName = Thread.currentThread().getName();
         _handlers.put("FILTER_RECIPES", this::handleFilterRecipes);
         _handlers.put("RECIPE_UPLOAD_FILE", this:: handleRecipeUploadFile);
         _handlers.put("RECIPE_DOWNLOAD_FILE",this::handleRecipeDownloadFile);
-        _handlers.put("RECIPE_GET_FILE_METADATA",this::handleRecipeGetFileMetadata);
+       // _handlers.put("RECIPE_GET_FILE_METADATA",this::handleRecipeGetFileMetadata);
 
         //INGREDIENTS
         _handlers.put("GET_ALL_INGREDIENTS", this::handleGetAllIngredients);

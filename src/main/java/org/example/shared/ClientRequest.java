@@ -59,6 +59,11 @@ public class ClientRequest {
     public void setRequestType(String requestType)
     {
         _requestType = requestType;
-    }}
+    }
+
+    public String getString(String username) {
+        return _payload.get(username).asText();
+    }
+}
 
 

@@ -1,12 +1,18 @@
 package org.example.client;
 
+import com.fasterxml.jackson.core.*;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializerProvider;
+import com.fasterxml.jackson.databind.jsontype.TypeSerializer;
+import com.fasterxml.jackson.databind.node.JsonNodeType;
 import org.example.shared.ClientRequest;
 import org.example.shared.RequestType;
 import org.example.shared.ServerResponse;
 import org.junit.jupiter.api.*;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
@@ -44,7 +50,112 @@ public class RecipeHubTest {
         try{
             ClientRequest request = new ClientRequest();
             request.setType("DISCONNECT");
-            request.setPayload(new HashMap<>());
+            request.setPayload(new com.fasterxml.jackson.databind.JsonNode() {
+                @Override
+                public void serialize(JsonGenerator gen, SerializerProvider serializers) throws IOException {
+
+                }
+
+                @Override
+                public void serializeWithType(JsonGenerator gen, SerializerProvider serializers, TypeSerializer typeSer) throws IOException {
+
+                }
+
+                @Override
+                public <T extends JsonNode> T deepCopy() {
+                    return null;
+                }
+
+                @Override
+                public JsonToken asToken() {
+                    return null;
+                }
+
+                @Override
+                public JsonParser.NumberType numberType() {
+                    return null;
+                }
+
+                @Override
+                public JsonNode get(int index) {
+                    return null;
+                }
+
+                @Override
+                public JsonNode path(String fieldName) {
+                    return null;
+                }
+
+                @Override
+                public JsonNode path(int index) {
+                    return null;
+                }
+
+                @Override
+                public JsonParser traverse() {
+                    return null;
+                }
+
+                @Override
+                public JsonParser traverse(ObjectCodec codec) {
+                    return null;
+                }
+
+                @Override
+                protected JsonNode _at(JsonPointer ptr) {
+                    return null;
+                }
+
+                @Override
+                public JsonNodeType getNodeType() {
+                    return null;
+                }
+
+                @Override
+                public String asText() {
+                    return "";
+                }
+
+                @Override
+                public JsonNode findValue(String fieldName) {
+                    return null;
+                }
+
+                @Override
+                public JsonNode findPath(String fieldName) {
+                    return null;
+                }
+
+                @Override
+                public JsonNode findParent(String fieldName) {
+                    return null;
+                }
+
+                @Override
+                public List<JsonNode> findValues(String fieldName, List<JsonNode> foundSoFar) {
+                    return List.of();
+                }
+
+                @Override
+                public List<String> findValuesAsText(String fieldName, List<String> foundSoFar) {
+                    return List.of();
+                }
+
+                @Override
+                public List<JsonNode> findParents(String fieldName, List<JsonNode> foundSoFar) {
+                    return List.of();
+                }
+
+                @Override
+                public String toString() {
+                    return "";
+                }
+
+                @Override
+                public boolean equals(Object o) {
+                    return false;
+                }
+            });
             writer.println(mapper.writeValueAsString(request));
 
             reader.readLine();
@@ -74,7 +185,7 @@ public class RecipeHubTest {
         payload.put("username", "testuser");
         payload.put("userType", "user");
         payload.put("userRating", 5.0);
-        req.setPayload(payload);
+        req.setPayload((JsonNode) payload);
 
         writer.println(mapper.writeValueAsString(req));
         String rawJson = reader.readLine();
@@ -113,7 +224,7 @@ public class RecipeHubTest {
         payload.put("username", "testuser2");
         payload.put("userType", "user");
         payload.put("userRating", 5.0);
-        req.setPayload(payload);
+        req.setPayload((JsonNode) payload);
         writer.println(mapper.writeValueAsString(req));
         String rawJson = reader.readLine();
         ServerResponse res = mapper.readValue(rawJson, ServerResponse.class);
@@ -133,7 +244,7 @@ public class RecipeHubTest {
         payload.put("description", "Simple pasta");
         payload.put("totalCalories", 550.0);
         payload.put("isPublic", true);
-        req.setPayload(payload);
+        req.setPayload((JsonNode) payload);
         writer.println(mapper.writeValueAsString(req));
         String rawJson = reader.readLine();
         ServerResponse res = mapper.readValue(rawJson, ServerResponse.class);
@@ -153,7 +264,7 @@ public class RecipeHubTest {
         payload.put("protein", 1.0);
         payload.put("carbs", 4.0);
         payload.put("fat", 0.2);
-        req.setPayload(payload);
+        req.setPayload((JsonNode) payload);
         writer.println(mapper.writeValueAsString(req));
         String rawJson = reader.readLine();
         ServerResponse res = mapper.readValue(rawJson, ServerResponse.class);
@@ -188,7 +299,7 @@ public class RecipeHubTest {
         req.setType("GET_USER_BY_ID");
         Map<String, Object> payload = new HashMap<>();
         payload.put("id", 10101010);
-        req.setPayload(payload);
+        req.setPayload((JsonNode) payload);
 
         writer.println(mapper.writeValueAsString(req));
         String rawJson = reader.readLine();
@@ -203,7 +314,7 @@ public class RecipeHubTest {
         req.setType("GET_RECIPE_BY_ID");
         Map<String, Object> payload = new HashMap<>();
         payload.put("id", 200001);
-        req.setPayload(payload);
+        req.setPayload((JsonNode) payload);
     }
 
 }
