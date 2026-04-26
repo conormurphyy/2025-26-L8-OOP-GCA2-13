@@ -170,11 +170,11 @@ public class JDBCRecipeDao implements RecipeDao {
 
     @Override
     public boolean addRecipe(Recipe recipe) throws Exception {
-        String sql = "INSERT INTO recipe (recipe_id, user_id, recipe_name, category_id, description, total_calories, is_public, recipe_image,image_file_name,image_content_type,image_size) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO recipe ( user_id, recipe_name, category_id, description, total_calories, is_public, recipe_image,image_file_name,image_content_type,image_size) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection c = open();
              PreparedStatement ps = c.prepareStatement(sql)) {
 
-            ps.setInt(1, recipe.getRecipeId());
+
             ps.setInt(2, recipe.getUserId());
             ps.setString(3, recipe.getRecipeName());
             ps.setInt(4, recipe.getCategoryId());
@@ -361,5 +361,69 @@ public class JDBCRecipeDao implements RecipeDao {
                 ));
             }
         }
+    }
+
+    @Override
+    public Optional<RecipeImageData> getRecipeImageMetadataById(int recipeId) throws Exception {
+        return Optional.empty();
+    }
+
+    @Override
+    public Optional<RecipeImageData> getRecipeImageMetadata(int recipeId) throws Exception {
+        if (recipeId <= 0) {
+            return Optional.empty();
+        }
+
+        String sql = """
+            SELECT image_file_name, image_content_type, image_size
+            FROM recipe
+            WHERE recipe_id = ?
+            """;
+
+        try (Connection c = open();
+             PreparedStatement ps = c.prepareStatement(sql)) {
+            ps.setInt(1, recipeId);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (!rs.next()) {
+                    return Optional.empty();
+                }
+
+                return Optional.of(new RecipeImageData(
+                        null,
+                        rs.getString("image_file_name"),
+                        rs.getString("image_content_type"),
+                        rs.getInt("image_size")
+                ));
+            }
+        }
+    }
+    public int insertRecipeWithImage(Recipe recipe) throws Exception {
+        String sql = """
+                INSERT INTO recipe (user_id, recipe_name, category_id, description, total_calories, is_public, recipe_image, image_file_name, image_content_type, image_size)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                """;
+        try(Connection c = DriverManager.getConnection(_url, _user, _pass);
+            PreparedStatement ps = c.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS))
+        {
+            ps.setInt(1, recipe.getUserId());
+            ps.setString(2, recipe.getRecipeName());
+            ps.setInt(3, recipe.getCategoryId());
+            ps.setString(4, recipe.getDescription());
+            ps.setDouble(5, recipe.getTotalCalories());
+            ps.setBoolean(6, recipe.getIsPublic());
+            ps.setBytes(7, recipe.getRecipeImage());
+            ps.setString(8, recipe.getImageFileName());
+            ps.setString(9, recipe.getImageContentType());
+            ps.setInt(10, recipe.getImageSize());
+
+            ps.executeUpdate();
+
+            try(ResultSet keys = ps.getGeneratedKeys()) {
+                if(keys.next())
+                    return keys.getInt(1);
+            }
+        }
+        throw new Exception("Failed to insert recipe with image");
     }
 }

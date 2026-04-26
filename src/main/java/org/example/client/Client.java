@@ -9,9 +9,14 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Base64;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.sun.net.httpserver.Request;
 import org.example.domain.FileUploadPayload;
+import org.example.shared.ClientRequest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+
 
 public class Client {
     private final String _host;
@@ -38,12 +43,21 @@ public class Client {
 
         try  (Socket socket = new Socket(_host, _port);
               BufferedReader in = new BufferedReader(
-                      new InputStreamReader(socket.getInputStream()));
+              new InputStreamReader(socket.getInputStream()));
               PrintWriter out = new PrintWriter(
                       socket.getOutputStream(), true)) {
 
-            System.out.println("Connected\n");
+            FileUploadPayload payload = buildUploadPayload(Path.of("image.png"),7);
+            JsonNode node = _mapper.valueToTree(payload);
+            ClientRequest req = new ClientRequest("UPLOAD_FILE",node);
+            String json = _mapper.writeValueAsString(req);
+            out.println(json);
+
+            FileUploadPayload response = _mapper.treeToValue(req.getPayload(),FileUploadPayload.class);
+            byte[] fileBytes = Base64.getDecoder().decode(response.getFileData());
+              System.out.println("Connected\n");
             //TODO Add disconntect functionatliy
+
             System.out.println("Disconnected\n");
         }
     }
@@ -58,5 +72,6 @@ public class Client {
 
         return new FileUploadPayload(entityId, name, mime, bytes.length, b64);
     }
+
 
 }

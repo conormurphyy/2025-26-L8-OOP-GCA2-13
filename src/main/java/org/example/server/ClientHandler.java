@@ -5,11 +5,13 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.Base64;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.*;
 
 import org.example.dao.IngredientDao;
 import org.example.dao.RecipeDao;
@@ -20,6 +22,8 @@ import org.example.domain.User;
 import org.example.shared.ClientRequest;
 import org.example.shared.ServerResponse;
 import org.example.util.JsonUtil;
+import org.example.domain.FileUploadPayload;
+import org.example.domain.RecipeImageData;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -147,6 +151,9 @@ String threadName = Thread.currentThread().getName();
         _handlers.put("UPDATE_RECIPE", this::handleUpdateRecipe);
         _handlers.put("DELETE_RECIPE", this::handleDeleteRecipe);
         _handlers.put("FILTER_RECIPES", this::handleFilterRecipes);
+        _handlers.put("RECIPE_UPLOAD_FILE", this:: handleRecipeUploadFile);
+        _handlers.put("RECIPE_DOWNLOAD_FILE",this::handleRecipeDownloadFile);
+        _handlers.put("RECIPE_GET_FILE_METADATA",this::handleRecipeGetFileMetadata);
 
         //INGREDIENTS
         _handlers.put("GET_ALL_INGREDIENTS", this::handleGetAllIngredients);
@@ -271,13 +278,6 @@ String threadName = Thread.currentThread().getName();
     }
 
     private ServerResponse<?> handleCreateRecipe(ClientRequest request) throws Exception {
-        int recipeId = request.getInt("id");
-        if (recipeId <= 0) {
-            recipeId = request.getInt("entityId");
-        }
-        if (recipeId < 1 || recipeId > 1_000_000_000) {
-            return ServerResponse.error("Invalid recipe id");
-        }
 
         int userId = request.getInt("userId");
         String recipeName = request.getString("recipeName");
@@ -309,7 +309,7 @@ String threadName = Thread.currentThread().getName();
         }
 
         Recipe newRecipe = new Recipe(
-                recipeId,
+                0,
                 userId,
                 recipeName,
                 categoryId,
@@ -441,6 +441,7 @@ String threadName = Thread.currentThread().getName();
         return ServerResponse.success("Found " + filtered.size() + " ingredients", filtered);
     }
 
+
     public ServerResponse<?> handleDeleteIngredient(ClientRequest request) throws Exception {
         int ingredientId = request.getInt("id");
         if (ingredientId <= 0 || ingredientId > 1_000_000_000) {
@@ -454,6 +455,69 @@ String threadName = Thread.currentThread().getName();
         }
 
         return ServerResponse.success("Ingredient deleted", deleted);
+    }
+    private ServerResponse<?> handleRecipeUploadFile(ClientRequest request) throws Exception {
+        int recipeId = request.getInt("recipeId");
+        String fileName = request.getString("fileName");
+        String contentType = request.getString("contentType");
+        int fileSize = request.getInt("fileSize");
+        String fileData = request.getString("fileData");
+        byte[] imageBytes = Base64.getDecoder().decode(fileData);
+
+        _recipeDao.saveImage(recipeId, imageBytes, fileName, contentType, fileSize);
+
+        return ServerResponse.success("image uploaded",recipeId);
+
+    }
+    private ServerResponse<?> handleRecipeDownloadFile(ClientRequest request) throws Exception {
+        int recipeId= request.getInt("id");
+        Optional<RecipeImageData> found = _recipeDao.getImageById(recipeId);
+        RecipeImageData img = found.get();
+        byte[] fileBytes = Files.readAllBytes(Path.of("image.png"));
+        String base64 = Base64.getEncoder().encodeToString(img.getBytes());
+        Map<String, Object> response = new HashMap<>();
+        response.put("fileName", img.getFileName());
+        response.put("contentType", img.getContentType());
+        response.put("fileSize", img.getFileSize());
+        response.put("fileData", base64);
+
+
+        return ServerResponse.success("image downloaded",response);
+
+
+
+
+    }
+    public List<Recipe>  handleRecipeGetFileMetadata(ClientRequest request) throws Exception {
+        String sql = """
+                SELECT recipe_id, file_name, content_type, file_size
+                FROM recipes
+                WHERE recipe_image IS NOT NULL
+                ORDER BY recipe_id
+                """;
+        List <Recipe> results = new ArrayList<>();
+
+        try (Connection c = DriverManager.getConnection(_url,_user,_pass);
+        PreparedStatement ps = c.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery())
+        {
+            while (rs.next()) {
+                results.add(new Recipe(
+                        rs.getInt("recipe_id"),
+                        rs.getInt("user_id"),
+                        rs.getString("recipe_name"),
+                        rs.getInt("category_id"),
+                        rs.getString("description"),
+                        rs.getDouble("total_calories"),
+                        rs.getBoolean("is_public"),
+                        null,
+                        rs.getString("file_name"),
+                        rs.getString("content_type"),
+                        rs.getInt("file_size")
+                ));
+            }
+        }
+        return results;
     }
 
     //DISCONNECT
