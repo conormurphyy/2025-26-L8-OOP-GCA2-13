@@ -20,6 +20,8 @@ import org.example.domain.User;
 import org.example.shared.ClientRequest;
 import org.example.shared.ServerResponse;
 import org.example.util.JsonUtil;
+import org.example.domain.FileUploadPayload;
+import org.example.domain.RecipeImageData;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -147,6 +149,8 @@ String threadName = Thread.currentThread().getName();
         _handlers.put("UPDATE_RECIPE", this::handleUpdateRecipe);
         _handlers.put("DELETE_RECIPE", this::handleDeleteRecipe);
         _handlers.put("FILTER_RECIPES", this::handleFilterRecipes);
+        _handlers.put("GET_RECIPE_FILE", this::handleGetRecipeFile);
+        _handlers.put("GET_RECIPE_FILE_METADATA", this::handleGetRecipeFileMetadata)
 
         //INGREDIENTS
         _handlers.put("GET_ALL_INGREDIENTS", this::handleGetAllIngredients);
@@ -271,13 +275,6 @@ String threadName = Thread.currentThread().getName();
     }
 
     private ServerResponse<?> handleCreateRecipe(ClientRequest request) throws Exception {
-        int recipeId = request.getInt("id");
-        if (recipeId <= 0) {
-            recipeId = request.getInt("entityId");
-        }
-        if (recipeId < 1 || recipeId > 1_000_000_000) {
-            return ServerResponse.error("Invalid recipe id");
-        }
 
         int userId = request.getInt("userId");
         String recipeName = request.getString("recipeName");
@@ -309,7 +306,7 @@ String threadName = Thread.currentThread().getName();
         }
 
         Recipe newRecipe = new Recipe(
-                recipeId,
+                0,
                 userId,
                 recipeName,
                 categoryId,
