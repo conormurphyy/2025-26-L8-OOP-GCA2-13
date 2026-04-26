@@ -7,23 +7,31 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Base64;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.function.Function;
+import java.util.function.Supplier;
+import java.util.function.BiFunction;
+import java.util.function.BiConsumer;
 
 import org.example.dao.IngredientDao;
 import org.example.dao.RecipeDao;
 import org.example.dao.UserDao;
 import org.example.domain.Ingredient;
 import org.example.domain.Recipe;
+import org.example.domain.RecipeImageData;
 import org.example.domain.User;
 import org.example.shared.ClientRequest;
 import org.example.shared.ServerResponse;
 import org.example.util.JsonUtil;
-import org.example.domain.FileUploadPayload;
-import org.example.domain.RecipeImageData;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -497,7 +505,7 @@ String threadName = Thread.currentThread().getName();
                 """;
         List <Recipe> results = new ArrayList<>();
 
-        try (Connection c = DriverManager.getConnection(_url,_user,_pass);
+        try (Connection c = DriverManager.getConnection("jdbc:mysql://localhost:3306/recipehub", "root", "");
         PreparedStatement ps = c.prepareStatement(sql);
         ResultSet rs = ps.executeQuery())
         {
