@@ -15,7 +15,7 @@ import org.example.domain.FileUploadPayload;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import static org.example.util.JsonUtil.MAPPER;
+
 
 public class Client {
     private final String _host;
@@ -47,8 +47,14 @@ public class Client {
                       socket.getOutputStream(), true)) {
 
             FileUploadPayload payload = buildUploadPayload(Path.of("image.png"),7);
+            JsonNode node = _mapper.valueToTree(payload);
+            Request req = new Request("UPLOAD_FILE",node);
+            String json = _mapper.writeValueAsString(req);
+            out.println(json);
+
               System.out.println("Connected\n");
             //TODO Add disconntect functionatliy
+
             System.out.println("Disconnected\n");
         }
     }
