@@ -9,11 +9,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Base64;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.sun.net.httpserver.Request;
 import org.example.domain.FileUploadPayload;
 import org.example.shared.ClientRequest;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 
@@ -57,6 +56,8 @@ public class Client {
             byte[] fileBytes = Base64.getDecoder().decode(response.getFileData());
               System.out.println("Connected\n");
             //TODO Add disconntect functionatliy
+            ClientRequest disconnect = new ClientRequest("DISCONNECT",null);
+            out.println(_mapper.writeValueAsString(disconnect));
 
             System.out.println("Disconnected\n");
         }
