@@ -9,9 +9,13 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Base64;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.sun.net.httpserver.Request;
 import org.example.domain.FileUploadPayload;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import static org.example.util.JsonUtil.MAPPER;
 
 public class Client {
     private final String _host;
@@ -38,11 +42,12 @@ public class Client {
 
         try  (Socket socket = new Socket(_host, _port);
               BufferedReader in = new BufferedReader(
-                      new InputStreamReader(socket.getInputStream()));
+              new InputStreamReader(socket.getInputStream()));
               PrintWriter out = new PrintWriter(
                       socket.getOutputStream(), true)) {
 
-            System.out.println("Connected\n");
+            FileUploadPayload payload = buildUploadPayload(Path.of("image.png"),7);
+              System.out.println("Connected\n");
             //TODO Add disconntect functionatliy
             System.out.println("Disconnected\n");
         }

@@ -393,4 +393,32 @@ public class JDBCRecipeDao implements RecipeDao {
             }
         }
     }
+    public int insertRecipeWithImage(Recipe recipe) throws Exception {
+        String sql = """
+                INSERT INTO recipe (user_id, recipe_name, category_id, description, total_calories, is_public, recipe_image, image_file_name, image_content_type, image_size)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                """;
+        try(Connection c = DriverManager.getConnection(_url, _user, _pass);
+            PreparedStatement ps = c.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS))
+        {
+            ps.setInt(1, recipe.getUserId());
+            ps.setString(2, recipe.getRecipeName());
+            ps.setInt(3, recipe.getCategoryId());
+            ps.setString(4, recipe.getDescription());
+            ps.setDouble(5, recipe.getTotalCalories());
+            ps.setBoolean(6, recipe.getIsPublic());
+            ps.setBytes(7, recipe.getRecipeImage());
+            ps.setString(8, recipe.getImageFileName());
+            ps.setString(9, recipe.getImageContentType());
+            ps.setInt(10, recipe.getImageSize());
+
+            ps.executeUpdate();
+
+            try(ResultSet keys = ps.getGeneratedKeys()) {
+                if(keys.next())
+                    return keys.getInt(1);
+            }
+        }
+        throw new Exception("Failed to insert recipe with image");
+    }
 }

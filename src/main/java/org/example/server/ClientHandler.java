@@ -149,8 +149,7 @@ String threadName = Thread.currentThread().getName();
         _handlers.put("UPDATE_RECIPE", this::handleUpdateRecipe);
         _handlers.put("DELETE_RECIPE", this::handleDeleteRecipe);
         _handlers.put("FILTER_RECIPES", this::handleFilterRecipes);
-        _handlers.put("GET_RECIPE_FILE", this::handleGetRecipeFile);
-        _handlers.put("GET_RECIPE_FILE_METADATA", this::handleGetRecipeFileMetadata)
+
 
         //INGREDIENTS
         _handlers.put("GET_ALL_INGREDIENTS", this::handleGetAllIngredients);
