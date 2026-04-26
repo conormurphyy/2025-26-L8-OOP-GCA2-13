@@ -27,7 +27,7 @@ public interface RecipeDao {
 
     void saveImage(int recipeId, byte[] imageData, String fileName, String contentType, int fileSize) throws Exception;
     Optional<RecipeImageData> getImageById(int recipeId) throws Exception;
-    Optional<RecipeImageData> getRecipeImageMetadata(int recipeId) throws Exception;
+    Optional<RecipeImageData> getRecipeImageMetadataById(int recipeId) throws Exception;
 
 
 
