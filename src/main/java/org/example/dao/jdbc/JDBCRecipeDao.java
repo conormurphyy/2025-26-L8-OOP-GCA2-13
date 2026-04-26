@@ -362,4 +362,35 @@ public class JDBCRecipeDao implements RecipeDao {
             }
         }
     }
+
+    @Override
+    public Optional<RecipeImageData> getRecipeImageMetadata(int recipeId) throws Exception {
+        if (recipeId <= 0) {
+            return Optional.empty();
+        }
+
+        String sql = """
+            SELECT image_file_name, image_content_type, image_size
+            FROM recipe
+            WHERE recipe_id = ?
+            """;
+
+        try (Connection c = open();
+             PreparedStatement ps = c.prepareStatement(sql)) {
+            ps.setInt(1, recipeId);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (!rs.next()) {
+                    return Optional.empty();
+                }
+
+                return Optional.of(new RecipeImageData(
+                        null,
+                        rs.getString("image_file_name"),
+                        rs.getString("image_content_type"),
+                        rs.getInt("image_size")
+                ));
+            }
+        }
+    }
 }

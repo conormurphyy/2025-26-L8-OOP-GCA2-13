@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.example.domain.Recipe;
+import org.example.domain.RecipeImageData;
 
 public interface RecipeDao {
 
@@ -23,8 +24,12 @@ public interface RecipeDao {
 
     List<Recipe> filterRecipes(Boolean isPublic, Double minCalories) throws Exception;
 
-   
-    List<Recipe> getRecipeImageMetadata(int recipeID) throws Exception;
+
+    void saveImage(int recipeId, byte[] imageData, String fileName, String contentType, int fileSize) throws Exception;
+    Optional<RecipeImageData> getImageById(int recipeId) throws Exception;
+    Optional<RecipeImageData> getRecipeImageMetadata(int recipeId) throws Exception;
+
+
 
 
 }
