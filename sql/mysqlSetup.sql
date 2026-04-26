@@ -1,7 +1,7 @@
 -- Table Creation
 -- Recipe
 CREATE TABLE recipe (
-    recipe_id INT PRIMARY KEY,
+    recipe_id INT PRIMARY KEY AUTO_INCREMENT,
     user_id INT,
     recipe_name VARCHAR(100),
     category_id INT,
@@ -16,7 +16,7 @@ CREATE TABLE recipe (
 
 
 CREATE TABLE ingredient (
-    ingredient_id INT PRIMARY KEY,
+    ingredient_id INT PRIMARY KEY AUTO_INCREMENT,
     ingredient_name VARCHAR(100),
     ingredient_calories INT,
     ingredient_protein INT,
@@ -25,7 +25,7 @@ CREATE TABLE ingredient (
 );
 
 CREATE TABLE users (
-    id INT PRIMARY KEY,
+    id INT PRIMARY KEY AUTO_INCREMENT,
     username VARCHAR(100),
     userType ENUM('Admin', 'User'),
     userRating FLOAT
