@@ -12,6 +12,7 @@ import java.util.Base64;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.sun.net.httpserver.Request;
 import org.example.domain.FileUploadPayload;
+import org.example.shared.ClientRequest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -48,10 +49,12 @@ public class Client {
 
             FileUploadPayload payload = buildUploadPayload(Path.of("image.png"),7);
             JsonNode node = _mapper.valueToTree(payload);
-            Request req = new Request("UPLOAD_FILE",node);
+            ClientRequest req = new ClientRequest("UPLOAD_FILE",node);
             String json = _mapper.writeValueAsString(req);
             out.println(json);
 
+            FileUploadPayload response = _mapper.treeToValue(req.getPayload(),FileUploadPayload.class);
+            byte[] fileBytes = Base64.getDecoder().decode(response.getFileData());
               System.out.println("Connected\n");
             //TODO Add disconntect functionatliy
 

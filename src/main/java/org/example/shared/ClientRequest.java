@@ -8,17 +8,17 @@ import java.util.Map;
 public class ClientRequest {
 
     private String   _type;
-    private Map<String, Object> _payload;
+    private JsonNode _payload;
     private String _requestType;
 
     public ClientRequest() {
         _type    = "";
-        _payload = new HashMap<>();
+        _payload = null;
     }
 
-    public ClientRequest(String type, Map<String, Object> payload) {
+    public ClientRequest(String type, JsonNode payload) {
        _type = type != null ? type : "";
-       _payload = payload != null ? payload : new HashMap<>();
+       _payload = null;
     }
 
     //Public API
@@ -27,9 +27,9 @@ public class ClientRequest {
 
     public void setType(String type) { _type = type != null ? type : ""; }
 
-    public Map<String, Object> getPayload() { return _payload; }
+    public JsonNode getPayload() { return (JsonNode) _payload; }
 
-    public void setPayload(Map<String, Object> payload) { _payload = payload != null ? payload : new HashMap<>(); }
+    //public void setPayload(Map<String, Object> payload) { _payload = payload != null ? payload : new HashMap<>(); }
 
     public String getString(String key) {
         Object v = _payload.get(key);
@@ -68,5 +68,6 @@ public class ClientRequest {
     public void setRequestType(String requestType)
     {
         _requestType = requestType;
-    }
-}
+    }}
+
+

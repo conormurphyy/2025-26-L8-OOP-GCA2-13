@@ -30,6 +30,5 @@ public interface RecipeDao {
     Optional<RecipeImageData> getRecipeImageMetadataById(int recipeId) throws Exception;
 
 
-
-
+    Optional<RecipeImageData> getRecipeImageMetadata(int recipeId) throws Exception;
 }

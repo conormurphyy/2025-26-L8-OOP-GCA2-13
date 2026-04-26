@@ -7,11 +7,11 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Base64;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.*;
 
 import org.example.dao.IngredientDao;
 import org.example.dao.RecipeDao;
@@ -487,6 +487,37 @@ String threadName = Thread.currentThread().getName();
 
 
 
+    }
+    public List<Recipe>  handleRecipeGetFileMetadata(ClientRequest request) throws Exception {
+        String sql = """
+                SELECT recipe_id, file_name, content_type, file_size
+                FROM recipes
+                WHERE recipe_image IS NOT NULL
+                ORDER BY recipe_id
+                """;
+        List <Recipe> results = new ArrayList<>();
+
+        try (Connection c = DriverManager.getConnection(_url,_user,_pass);
+        PreparedStatement ps = c.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery())
+        {
+            while (rs.next()) {
+                results.add(new Recipe(
+                        rs.getInt("recipe_id"),
+                        rs.getInt("user_id"),
+                        rs.getString("recipe_name"),
+                        rs.getInt("category_id"),
+                        rs.getString("description"),
+                        rs.getDouble("total_calories"),
+                        rs.getBoolean("is_public"),
+                        null,
+                        rs.getString("file_name"),
+                        rs.getString("content_type"),
+                        rs.getInt("file_size")
+                ));
+            }
+        }
+        return results;
     }
 
     //DISCONNECT
