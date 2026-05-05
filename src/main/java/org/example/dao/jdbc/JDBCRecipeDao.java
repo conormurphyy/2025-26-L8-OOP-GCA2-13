@@ -9,12 +9,25 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Handles all sql queries from recipeDao -> Database. Connection between Java and SQL.
+ *
+ * @author Conor Murphy (primary)
+ * @author Richie (contributor) -> filterRecipes method
+ */
 public class JDBCRecipeDao implements RecipeDao {
 
     private final String _url;
     private final String _user;
     private final String _pass;
 
+    /**
+     * Verifies url, user and password
+     *
+     * @param url
+     * @param user
+     * @param pass
+     */
     public JDBCRecipeDao(String url, String user, String pass) {
         if (url == null || url.isBlank())
             throw new IllegalArgumentException("url is required");
@@ -24,9 +37,22 @@ public class JDBCRecipeDao implements RecipeDao {
         _pass = pass;
     }
 
+    /**
+     * Gets connection based on url, user and pass.
+     *
+     * @return
+     * @throws SQLException
+     */
     private Connection open() throws SQLException {
         return DriverManager.getConnection(_url, _user, _pass);
     }
+
+    /**
+     * Gets all recipes
+     *
+     * @return List containing all recipes.
+     * @throws Exception
+     */
 
     @Override
     public List<Recipe> getAllRecipes() throws Exception {
@@ -79,6 +105,13 @@ public class JDBCRecipeDao implements RecipeDao {
         return filtered;
     }
 
+    /**
+     * Gets recipe by ID
+     *
+     * @param recipeID
+     * @return Optional recipe object if recipe if found by ID, optional empty otherwise.
+     * @throws Exception
+     */
 
     @Override
     public Optional<Recipe> getRecipeById(int recipeID) throws Exception {
@@ -109,6 +142,13 @@ public class JDBCRecipeDao implements RecipeDao {
         }
     }
 
+    /**
+     *
+     * @param categoryID
+     * @return Optional recipe, returns nothing if nothing is found.
+     * @throws Exception
+     */
+
     @Override
     public Optional<Object> getRecipeByCategoryId(int categoryID) throws Exception {
         if (categoryID <= 0) return Optional.empty();
@@ -138,6 +178,13 @@ public class JDBCRecipeDao implements RecipeDao {
         }
     }
 
+    /**
+     * Gets recipe by user id.
+     *
+     * @param userID
+     * @return Optional Recipe if recipe if found. Optional empty if nothing is returned
+     * @throws Exception
+     */
     @Override
     public Optional<Object> getRecipeByUserId(int userID) throws Exception {
         if (userID <= 0) return Optional.empty();
@@ -168,6 +215,13 @@ public class JDBCRecipeDao implements RecipeDao {
         }
     }
 
+    /**
+     * Adds a recipe
+     *
+     * @param recipe
+     * @return true/false based on if the recipe was added succesfully.
+     * @throws Exception
+     */
     @Override
     public boolean addRecipe(Recipe recipe) throws Exception {
         String sql = "INSERT INTO recipe ( user_id, recipe_name, category_id, description, total_calories, is_public, recipe_image,image_file_name,image_content_type,image_size) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -190,6 +244,13 @@ public class JDBCRecipeDao implements RecipeDao {
         }
     }
 
+    /**
+     * Updates a recipe
+     *
+     * @param recipe
+     * @return true/false based on if the recipe was updated sucessfully.
+     * @throws Exception
+     */
     @Override
     public boolean updateRecipe(Recipe recipe) throws Exception {
         String sql = "UPDATE recipe SET user_id=?, recipe_name=?, category_id=?, description=?, total_calories=?, is_public=? WHERE recipe_id=?";
@@ -212,6 +273,13 @@ public class JDBCRecipeDao implements RecipeDao {
         }
     }
 
+    /**
+     * Deletes recipe by ID
+     *
+     * @param recipeID
+     * @return true/false based on if recipe was deleted sucessfully.
+     * @throws Exception
+     */
     @Override
     public boolean deleteRecipe(int recipeID) throws Exception {
         if (recipeID <= 0) return false;
@@ -225,6 +293,14 @@ public class JDBCRecipeDao implements RecipeDao {
         }
     }
 
+    /**
+     * Returns recipes based on min and max calories.
+     *
+     * @param min
+     * @param max
+     * @return List of recipes returned in between the min and max calories.
+     * @throws Exception
+     */
     @Override
     public List<Recipe> getRecipeByCalories(double min, double max) throws Exception {
         String sql = "SELECT * FROM recipe WHERE total_calories BETWEEN ? AND ? ORDER BY recipe_id";

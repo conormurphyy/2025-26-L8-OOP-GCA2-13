@@ -1,5 +1,10 @@
 package org.example.shared;
 
+/**
+ * Enum declares all requestTypes
+ *
+ * @author Conor Murphy
+ */
 public enum RequestType {
     //User
     USER_GET_ALL,

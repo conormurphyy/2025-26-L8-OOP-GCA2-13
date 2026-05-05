@@ -15,13 +15,21 @@ import org.example.shared.ClientRequest;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-
+/**
+ * @author Conor Murphy
+ */
 
 public class Client {
     private final String _host;
     private final int _port;
     private final ObjectMapper _mapper;
 
+    /**
+     * Client Constructor
+     *
+     * @param host
+     * @param port
+     */
     public Client(String host, int port)
     {
         if(host == null || host.isBlank())
@@ -37,6 +45,10 @@ public class Client {
         _mapper = new ObjectMapper();
     }
 
+    /**
+     *
+     * @throws IOException
+     */
     public void run() throws IOException {
         System.out.println("Connecting to server at " + _host + ":" + _port);
 
@@ -55,7 +67,7 @@ public class Client {
             FileUploadPayload response = _mapper.treeToValue(req.getPayload(),FileUploadPayload.class);
             byte[] fileBytes = Base64.getDecoder().decode(response.getFileData());
               System.out.println("Connected\n");
-            //TODO Add disconntect functionatliy
+
             ClientRequest disconnect = new ClientRequest("DISCONNECT",null);
             out.println(_mapper.writeValueAsString(disconnect));
 
@@ -63,6 +75,13 @@ public class Client {
         }
     }
 
+    /**
+     *
+     * @param filePath
+     * @param entityId
+     * @return FileUploadPayload Object with image
+     * @throws IOException
+     */
     public FileUploadPayload buildUploadPayload(Path filePath, int entityId) throws IOException {
         byte[] bytes = Files.readAllBytes(filePath);
         String b64 = Base64.getEncoder().encodeToString(bytes);

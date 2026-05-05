@@ -1,5 +1,8 @@
 package org.example.domain;
 
+/**
+ * @author Richie Orji
+ */
 public class RecipeImageData {
     private final byte[] fBytes;
     private final String fFileName;

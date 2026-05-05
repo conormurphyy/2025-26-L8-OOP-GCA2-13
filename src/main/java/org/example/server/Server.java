@@ -16,6 +16,9 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * @author Conor Murphy
+ */
 
 public class Server {
     private final int _port;
@@ -50,6 +53,11 @@ public class Server {
         _pool = Executors.newCachedThreadPool();
     }
 
+    /**
+     * Starts multithreaded server and serves client
+     *
+     * @throws IOException
+     */
     public void start() throws IOException {
         System.out.println("Starting on port: " + _port);
 
@@ -68,6 +76,10 @@ public class Server {
         stop();
         }
     }
+
+    /**
+     * Stops the server and shuts down pool
+     */
     private void stop()
     {
         System.out.println("Stopping RecipeHub server");
@@ -87,6 +99,14 @@ public class Server {
         System.out.println("RecipeHub server stopped");
     }
 
+    /**
+     * Creates user,recipe and ingredient dao objects and assigns the jdbc url, pass & username.
+     * Creates a new server object on port 8080, and calls start.
+     *
+     * @param args
+     * @throws IOException
+     * @throws SQLException
+     */
     public static void main(String[] args) throws IOException, SQLException {
         String url = "jdbc:mysql://localhost:3306/recipehub";
         String user = "root";

@@ -3,6 +3,9 @@ package org.example.domain;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.Objects;
 
+/**
+ * @author Conor McCracken
+ */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class User {
 
