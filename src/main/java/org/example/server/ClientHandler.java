@@ -497,7 +497,7 @@ String threadName = Thread.currentThread().getName();
 
 
     }
-    public List<Recipe>  handleRecipeGetFileMetadata(ClientRequest request) throws Exception {
+    public ServerResponse<?> handleRecipeGetFileMetadata(ClientRequest request) throws Exception {
         String sql = """
                 SELECT recipe_id, file_name, content_type, file_size
                 FROM recipes
@@ -526,7 +526,7 @@ String threadName = Thread.currentThread().getName();
                 ));
             }
         }
-        return results;
+        return ServerResponse.success("Found: " + results.size() , results);
     }
 
     //DISCONNECT
