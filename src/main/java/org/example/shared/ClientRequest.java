@@ -59,6 +59,19 @@ public class ClientRequest {
     public void setRequestType(String requestType)
     {
         _requestType = requestType;
-    }}
+    }
+
+    public String getString(String key) {
+        Object v = _payload.get(key);
+        if (v == null) return "";
+        try {
+            return v.toString();
+        }
+        catch (NumberFormatException e) {
+            return "";
+        }
+
+    }
+}
 
 

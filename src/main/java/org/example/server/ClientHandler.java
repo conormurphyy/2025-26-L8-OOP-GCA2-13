@@ -76,8 +76,9 @@ public class ClientHandler implements Runnable{
     }
 
 
-
-
+    /**
+     * Run method, runs the thread after start
+     */
     @Override
     public void run(){
 String threadName = Thread.currentThread().getName();
