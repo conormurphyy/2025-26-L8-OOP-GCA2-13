@@ -43,6 +43,10 @@ public class JdbcUserDao implements UserDao {
             return DriverManager.getConnection(_url, _username, _password);
         }
 
+    /**
+     *inserts new user into db
+     * provided user must have id,username,userType,userRating
+     */
         @Override
         public User insert(User user) throws Exception {
         if(user == null)
@@ -81,7 +85,14 @@ public class JdbcUserDao implements UserDao {
         }
         }
 
-        @Override
+    /**
+     * finds a user by id
+     * id must be non negative
+     * @return Optional user if found, empty otherwise
+     * @throws Exception if a db error occurs
+     * @author Conor McCracken
+     */
+    @Override
     public Optional<User> findById(int id) throws Exception {
         if(id<0)
         {
@@ -104,6 +115,13 @@ public class JdbcUserDao implements UserDao {
 
         }
     }
+
+    /**
+     * retrieves all users from db ordered by id
+     * @return list of all users
+     * @throws Exception if db error occurs
+     * @author Conor McCracken
+     */
     @Override
     public List<User> findAll() throws Exception {
         String sql = "SELECT * FROM users ORDER BY id";
@@ -122,6 +140,16 @@ public class JdbcUserDao implements UserDao {
             return out;
         }
     }
+
+    /**
+     * updates rating of user with specified id
+     * @param id id of user to update
+     * @param newRating new rating to set
+     * @return true if rating was updated, false otherwise
+     * @throws Exception if db error occurs or if newRating
+     * is not between 0 and 5
+     * @author Conor McCracken
+     */
     @Override
     public boolean updateRating (int id,double newRating) throws Exception {
         if(id<0)
@@ -143,6 +171,15 @@ public class JdbcUserDao implements UserDao {
             return rows==1;
         }
     }
+
+    /**
+     * updates the type of user with specified id
+     * @param id id of user to update
+     * @param newType new type to set
+     * @return true if type was updated, false otherwise
+     * @throws Exception if db error occurs or if newType is empty/invalid
+     * @author Conor McCracken
+     */
     @Override public boolean updateType (int id, String newType) throws Exception {
         if(id<0)
         {
@@ -202,6 +239,13 @@ public class JdbcUserDao implements UserDao {
         }
     }
 
+    /**
+     * deletes user with specified id
+     * @param id id of user to delete
+     * @return true if user was deleted, false otherwise
+     * @throws Exception if db error occurs
+     * @author Conor McCracken
+     */
     @Override public boolean deleteById (int id) throws Exception {
         if(id<0)
         {
