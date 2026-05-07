@@ -9,6 +9,11 @@ import java.util.List;
 import java.util.Optional;
 
 public class UserMain {
+    /**
+     * Starts program and test user data actions
+     * connects to db, creates user service and then does tests
+     *
+     */
     public static void main(String[] args) throws Exception{
       String url = "jdbc:mysql://http://localhost/phpmyadmin/index.php?route=/sql&pos=0&db=recipehub&table=users";
       String user = "root";

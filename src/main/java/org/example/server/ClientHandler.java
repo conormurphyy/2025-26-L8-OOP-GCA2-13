@@ -190,11 +190,21 @@ String threadName = Thread.currentThread().getName();
      * @throws Exception
      */
     //USERS
+
+    /**
+     * Handles getting all users
+     * @author Conor McCracken
+     */
     private ServerResponse<?> handleGetAllUsers(ClientRequest request) throws Exception
     {
         List<User> users = _userDao.findAll();
         return ServerResponse.success("retrieved" + users.size() + " users", users);
     }
+
+    /**
+     * handles getting a user by id
+     * @author Conor McCracken
+     */
     private ServerResponse <?> handleGetUserById (ClientRequest request) throws Exception
     {
         int id = request.getInt("id");
@@ -209,6 +219,10 @@ String threadName = Thread.currentThread().getName();
         }
         return ServerResponse.success("User found", found.get());
     }
+    /**
+     * Handles creating a user
+     * @author Conor McCracken
+     */
     private ServerResponse <?> handleCreateUser (ClientRequest request) throws Exception
     {
         int id = request.getInt("id");
