@@ -8,6 +8,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * @author Richie Orji (Primary)
+ * @author Conor Murphy (Contributor, syntax fixes in prepared statement)
+ */
 public class JDBCIngredientDao implements IngredientDao {
 
     private Connection connection;

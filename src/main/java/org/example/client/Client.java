@@ -17,6 +17,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * @author Conor Murphy (Primary)
+ * @author Conor McCracken (Primary)
  */
 
 public class Client {

@@ -5,6 +5,7 @@ import java.util.Objects;
 
 /**
  * @author Conor McCracken (Primary)
+ * @author Conor Murphy (Primary)
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class User {

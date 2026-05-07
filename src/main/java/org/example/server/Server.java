@@ -17,7 +17,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 /**
- * @author Conor Murphy
+ * @author Conor McCracken (Primary)
  */
 
 public class Server {

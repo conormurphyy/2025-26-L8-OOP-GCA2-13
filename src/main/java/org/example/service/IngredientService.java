@@ -9,7 +9,7 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 /**
- * @author Richie Orji
+ * @author Richie Orji (Primary)
  */
 public class IngredientService {
 

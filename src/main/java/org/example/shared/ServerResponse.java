@@ -3,7 +3,8 @@ package org.example.shared;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * @author Conor Murphy
+ * @author Conor Murphy (Primary)
+ * @author Conor McCracken (Contributor)
  * @param <T>
  */
 public class ServerResponse<T> {
