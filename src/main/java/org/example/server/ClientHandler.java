@@ -252,6 +252,10 @@ String threadName = Thread.currentThread().getName();
         return ServerResponse.success("User created", insertedUser);
     }
 
+    /**
+     *handles filtering users using server response
+     * @author Conor McCracken
+     */
     private ServerResponse<?> handleFilterUsers(ClientRequest request) throws Exception {
         String userType = request.getString("userType");
         Double minRating = request.getDouble("minRating");
@@ -261,6 +265,10 @@ String threadName = Thread.currentThread().getName();
         return ServerResponse.success("Found " + filtered.size() + " users", filtered);
     }
 
+    /**
+     * handles updating user using server response
+     * @author Conor McCracken
+     */
     private ServerResponse<?> handleUpdateUser (ClientRequest request) throws Exception {
         int id= request.getInt("id");
         if(id <=0 || id > 1000000000)
@@ -286,6 +294,11 @@ String threadName = Thread.currentThread().getName();
         return ServerResponse.success("User updated", updatedUser);
 
     }
+
+    /**
+     *handles deleting user by using server response
+     * @author Conor McCracken
+     */
     private ServerResponse <?> handleDeleteUser(ClientRequest request) throws Exception {
         int id= request.getInt("id");
         if(id <=0 || id > 1000000000)
