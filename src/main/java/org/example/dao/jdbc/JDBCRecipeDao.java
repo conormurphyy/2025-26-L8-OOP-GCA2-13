@@ -224,21 +224,21 @@ public class JDBCRecipeDao implements RecipeDao {
      */
     @Override
     public boolean addRecipe(Recipe recipe) throws Exception {
-        String sql = "INSERT INTO recipe ( user_id, recipe_name, category_id, description, total_calories, is_public, recipe_image,image_file_name,image_content_type,image_size) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO recipe ( user_id, recipe_name, category_id, description, total_calories, is_public, recipe_image,image_file_name,image_content_type,image_size) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection c = open();
              PreparedStatement ps = c.prepareStatement(sql)) {
 
 
-            ps.setInt(2, recipe.getUserId());
-            ps.setString(3, recipe.getRecipeName());
-            ps.setInt(4, recipe.getCategoryId());
-            ps.setString(5, recipe.getDescription());
-            ps.setDouble(6, recipe.getTotalCalories());
-            ps.setBoolean(7, recipe.getIsPublic());
-            ps.setBytes(8, recipe.getRecipeImage());
-            ps.setString(9, recipe.getImageFileName());
-            ps.setString(10, recipe.getImageContentType());
-            ps.setInt(11, recipe.getImageSize());
+            ps.setInt(1, recipe.getUserId());
+            ps.setString(2, recipe.getRecipeName());
+            ps.setInt(3, recipe.getCategoryId());
+            ps.setString(4, recipe.getDescription());
+            ps.setDouble(5, recipe.getTotalCalories());
+            ps.setBoolean(6, recipe.getIsPublic());
+            ps.setBytes(7, recipe.getRecipeImage());
+            ps.setString(8, recipe.getImageFileName());
+            ps.setString(9, recipe.getImageContentType());
+            ps.setInt(10, recipe.getImageSize());
 
             return ps.executeUpdate() == 1;
         }
