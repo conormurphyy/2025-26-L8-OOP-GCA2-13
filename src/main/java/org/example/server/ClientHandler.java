@@ -35,6 +35,10 @@ import org.example.util.JsonUtil;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+/**
+ * @author Conor Murphy (Primary)
+ * @author Richie Orji (handleFilterIngreidients, handleFilterRecipes, handleFilterUser methods).
+ */
 public class ClientHandler implements Runnable{
 
     @FunctionalInterface
@@ -143,6 +147,9 @@ String threadName = Thread.currentThread().getName();
 
     }
 
+    /**
+     * Registers requestTypes with handlers
+     */
     private void registerHandlers()
     {
         //USERS
@@ -175,6 +182,13 @@ String threadName = Thread.currentThread().getName();
         //Session
         _handlers.put("DISCONNECT", this::handleDisconnect);
     }
+
+    /**
+     *
+     * @param request
+     * @return
+     * @throws Exception
+     */
     //USERS
     private ServerResponse<?> handleGetAllUsers(ClientRequest request) throws Exception
     {

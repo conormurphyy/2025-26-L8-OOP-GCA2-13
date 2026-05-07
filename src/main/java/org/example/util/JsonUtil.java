@@ -6,6 +6,9 @@ import com.fasterxml.jackson.databind.type.CollectionType;
 
 import java.util.List;
 
+/**
+ * @author Richie Orji
+ */
 public final class JsonUtil {
 
     private static final ObjectMapper MAPPER = new ObjectMapper();

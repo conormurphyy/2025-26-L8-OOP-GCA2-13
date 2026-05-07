@@ -6,6 +6,9 @@ import org.example.domain.Recipe;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * @author Conor Murphy
+ */
 public class RecipeService {
 
     private RecipeDao dao;

@@ -2,6 +2,10 @@ package org.example.shared;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+/**
+ * @author Conor Murphy
+ * @param <T>
+ */
 public class ServerResponse<T> {
 
     //Fields

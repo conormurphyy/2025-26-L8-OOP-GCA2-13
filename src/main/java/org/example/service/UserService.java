@@ -9,6 +9,9 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.function.Predicate;
 
+/**
+ * @author Conor McCracken
+ */
 public class UserService
 {
     public static Set<String> ALLOWED = Set.of("admin", "user");

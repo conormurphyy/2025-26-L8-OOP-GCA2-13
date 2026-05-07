@@ -2,6 +2,9 @@ package org.example.shared;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
+/**
+ * @author Conor Murphy
+ */
 public class ClientRequest {
 
     private String   _type;

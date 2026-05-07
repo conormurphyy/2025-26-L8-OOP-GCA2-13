@@ -8,6 +8,9 @@ import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+/**
+ * @author Richie Orji
+ */
 public class IngredientService {
 
     private IngredientDao ingredientDao;

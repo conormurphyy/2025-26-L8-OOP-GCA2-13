@@ -2,6 +2,7 @@ package org.example.service;
 
 import org.example.dao.RecipeDao;
 import org.example.domain.Recipe;
+import org.example.domain.RecipeImageData;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -43,6 +44,26 @@ class RecipeServiceTest {
         @Override
         public List<Recipe> filterRecipes(Boolean isPublic, Double minCalories) throws Exception {
             return List.of();
+        }
+
+        @Override
+        public void saveImage(int recipeId, byte[] imageData, String fileName, String contentType, int fileSize) throws Exception {
+
+        }
+
+        @Override
+        public Optional<RecipeImageData> getImageById(int recipeId) throws Exception {
+            return Optional.empty();
+        }
+
+        @Override
+        public Optional<RecipeImageData> getRecipeImageMetadataById(int recipeId) throws Exception {
+            return Optional.empty();
+        }
+
+        @Override
+        public Optional<RecipeImageData> getRecipeImageMetadata(int recipeId) throws Exception {
+            return Optional.empty();
         }
 
         @Override
