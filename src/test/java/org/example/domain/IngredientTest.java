@@ -102,7 +102,7 @@ class IngredientTest {
     }
     @Test
     void testSettersAllowUpdatedValues() {
-        Ingredient ing = new Ingredint(1, "Chicken", 200, 30, 0, 5);
+        Ingredient ing = new Ingredient(1, "Chicken", 200, 30, 0, 5);
 
         ing.setIngredientId(2);
         ing.setName("Turkey");
