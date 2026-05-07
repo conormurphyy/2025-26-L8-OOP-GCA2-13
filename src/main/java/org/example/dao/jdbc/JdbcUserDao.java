@@ -12,6 +12,9 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 /**
+   *JDBC implementation of UserDao
+      * provides crud and other user management
+     * class expects table users with id,username,userType,userRating
  * @author Conor McCracken (Primary)
  * @author Conor Murphy (Contributor, updateAll() )
  * @author Richie Orji (FilterUsers() )
@@ -21,6 +24,10 @@ public class JdbcUserDao implements UserDao {
     private String _username;
     private String _password;
 
+    /**
+     * creates new JdbcUserDao with connection parameters
+     * @author Conor McCracken
+     */
     public JdbcUserDao(String url, String username, String password) {
 
         if (url == null || url.isEmpty()) {
