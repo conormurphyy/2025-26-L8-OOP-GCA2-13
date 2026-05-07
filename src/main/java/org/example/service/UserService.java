@@ -10,7 +10,7 @@ import java.util.Set;
 import java.util.function.Predicate;
 
 /**
- * @author Conor McCracken
+ * @author Conor McCracken (Primary)
  */
 public class UserService
 {

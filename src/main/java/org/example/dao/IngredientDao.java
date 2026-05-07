@@ -5,6 +5,10 @@ import org.example.domain.Ingredient;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * @author Richie Orji (Primary)
+ * @author Conor Murphy (addIngredient, updateIngredient)
+ */
 public interface IngredientDao {
 
     List<Ingredient> getAllIngredients() throws Exception;

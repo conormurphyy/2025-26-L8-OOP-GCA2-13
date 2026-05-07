@@ -7,7 +7,7 @@ import com.fasterxml.jackson.databind.type.CollectionType;
 import java.util.List;
 
 /**
- * @author Richie Orji
+ * @author Richie Orji (Primary)
  */
 public final class JsonUtil {
 

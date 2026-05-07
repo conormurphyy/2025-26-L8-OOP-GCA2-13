@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.Objects;
 
 /**
- * @author Conor Murphy
+ * @author Conor Murphy (Primary)
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Recipe {

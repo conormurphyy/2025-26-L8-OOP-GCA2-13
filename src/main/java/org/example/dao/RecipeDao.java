@@ -7,7 +7,7 @@ import org.example.domain.Recipe;
 import org.example.domain.RecipeImageData;
 
 /**
- * @author Conor Murphy
+ * @author Conor Murphy (Primary)
  * @author Richie (filter recipes, save image, getImageById)
  */
 public interface RecipeDao {

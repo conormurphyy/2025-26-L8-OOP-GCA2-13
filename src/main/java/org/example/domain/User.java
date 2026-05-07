@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.Objects;
 
 /**
- * @author Conor McCracken
+ * @author Conor McCracken (Primary)
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class User {
