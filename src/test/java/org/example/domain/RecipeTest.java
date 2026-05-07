@@ -107,4 +107,42 @@ class RecipeTest {
         assertTrue(s.contains("400"));
         assertTrue(s.contains("true"));
     }
+    @Test
+    void testImageSettersAndGetters() {
+        Recipe r = new Recipe();
+        byte[] imageData = {10, 20, 30};
+
+        r.setRecipeImage(imageData);
+        r.setImageFileName("recipe.jpg");
+        r.setImageContentType("image/jpeg");
+        r.setImageSize(imageData.length);
+
+        assertArrayEquals(imageData, r.getRecipeImage());
+        assertEquals("recipe.jpg", r.getImageFileName());
+        assertEquals("image/jpeg", r.getImageContentType());
+        assertEquals(3, r.getImageSize());
+    }
+    @Test
+    void testDefaultImageValues() {
+        Recipe r = new Recipe();
+
+        assertNull(r.getRecipeImage());
+        assertEquals("", r.getImageFileName());
+        assertEquals("", r.getImageContentType());
+        assertEquals(0, r.getImageSize());
+    }
+    @Test
+    void testEqualsDifferentCalories() {
+        Recipe r1 = new Recipe(1, 2, "Cake", 3, "Delicious", 400, true);
+        Recipe r2 = new Recipe(1, 2, "Cake", 3, "Delicious", 500, true);
+
+        assertNotEquals(r1, r2);
+    }
+    @Test
+    void testAllowsEmptyDescription() {
+        Recipe r = new Recipe(1, 2, "Cake", 3, "", 400, true);
+
+        assertEquals("", r.getDescription());
+    }
+
 }

@@ -10,10 +10,14 @@ import java.util.Set;
 import java.util.function.Predicate;
 
 /**
+ * service for user
  * @author Conor McCracken (Primary)
  */
 public class UserService
 {
+    /**
+     * sets allowed user types
+     */
     public static Set<String> ALLOWED = Set.of("admin", "user");
 
     private UserDao _userDao;

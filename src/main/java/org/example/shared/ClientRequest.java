@@ -12,11 +12,19 @@ public class ClientRequest {
     private JsonNode _payload;
     private String _requestType;
 
+    /**
+     * empty clientRequest constructor
+     * @Contributor Conor McCracken
+     * @author Conor Murphy
+     */
     public ClientRequest() {
         _type    = "";
         _payload = null;
     }
 
+    /**
+     * @author Conor McCracken
+     */
     public ClientRequest(String type, JsonNode payload) {
        _type = type != null ? type : "";
        _payload = null;

@@ -104,4 +104,37 @@ class UserTest {
         assertTrue(s.contains("user"));
         assertTrue(s.contains("4.0"));
     }
+    @Test
+    void testSetters()
+    {
+        User u = new User();
+        u.setId(5);
+        u.setUsername("Bob");
+        u.setUserType("admin");
+        u.setUserRating(4.5);
+        assertEquals(5, u.getId());
+        assertEquals("Bob", u.getUsername());
+        assertEquals("admin", u.getUserType());
+        assertEquals(4.5, u.getUserRating());
+    }
+    @Test
+    void testRatingBoundaries()
+    {
+        User min = new User(1, "Alice", "user", 0.0);
+        User max = new User(1, "Alice", "user", 5.0);
+        assertEquals(0.0, min.getUserRating());
+        assertEquals(5.0, max.getUserRating());
+    }
+    @Test
+    void testIdBoundary()
+    {
+        User min = new User(0, "Alice", "user", 4.0);
+        User max = new User(123456, "Alice", "user", 4.0);
+        assertEquals(0, min.getId());
+        assertEquals( 123456, max.getId());
+    }
+
+
+
+
 }

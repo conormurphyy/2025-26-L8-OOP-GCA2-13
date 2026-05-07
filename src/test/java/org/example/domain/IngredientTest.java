@@ -89,4 +89,33 @@ class IngredientTest {
         assertTrue(s.contains("1"));
         assertTrue(s.contains("5"));
     }
+    @Test
+    void testAllowsZeroValues() {
+        Ingredient ing = new Ingredient(0, "Water", 0, 0, 0, 0);
+
+        assertEquals(0, ing.getIngredientId());
+        assertEquals("Water", ing.getName());
+        assertEquals(0, ing.getCalories());
+        assertEquals(0, ing.getProtein());
+        assertEquals(0, ing.getCarbs());
+        assertEquals(0, ing.getFat());
+    }
+    @Test
+    void testSettersAllowUpdatedValues() {
+        Ingredient ing = new Ingredint(1, "Chicken", 200, 30, 0, 5);
+
+        ing.setIngredientId(2);
+        ing.setName("Turkey");
+        ing.setCalories(150);
+        ing.setProtein(28);
+        ing.setCarbs(1);
+        ing.setFat(3);
+
+        assertEquals(2, ing.getIngredientId());
+        assertEquals("Turkey", ing.getName());
+        assertEquals(150, ing.getCalories());
+        assertEquals(28, ing.getProtein());
+        assertEquals(1, ing.getCarbs());
+        assertEquals(3, ing.getFat());
+    }
 }
