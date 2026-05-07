@@ -3,7 +3,7 @@ package org.example.shared;
 /**
  * Enum declares all requestTypes
  *
- * @author Conor Murphy
+ * @author Conor Murphy (Primary)
  */
 public enum RequestType {
     //User

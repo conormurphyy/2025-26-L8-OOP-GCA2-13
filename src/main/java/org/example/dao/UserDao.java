@@ -5,6 +5,9 @@ import org.example.domain.User;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * @author Conor McCracken (Primary)
+ */
 public interface UserDao {
     User insert(User user) throws Exception;
     Optional<User> findById(int id) throws Exception;

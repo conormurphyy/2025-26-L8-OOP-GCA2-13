@@ -11,6 +11,11 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+/**
+ * @author Conor McCracken (Primary)
+ * @author Conor Murphy (Contributor, updateAll() )
+ * @author Richie Orji (FilterUsers() )
+ */
 public class JdbcUserDao implements UserDao {
     private String _url;
     private String _username;

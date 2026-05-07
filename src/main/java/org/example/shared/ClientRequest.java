@@ -3,7 +3,8 @@ package org.example.shared;
 import com.fasterxml.jackson.databind.JsonNode;
 
 /**
- * @author Conor Murphy
+ * @author Conor Murphy (Primary)
+ * @author Conor McCracken (Contributor)
  */
 public class ClientRequest {
 

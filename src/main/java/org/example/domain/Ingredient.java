@@ -3,6 +3,10 @@ package org.example.domain;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.Objects;
 
+/**
+ * @author Conor Murphy (Primary)
+ * @author Richie Orji
+ */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Ingredient {
 

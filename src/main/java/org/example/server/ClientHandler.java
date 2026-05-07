@@ -36,7 +36,8 @@ import org.example.util.JsonUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
- * @author Conor Murphy (Primary)
+ * @author Conor McCracken (Primary)
+ * @author Conor Murphy (handlers for Recipes, handlers for Ingredients)
  * @author Richie Orji (handleFilterIngreidients, handleFilterRecipes, handleFilterUser methods).
  */
 public class ClientHandler implements Runnable{

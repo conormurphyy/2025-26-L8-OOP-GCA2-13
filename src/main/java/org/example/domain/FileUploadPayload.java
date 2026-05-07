@@ -1,6 +1,9 @@
 
 package org.example.domain;
 
+/**
+ * @author Conor Murphy (Primary)
+ */
 public class FileUploadPayload {
 
     private int    fEntityId;
