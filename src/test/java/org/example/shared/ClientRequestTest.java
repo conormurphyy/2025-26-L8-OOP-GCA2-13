@@ -58,6 +58,4 @@ class ClientRequestTest {
         assertEquals("", cr.getString("someKey"));
     }
 
-    // This test was written using chatgpt
-
 }

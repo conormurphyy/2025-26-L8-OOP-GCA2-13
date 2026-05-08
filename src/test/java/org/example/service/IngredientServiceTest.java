@@ -60,5 +60,3 @@ class IngredientServiceTest {
         assertNotNull(service);
     }
 }
-
-// This test was written using chatgpt
