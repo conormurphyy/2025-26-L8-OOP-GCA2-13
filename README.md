@@ -166,53 +166,45 @@ All nutrional values are based on 100g servings
 
 ## 🌳 Structure Tree of Application (to date)
 ```
-|   App.java
-|
-+---client
-|       Client.java
-|
-+---dao
-|   |   IngredientDao.java
-|   |   RecipeDao.java
-|   |   UserDao.java
-|   |
-|   \---jdbc
-|           JDBCIngredientDao.java
-|           JDBCRecipeDao.java
-|           JdbcUserDao.java
-|
-+---domain
-|       Ingredient.java
-|       Recipe.java
-|       User.java
-|
-+---Main
-|       IngredientMain.java
-|       RecipeMain.java
-|       UserMain.java
-|
-+---recipe
-|       DbSmokeTest.java
-|
-+---server
-|       ClientHandler.java
-|       Server.java
-|
-+---service
-|       IngredientService.java
-|       RecipeService.java
-|       UserService.java
-|
-+---shared
-|       ClientRequest.java
-|       RequestType.java
-|       ServerResponse.java
-|
-+---user
-|       UserDbSmokeTest.java
-|
-\---util
-        JsonUtil.java
+─example
+│   App.java
+│   
+├───client
+│       Client.java
+│       
+├───dao
+│   │   IngredientDao.java
+│   │   RecipeDao.java
+│   │   UserDao.java
+│   │   
+│   └───jdbc
+│           JDBCIngredientDao.java
+│           JDBCRecipeDao.java
+│           JdbcUserDao.java
+│           
+├───domain
+│       FileUploadPayload.java
+│       Ingredient.java
+│       Recipe.java
+│       RecipeImageData.java
+│       User.java
+│       
+├───server
+│       ClientHandler.java
+│       Server.java
+│       
+├───service
+│       IngredientService.java
+│       RecipeService.java
+│       UserService.java
+│       
+├───shared
+│       ClientRequest.java
+│       RequestType.java
+│       ServerResponse.java
+│       
+└───util
+JsonUtil.java
 ```
 
 ## JSON Protocol (summary) 
