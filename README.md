@@ -22,7 +22,13 @@ Members
 | Richie Orji            | D00280247 |
 
 ## 1.2 Key Features:
-Go Here
+- CRUD (Create,Read,Update,Delete) operations for users,ingredients & recipes.
+- JDBC DAO and interfaces.
+- JSON serialisation & deserialisation entities.
+- Multithreaded server using "implements Runnable".
+- Filtering using Predicate<T>
+- Binary file upload & binary file recievale (Stage 3)
+- JUnit testing with full coverage report.
 
 ## 2 How to Run
 ---
@@ -38,15 +44,81 @@ Maven/Gradle
 - Verify seed data; Each table must have a minimum of 10 rows
 
 ## 2.2 Configure credentials
+Database credentials:
+```
+private static final String URL = "jdbc:mysql://localhost:3306/recipehub";
+    private static final String USER = "root";
+    private static final String PASS = "";
+```
+
+SQL located in sql/mysqlSetup.sql
 
 ## 2.3 Run the server
+Run the server in server/server.java
 
+Expected output: Starting on port: + port number. RecipeHub server has started.
+                
+
+Sample exceptions: (found in constructor)
+
+```
+if(port <1_024 || port > 65_535)
+        {
+            throw new IllegalArgumentException("Port must be between 1024 and 65535");
+        }
+        if(userDao == null)
+        {
+            throw new IllegalArgumentException("userDao must not be null");
+        }
+        if(recipeDao == null)
+        {
+            throw new IllegalArgumentException("recipeDao must not be null");
+        }
+        if(ingredientDao == null)
+        {
+            throw new IllegalArgumentException("ingredientDao must not be null");
+        }
+```
 ## 2.4 Run the client
+Run client in client/client
+
+Expected output: Connected to client in + host : + port.
+
+Sample expections:
+```
+if(host == null || host.isBlank())
+        {
+            throw new IllegalArgumentException("Host must not be empty");
+        }
+        if(port <1_024 || port > 65_535)
+        {
+            throw new IllegalArgumentException("Port must be between 1024 and 65535");
+        }
+```
 
 ## 3 Architecture Summary 🏗️
 
 <img src="Diagram.drawio.png">
 
+This application features a mutlithreaded server meaning mulitple clients can run the program simutanously.
+
+Client:
+Handles client request to the server and user interaction.
+
+Server:
+Creates new threads and handles requests and sends response.
+
+Service:
+Contains validation and error handling so that invalid data isn't being passed into the JDBC DAO.
+
+JDBC DAO:
+The connection between java and sql. Handles all database access with queries.
+
+Database:
+Stores all RecipeHub data.
+
+Json:
+Used to serialise when sending data and deserialise when recieving data.
 ## Entities:
 ---
 ### User 👨‍🦲
@@ -155,6 +227,7 @@ All nutrional values are based on 100g servings
 { "status": "SUCESS|ERROR", "message": "...", "data": ... }
 ```
 
+
 ---
 
 ## Request Types :clipboard:
@@ -180,4 +253,6 @@ All nutrional values are based on 100g servings
 | INGREDIENT_DELETE | Delete ingredient |
 | INGREDIENT_FILTER | Filter ingredients |
 ---
-
+### Generative AI (chatgpt)
+- Used for field ideas and idea creation.
+  All concepts where understood by all team members before implementation.
