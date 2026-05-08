@@ -1,0 +1,621 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > JDBCRecipeDao</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.example.dao.jdbc</a>
+</div>
+
+<h1>Coverage Summary for Class: JDBCRecipeDao (org.example.dao.jdbc)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">JDBCRecipeDao</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    50%
+  </span>
+  <span class="absValue">
+    (9/18)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    14.7%
+  </span>
+  <span class="absValue">
+    (10/68)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    28.1%
+  </span>
+  <span class="absValue">
+    (68/242)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.example.dao.jdbc;
+&nbsp;
+&nbsp;import org.example.dao.RecipeDao;
+&nbsp;import org.example.domain.Recipe;
+&nbsp;import org.example.domain.RecipeImageData;
+&nbsp;
+&nbsp;import java.sql.*;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Optional;
+&nbsp;
+&nbsp;/**
+&nbsp; * Handles all sql queries from recipeDao -&gt; Database. Connection between Java and SQL.
+&nbsp; *
+&nbsp; * @author Conor Murphy (primary)
+&nbsp; * @author Richie (contributor) -&gt; filterRecipes method
+&nbsp; */
+&nbsp;public class JDBCRecipeDao implements RecipeDao {
+&nbsp;
+&nbsp;    private final String _url;
+&nbsp;    private final String _user;
+&nbsp;    private final String _pass;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Verifies url, user and password
+&nbsp;     *
+&nbsp;     * @param url
+&nbsp;     * @param user
+&nbsp;     * @param pass
+&nbsp;     */
+<b class="fc">&nbsp;    public JDBCRecipeDao(String url, String user, String pass) {</b>
+<b class="pc">&nbsp;        if (url == null || url.isBlank())</b>
+<b class="nc">&nbsp;            throw new IllegalArgumentException(&quot;url is required&quot;);</b>
+&nbsp;
+<b class="fc">&nbsp;        _url = url.trim();</b>
+<b class="fc">&nbsp;        _user = user;</b>
+<b class="fc">&nbsp;        _pass = pass;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Gets connection based on url, user and pass.
+&nbsp;     *
+&nbsp;     * @return
+&nbsp;     * @throws SQLException
+&nbsp;     */
+&nbsp;    private Connection open() throws SQLException {
+<b class="fc">&nbsp;        return DriverManager.getConnection(_url, _user, _pass);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Gets all recipes
+&nbsp;     *
+&nbsp;     * @return List containing all recipes.
+&nbsp;     * @throws Exception
+&nbsp;     */
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public List&lt;Recipe&gt; getAllRecipes() throws Exception {
+<b class="fc">&nbsp;        String sql = &quot;SELECT * FROM recipe ORDER BY recipe_id&quot;;</b>
+<b class="fc">&nbsp;        List&lt;Recipe&gt; recipes = new ArrayList&lt;&gt;();</b>
+&nbsp;
+<b class="fc">&nbsp;        try (Connection c = open();</b>
+<b class="fc">&nbsp;             PreparedStatement ps = c.prepareStatement(sql);</b>
+<b class="fc">&nbsp;             ResultSet rs = ps.executeQuery()) {</b>
+&nbsp;
+<b class="fc">&nbsp;            while (rs.next()) {</b>
+<b class="fc">&nbsp;                recipes.add(new Recipe(</b>
+<b class="fc">&nbsp;                        rs.getInt(&quot;recipe_id&quot;),</b>
+<b class="fc">&nbsp;                        rs.getInt(&quot;user_id&quot;),</b>
+<b class="fc">&nbsp;                        rs.getString(&quot;recipe_name&quot;),</b>
+<b class="fc">&nbsp;                        rs.getInt(&quot;category_id&quot;),</b>
+<b class="fc">&nbsp;                        rs.getString(&quot;description&quot;),</b>
+<b class="fc">&nbsp;                        rs.getDouble(&quot;total_calories&quot;),</b>
+<b class="fc">&nbsp;                        rs.getBoolean(&quot;is_public&quot;),</b>
+<b class="fc">&nbsp;                        rs.getBytes(&quot;recipe_image&quot;),</b>
+<b class="fc">&nbsp;                        rs.getString(&quot;image_file_name&quot;),</b>
+<b class="fc">&nbsp;                        rs.getString(&quot;image_content_type&quot;),</b>
+<b class="fc">&nbsp;                        rs.getInt(&quot;image_size&quot;)</b>
+&nbsp;                ));
+&nbsp;            }
+&nbsp;        }
+<b class="fc">&nbsp;        return recipes;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public List&lt;Recipe&gt; filterRecipes(Boolean isPublic, Double minCalories) throws Exception {
+<b class="nc">&nbsp;        List&lt;Recipe&gt; allRecipes = getAllRecipes();</b>
+<b class="nc">&nbsp;        List&lt;Recipe&gt; filtered = new ArrayList&lt;&gt;();</b>
+&nbsp;
+<b class="nc">&nbsp;        for (Recipe recipe : allRecipes) {</b>
+<b class="nc">&nbsp;            boolean match = true;</b>
+<b class="nc">&nbsp;            if (isPublic != null &amp;&amp; recipe.getIsPublic() != isPublic) {</b>
+<b class="nc">&nbsp;                match = false;</b>
+&nbsp;            }
+<b class="nc">&nbsp;            if (minCalories != null &amp;&amp; recipe.getTotalCalories() &lt; minCalories) {</b>
+<b class="nc">&nbsp;                match = false;</b>
+&nbsp;            }
+<b class="nc">&nbsp;            if (match) {</b>
+<b class="nc">&nbsp;                filtered.add(recipe);</b>
+&nbsp;            }
+&nbsp;        }
+<b class="nc">&nbsp;        return filtered;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Gets recipe by ID
+&nbsp;     *
+&nbsp;     * @param recipeID
+&nbsp;     * @return Optional recipe object if recipe if found by ID, optional empty otherwise.
+&nbsp;     * @throws Exception
+&nbsp;     */
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public Optional&lt;Recipe&gt; getRecipeById(int recipeID) throws Exception {
+<b class="pc">&nbsp;        if (recipeID &lt;= 0) return Optional.empty();</b>
+&nbsp;
+<b class="nc">&nbsp;        String sql = &quot;SELECT * FROM recipe WHERE recipe_id = ?&quot;;</b>
+<b class="nc">&nbsp;        try (Connection c = open();</b>
+<b class="nc">&nbsp;             PreparedStatement ps = c.prepareStatement(sql)) {</b>
+&nbsp;
+<b class="nc">&nbsp;            ps.setInt(1, recipeID);</b>
+<b class="nc">&nbsp;            try (ResultSet rs = ps.executeQuery()) {</b>
+<b class="nc">&nbsp;                if (!rs.next()) return Optional.empty();</b>
+&nbsp;
+<b class="nc">&nbsp;                return Optional.of(new Recipe(</b>
+<b class="nc">&nbsp;                        rs.getInt(&quot;recipe_id&quot;),</b>
+<b class="nc">&nbsp;                        rs.getInt(&quot;user_id&quot;),</b>
+<b class="nc">&nbsp;                        rs.getString(&quot;recipe_name&quot;),</b>
+<b class="nc">&nbsp;                        rs.getInt(&quot;category_id&quot;),</b>
+<b class="nc">&nbsp;                        rs.getString(&quot;description&quot;),</b>
+<b class="nc">&nbsp;                        rs.getDouble(&quot;total_calories&quot;),</b>
+<b class="nc">&nbsp;                        rs.getBoolean(&quot;is_public&quot;),</b>
+<b class="nc">&nbsp;                        rs.getBytes(&quot;recipe_image&quot;),</b>
+<b class="nc">&nbsp;                        rs.getString(&quot;image_file_name&quot;),</b>
+<b class="nc">&nbsp;                        rs.getString(&quot;image_content_type&quot;),</b>
+<b class="nc">&nbsp;                        rs.getInt(&quot;image_size&quot;)</b>
+&nbsp;                ));
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     *
+&nbsp;     * @param categoryID
+&nbsp;     * @return Optional recipe, returns nothing if nothing is found.
+&nbsp;     * @throws Exception
+&nbsp;     */
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public Optional&lt;Object&gt; getRecipeByCategoryId(int categoryID) throws Exception {
+<b class="nc">&nbsp;        if (categoryID &lt;= 0) return Optional.empty();</b>
+&nbsp;
+<b class="nc">&nbsp;        String sql = &quot;SELECT * FROM recipe WHERE category_id = ?&quot;;</b>
+<b class="nc">&nbsp;        try (Connection c = open();</b>
+<b class="nc">&nbsp;             PreparedStatement ps = c.prepareStatement(sql)) {</b>
+&nbsp;
+<b class="nc">&nbsp;            ps.setInt(1, categoryID);</b>
+<b class="nc">&nbsp;            try (ResultSet rs = ps.executeQuery()) {</b>
+<b class="nc">&nbsp;                if (!rs.next()) return Optional.empty();</b>
+&nbsp;
+<b class="nc">&nbsp;                return Optional.of(new Recipe(</b>
+<b class="nc">&nbsp;                        rs.getInt(&quot;recipe_id&quot;),</b>
+<b class="nc">&nbsp;                        rs.getInt(&quot;user_id&quot;),</b>
+<b class="nc">&nbsp;                        rs.getString(&quot;recipe_name&quot;),</b>
+<b class="nc">&nbsp;                        rs.getInt(&quot;category_id&quot;),</b>
+<b class="nc">&nbsp;                        rs.getString(&quot;description&quot;),</b>
+<b class="nc">&nbsp;                        rs.getDouble(&quot;total_calories&quot;),</b>
+<b class="nc">&nbsp;                        rs.getBoolean(&quot;is_public&quot;),</b>
+<b class="nc">&nbsp;                        rs.getBytes(&quot;recipe_image&quot;),</b>
+<b class="nc">&nbsp;                        rs.getString(&quot;image_file_name&quot;),</b>
+<b class="nc">&nbsp;                        rs.getString(&quot;image_content_type&quot;),</b>
+<b class="nc">&nbsp;                        rs.getInt(&quot;image_size&quot;)</b>
+&nbsp;                ));
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Gets recipe by user id.
+&nbsp;     *
+&nbsp;     * @param userID
+&nbsp;     * @return Optional Recipe if recipe if found. Optional empty if nothing is returned
+&nbsp;     * @throws Exception
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public Optional&lt;Object&gt; getRecipeByUserId(int userID) throws Exception {
+<b class="nc">&nbsp;        if (userID &lt;= 0) return Optional.empty();</b>
+&nbsp;
+<b class="nc">&nbsp;        String sql = &quot;SELECT * FROM recipe WHERE user_id = ?&quot;;</b>
+<b class="nc">&nbsp;        try (Connection c = open();</b>
+<b class="nc">&nbsp;             PreparedStatement ps = c.prepareStatement(sql)) {</b>
+&nbsp;
+<b class="nc">&nbsp;            ps.setInt(1, userID);</b>
+<b class="nc">&nbsp;            try (ResultSet rs = ps.executeQuery()) {</b>
+<b class="nc">&nbsp;                if (!rs.next()) return Optional.empty();</b>
+&nbsp;
+<b class="nc">&nbsp;                return Optional.of(new Recipe(</b>
+<b class="nc">&nbsp;                        rs.getInt(&quot;recipe_id&quot;),</b>
+<b class="nc">&nbsp;                        rs.getInt(&quot;user_id&quot;),</b>
+<b class="nc">&nbsp;                        rs.getString(&quot;recipe_name&quot;),</b>
+<b class="nc">&nbsp;                        rs.getInt(&quot;category_id&quot;),</b>
+<b class="nc">&nbsp;                        rs.getString(&quot;description&quot;),</b>
+<b class="nc">&nbsp;                        rs.getDouble(&quot;total_calories&quot;),</b>
+<b class="nc">&nbsp;                        rs.getBoolean(&quot;is_public&quot;),</b>
+<b class="nc">&nbsp;                        rs.getBytes(&quot;recipe_image&quot;),</b>
+<b class="nc">&nbsp;                        rs.getString(&quot;image_file_name&quot;),</b>
+<b class="nc">&nbsp;                        rs.getString(&quot;image_content_type&quot;),</b>
+<b class="nc">&nbsp;                        rs.getInt(&quot;image_size&quot;)</b>
+&nbsp;
+&nbsp;                ));
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Adds a recipe
+&nbsp;     *
+&nbsp;     * @param recipe
+&nbsp;     * @return true/false based on if the recipe was added succesfully.
+&nbsp;     * @throws Exception
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public boolean addRecipe(Recipe recipe) throws Exception {
+<b class="fc">&nbsp;        String sql = &quot;INSERT INTO recipe ( user_id, recipe_name, category_id, description, total_calories, is_public, recipe_image,image_file_name,image_content_type,image_size) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)&quot;;</b>
+<b class="pc">&nbsp;        try (Connection c = open();</b>
+<b class="fc">&nbsp;             PreparedStatement ps = c.prepareStatement(sql)) {</b>
+&nbsp;
+&nbsp;
+<b class="fc">&nbsp;            ps.setInt(1, recipe.getUserId());</b>
+<b class="fc">&nbsp;            ps.setString(2, recipe.getRecipeName());</b>
+<b class="fc">&nbsp;            ps.setInt(3, recipe.getCategoryId());</b>
+<b class="fc">&nbsp;            ps.setString(4, recipe.getDescription());</b>
+<b class="fc">&nbsp;            ps.setDouble(5, recipe.getTotalCalories());</b>
+<b class="fc">&nbsp;            ps.setBoolean(6, recipe.getIsPublic());</b>
+<b class="fc">&nbsp;            ps.setBytes(7, recipe.getRecipeImage());</b>
+<b class="fc">&nbsp;            ps.setString(8, recipe.getImageFileName());</b>
+<b class="fc">&nbsp;            ps.setString(9, recipe.getImageContentType());</b>
+<b class="fc">&nbsp;            ps.setInt(10, recipe.getImageSize());</b>
+&nbsp;
+<b class="pc">&nbsp;            return ps.executeUpdate() == 1;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Updates a recipe
+&nbsp;     *
+&nbsp;     * @param recipe
+&nbsp;     * @return true/false based on if the recipe was updated sucessfully.
+&nbsp;     * @throws Exception
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public boolean updateRecipe(Recipe recipe) throws Exception {
+<b class="nc">&nbsp;        String sql = &quot;UPDATE recipe SET user_id=?, recipe_name=?, category_id=?, description=?, total_calories=?, is_public=? WHERE recipe_id=?&quot;;</b>
+<b class="nc">&nbsp;        try (Connection c = open();</b>
+<b class="nc">&nbsp;             PreparedStatement ps = c.prepareStatement(sql)) {</b>
+&nbsp;
+<b class="nc">&nbsp;            ps.setInt(1, recipe.getUserId());</b>
+<b class="nc">&nbsp;            ps.setString(2, recipe.getRecipeName());</b>
+<b class="nc">&nbsp;            ps.setInt(3, recipe.getCategoryId());</b>
+<b class="nc">&nbsp;            ps.setString(4, recipe.getDescription());</b>
+<b class="nc">&nbsp;            ps.setDouble(5, recipe.getTotalCalories());</b>
+<b class="nc">&nbsp;            ps.setBoolean(6, recipe.getIsPublic());</b>
+<b class="nc">&nbsp;            ps.setInt(7, recipe.getRecipeId());</b>
+<b class="nc">&nbsp;            ps.setBytes(8, recipe.getRecipeImage());</b>
+<b class="nc">&nbsp;            ps.setString(9, recipe.getImageFileName());</b>
+<b class="nc">&nbsp;            ps.setString(10, recipe.getImageContentType());</b>
+<b class="nc">&nbsp;            ps.setInt(11, recipe.getImageSize());</b>
+&nbsp;
+<b class="nc">&nbsp;            return ps.executeUpdate() == 1;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Deletes recipe by ID
+&nbsp;     *
+&nbsp;     * @param recipeID
+&nbsp;     * @return true/false based on if recipe was deleted sucessfully.
+&nbsp;     * @throws Exception
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public boolean deleteRecipe(int recipeID) throws Exception {
+<b class="pc">&nbsp;        if (recipeID &lt;= 0) return false;</b>
+&nbsp;
+<b class="fc">&nbsp;        String sql = &quot;DELETE FROM recipe WHERE recipe_id=?&quot;;</b>
+<b class="pc">&nbsp;        try (Connection c = open();</b>
+<b class="fc">&nbsp;             PreparedStatement ps = c.prepareStatement(sql)) {</b>
+&nbsp;
+<b class="fc">&nbsp;            ps.setInt(1, recipeID);</b>
+<b class="pc">&nbsp;            return ps.executeUpdate() == 1;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Returns recipes based on min and max calories.
+&nbsp;     *
+&nbsp;     * @param min
+&nbsp;     * @param max
+&nbsp;     * @return List of recipes returned in between the min and max calories.
+&nbsp;     * @throws Exception
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public List&lt;Recipe&gt; getRecipeByCalories(double min, double max) throws Exception {
+<b class="nc">&nbsp;        String sql = &quot;SELECT * FROM recipe WHERE total_calories BETWEEN ? AND ? ORDER BY recipe_id&quot;;</b>
+<b class="nc">&nbsp;        List&lt;Recipe&gt; recipes = new ArrayList&lt;&gt;();</b>
+&nbsp;
+<b class="nc">&nbsp;        try (Connection c = open();</b>
+<b class="nc">&nbsp;             PreparedStatement ps = c.prepareStatement(sql)) {</b>
+&nbsp;
+<b class="nc">&nbsp;            ps.setDouble(1, min);</b>
+<b class="nc">&nbsp;            ps.setDouble(2, max);</b>
+&nbsp;
+<b class="nc">&nbsp;            try (ResultSet rs = ps.executeQuery()) {</b>
+<b class="nc">&nbsp;                while (rs.next()) {</b>
+<b class="nc">&nbsp;                    recipes.add(new Recipe(</b>
+<b class="nc">&nbsp;                            rs.getInt(&quot;recipe_id&quot;),</b>
+<b class="nc">&nbsp;                            rs.getInt(&quot;user_id&quot;),</b>
+<b class="nc">&nbsp;                            rs.getString(&quot;recipe_name&quot;),</b>
+<b class="nc">&nbsp;                            rs.getInt(&quot;category_id&quot;),</b>
+<b class="nc">&nbsp;                            rs.getString(&quot;description&quot;),</b>
+<b class="nc">&nbsp;                            rs.getDouble(&quot;total_calories&quot;),</b>
+<b class="nc">&nbsp;                            rs.getBoolean(&quot;is_public&quot;),</b>
+<b class="nc">&nbsp;                            rs.getBytes(&quot;recipe_image&quot;),</b>
+<b class="nc">&nbsp;                            rs.getString(&quot;image_file_name&quot;),</b>
+<b class="nc">&nbsp;                            rs.getString(&quot;image_content_type&quot;),</b>
+<b class="nc">&nbsp;                            rs.getInt(&quot;image_size&quot;)</b>
+&nbsp;                    ));
+&nbsp;                }
+&nbsp;            }
+&nbsp;        }
+<b class="nc">&nbsp;        return recipes;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public List&lt;Recipe&gt; getRecipeByName(String recipeName) throws Exception {
+<b class="nc">&nbsp;        String sql = &quot;SELECT * FROM recipe WHERE recipe_name LIKE ? ORDER BY recipe_id&quot;;</b>
+<b class="nc">&nbsp;        List&lt;Recipe&gt; recipes = new ArrayList&lt;&gt;();</b>
+&nbsp;
+<b class="nc">&nbsp;        try (Connection c = open();</b>
+<b class="nc">&nbsp;             PreparedStatement ps = c.prepareStatement(sql)) {</b>
+&nbsp;
+<b class="nc">&nbsp;            ps.setString(1, &quot;%&quot; + recipeName + &quot;%&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;            try (ResultSet rs = ps.executeQuery()) {</b>
+<b class="nc">&nbsp;                while (rs.next()) {</b>
+<b class="nc">&nbsp;                    recipes.add(new Recipe(</b>
+<b class="nc">&nbsp;                            rs.getInt(&quot;recipe_id&quot;),</b>
+<b class="nc">&nbsp;                            rs.getInt(&quot;user_id&quot;),</b>
+<b class="nc">&nbsp;                            rs.getString(&quot;recipe_name&quot;),</b>
+<b class="nc">&nbsp;                            rs.getInt(&quot;category_id&quot;),</b>
+<b class="nc">&nbsp;                            rs.getString(&quot;description&quot;),</b>
+<b class="nc">&nbsp;                            rs.getDouble(&quot;total_calories&quot;),</b>
+<b class="nc">&nbsp;                            rs.getBoolean(&quot;is_public&quot;),</b>
+<b class="nc">&nbsp;                            rs.getBytes(&quot;recipe_image&quot;),</b>
+<b class="nc">&nbsp;                            rs.getString(&quot;image_file_name&quot;),</b>
+<b class="nc">&nbsp;                            rs.getString(&quot;image_content_type&quot;),</b>
+<b class="nc">&nbsp;                            rs.getInt(&quot;image_size&quot;)</b>
+&nbsp;                    ));
+&nbsp;                }
+&nbsp;            }
+&nbsp;        }
+<b class="nc">&nbsp;        return recipes;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public List&lt;Recipe&gt; getPublicRecipes() throws Exception {
+<b class="nc">&nbsp;        String sql = &quot;SELECT * FROM recipe WHERE is_public = TRUE ORDER BY recipe_id&quot;;</b>
+<b class="nc">&nbsp;        List&lt;Recipe&gt; recipes = new ArrayList&lt;&gt;();</b>
+&nbsp;
+<b class="nc">&nbsp;        try (Connection c = open();</b>
+<b class="nc">&nbsp;             PreparedStatement ps = c.prepareStatement(sql);</b>
+<b class="nc">&nbsp;             ResultSet rs = ps.executeQuery()) {</b>
+&nbsp;
+<b class="nc">&nbsp;            while (rs.next()) {</b>
+<b class="nc">&nbsp;                recipes.add(new Recipe(</b>
+<b class="nc">&nbsp;                        rs.getInt(&quot;recipe_id&quot;),</b>
+<b class="nc">&nbsp;                        rs.getInt(&quot;user_id&quot;),</b>
+<b class="nc">&nbsp;                        rs.getString(&quot;recipe_name&quot;),</b>
+<b class="nc">&nbsp;                        rs.getInt(&quot;category_id&quot;),</b>
+<b class="nc">&nbsp;                        rs.getString(&quot;description&quot;),</b>
+<b class="nc">&nbsp;                        rs.getDouble(&quot;total_calories&quot;),</b>
+<b class="nc">&nbsp;                        rs.getBoolean(&quot;is_public&quot;),</b>
+<b class="nc">&nbsp;                        rs.getBytes(&quot;recipe_image&quot;),</b>
+<b class="nc">&nbsp;                        rs.getString(&quot;image_file_name&quot;),</b>
+<b class="nc">&nbsp;                        rs.getString(&quot;image_content_type&quot;),</b>
+<b class="nc">&nbsp;                        rs.getInt(&quot;image_size&quot;)</b>
+&nbsp;                ));
+&nbsp;            }
+&nbsp;        }
+&nbsp;        
+<b class="nc">&nbsp;        return recipes;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void saveImage(int recipeId, byte[] imageData, String fileName, String contentType, int fileSize) throws Exception {
+<b class="fc">&nbsp;        String sql = &quot;&quot;&quot;</b>
+&nbsp;        UPDATE recipe
+&nbsp;        SET recipe_image = ?, image_file_name = ?, image_content_type = ?, image_size = ?
+&nbsp;        WHERE recipe_id = ?
+&nbsp;        &quot;&quot;&quot;;
+&nbsp;
+<b class="fc">&nbsp;        try (Connection c = open();</b>
+<b class="fc">&nbsp;             PreparedStatement ps = c.prepareStatement(sql)) {</b>
+<b class="fc">&nbsp;            ps.setBytes(1, imageData);</b>
+<b class="fc">&nbsp;            ps.setString(2, fileName);</b>
+<b class="fc">&nbsp;            ps.setString(3, contentType);</b>
+<b class="fc">&nbsp;            ps.setInt(4, fileSize);</b>
+<b class="fc">&nbsp;            ps.setInt(5, recipeId);</b>
+<b class="fc">&nbsp;            ps.executeUpdate();</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public Optional&lt;RecipeImageData&gt; getImageById(int recipeId) throws Exception {
+<b class="fc">&nbsp;        String sql = &quot;&quot;&quot;</b>
+&nbsp;        SELECT recipe_image, image_file_name, image_content_type, image_size
+&nbsp;        FROM recipe
+&nbsp;        WHERE recipe_id = ?
+&nbsp;        &quot;&quot;&quot;;
+&nbsp;
+<b class="pc">&nbsp;        try (Connection c = open();</b>
+<b class="fc">&nbsp;             PreparedStatement ps = c.prepareStatement(sql)) {</b>
+<b class="fc">&nbsp;            ps.setInt(1, recipeId);</b>
+&nbsp;
+<b class="fc">&nbsp;            try (ResultSet rs = ps.executeQuery()) {</b>
+<b class="pc">&nbsp;                if (!rs.next()) {</b>
+<b class="nc">&nbsp;                    return Optional.empty();</b>
+&nbsp;                }
+&nbsp;
+<b class="fc">&nbsp;                return Optional.of(new RecipeImageData(</b>
+<b class="fc">&nbsp;                        rs.getBytes(&quot;recipe_image&quot;),</b>
+<b class="fc">&nbsp;                        rs.getString(&quot;image_file_name&quot;),</b>
+<b class="fc">&nbsp;                        rs.getString(&quot;image_content_type&quot;),</b>
+<b class="fc">&nbsp;                        rs.getInt(&quot;image_size&quot;)</b>
+&nbsp;                ));
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public Optional&lt;RecipeImageData&gt; getRecipeImageMetadataById(int recipeId) throws Exception {
+<b class="nc">&nbsp;        return Optional.empty();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public Optional&lt;RecipeImageData&gt; getRecipeImageMetadata(int recipeId) throws Exception {
+<b class="pc">&nbsp;        if (recipeId &lt;= 0) {</b>
+<b class="fc">&nbsp;            return Optional.empty();</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        String sql = &quot;&quot;&quot;</b>
+&nbsp;            SELECT image_file_name, image_content_type, image_size
+&nbsp;            FROM recipe
+&nbsp;            WHERE recipe_id = ?
+&nbsp;            &quot;&quot;&quot;;
+&nbsp;
+<b class="nc">&nbsp;        try (Connection c = open();</b>
+<b class="nc">&nbsp;             PreparedStatement ps = c.prepareStatement(sql)) {</b>
+<b class="nc">&nbsp;            ps.setInt(1, recipeId);</b>
+&nbsp;
+<b class="nc">&nbsp;            try (ResultSet rs = ps.executeQuery()) {</b>
+<b class="nc">&nbsp;                if (!rs.next()) {</b>
+<b class="nc">&nbsp;                    return Optional.empty();</b>
+&nbsp;                }
+&nbsp;
+<b class="nc">&nbsp;                return Optional.of(new RecipeImageData(</b>
+&nbsp;                        null,
+<b class="nc">&nbsp;                        rs.getString(&quot;image_file_name&quot;),</b>
+<b class="nc">&nbsp;                        rs.getString(&quot;image_content_type&quot;),</b>
+<b class="nc">&nbsp;                        rs.getInt(&quot;image_size&quot;)</b>
+&nbsp;                ));
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;    public int insertRecipeWithImage(Recipe recipe) throws Exception {
+<b class="nc">&nbsp;        String sql = &quot;&quot;&quot;</b>
+&nbsp;                INSERT INTO recipe (user_id, recipe_name, category_id, description, total_calories, is_public, recipe_image, image_file_name, image_content_type, image_size)
+&nbsp;                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+&nbsp;                &quot;&quot;&quot;;
+<b class="nc">&nbsp;        try(Connection c = DriverManager.getConnection(_url, _user, _pass);</b>
+<b class="nc">&nbsp;            PreparedStatement ps = c.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS))</b>
+&nbsp;        {
+<b class="nc">&nbsp;            ps.setInt(1, recipe.getUserId());</b>
+<b class="nc">&nbsp;            ps.setString(2, recipe.getRecipeName());</b>
+<b class="nc">&nbsp;            ps.setInt(3, recipe.getCategoryId());</b>
+<b class="nc">&nbsp;            ps.setString(4, recipe.getDescription());</b>
+<b class="nc">&nbsp;            ps.setDouble(5, recipe.getTotalCalories());</b>
+<b class="nc">&nbsp;            ps.setBoolean(6, recipe.getIsPublic());</b>
+<b class="nc">&nbsp;            ps.setBytes(7, recipe.getRecipeImage());</b>
+<b class="nc">&nbsp;            ps.setString(8, recipe.getImageFileName());</b>
+<b class="nc">&nbsp;            ps.setString(9, recipe.getImageContentType());</b>
+<b class="nc">&nbsp;            ps.setInt(10, recipe.getImageSize());</b>
+&nbsp;
+<b class="nc">&nbsp;            ps.executeUpdate();</b>
+&nbsp;
+<b class="nc">&nbsp;            try(ResultSet keys = ps.getGeneratedKeys()) {</b>
+<b class="nc">&nbsp;                if(keys.next())</b>
+<b class="nc">&nbsp;                    return keys.getInt(1);</b>
+&nbsp;            }
+&nbsp;        }
+<b class="nc">&nbsp;        throw new Exception(&quot;Failed to insert recipe with image&quot;);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2026-05-08 10:00</div>
+</div>
+</body>
+</html>

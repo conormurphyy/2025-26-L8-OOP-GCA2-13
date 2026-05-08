@@ -1,0 +1,237 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > Server</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.example.server</a>
+</div>
+
+<h1>Coverage Summary for Class: Server (org.example.server)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Server</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/14)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/37)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.example.server;
+&nbsp;
+&nbsp;import com.fasterxml.jackson.annotation.JsonTypeId;
+&nbsp;import org.example.dao.IngredientDao;
+&nbsp;import org.example.dao.RecipeDao;
+&nbsp;import org.example.dao.UserDao;
+&nbsp;import org.example.dao.jdbc.JDBCIngredientDao;
+&nbsp;import org.example.dao.jdbc.JDBCRecipeDao;
+&nbsp;import org.example.dao.jdbc.JdbcUserDao;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.net.ServerSocket;
+&nbsp;import java.net.Socket;
+&nbsp;import java.sql.SQLException;
+&nbsp;import java.util.concurrent.ExecutorService;
+&nbsp;import java.util.concurrent.Executors;
+&nbsp;import java.util.concurrent.TimeUnit;
+&nbsp;
+&nbsp;/**
+&nbsp; * @author Conor McCracken (Primary)
+&nbsp; */
+&nbsp;
+&nbsp;public class Server {
+&nbsp;    private final int _port;
+&nbsp;    private final UserDao _userDao;
+&nbsp;    private final RecipeDao _recipeDao;
+&nbsp;    private final IngredientDao _ingredientDao;
+&nbsp;    private final ExecutorService _pool;
+&nbsp;
+&nbsp;    public Server(int port, UserDao userDao, RecipeDao recipeDao, IngredientDao ingredientDao)
+<b class="nc">&nbsp;    {</b>
+<b class="nc">&nbsp;        if(port &lt;1_024 || port &gt; 65_535)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            throw new IllegalArgumentException(&quot;Port must be between 1024 and 65535&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if(userDao == null)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            throw new IllegalArgumentException(&quot;userDao must not be null&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if(recipeDao == null)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            throw new IllegalArgumentException(&quot;recipeDao must not be null&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if(ingredientDao == null)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            throw new IllegalArgumentException(&quot;ingredientDao must not be null&quot;);</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        _port = port;</b>
+<b class="nc">&nbsp;        _userDao = userDao;</b>
+<b class="nc">&nbsp;        _recipeDao = recipeDao;</b>
+<b class="nc">&nbsp;        _ingredientDao = ingredientDao;</b>
+<b class="nc">&nbsp;        _pool = Executors.newCachedThreadPool();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Starts multithreaded server and serves client
+&nbsp;     *
+&nbsp;     * @throws IOException
+&nbsp;     */
+&nbsp;    public void start() throws IOException {
+<b class="nc">&nbsp;        System.out.println(&quot;Starting on port: &quot; + _port);</b>
+&nbsp;
+<b class="nc">&nbsp;        try(ServerSocket serverSocket = new ServerSocket(_port))</b>
+&nbsp;        {
+<b class="nc">&nbsp;            System.out.println(&quot;RecipeHub server started&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;            while(!Thread.currentThread().isInterrupted())</b>
+&nbsp;            {
+<b class="nc">&nbsp;                Socket client = serverSocket.accept();</b>
+<b class="nc">&nbsp;                System.out.println(&quot;Client connected from : &quot;+ client.getInetAddress().getHostAddress());</b>
+<b class="nc">&nbsp;                _pool.submit(new ClientHandler(client, _userDao, _recipeDao, _ingredientDao));</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;        finally{
+<b class="nc">&nbsp;        stop();</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Stops the server and shuts down pool
+&nbsp;     */
+&nbsp;    private void stop()
+&nbsp;    {
+<b class="nc">&nbsp;        System.out.println(&quot;Stopping RecipeHub server&quot;);</b>
+<b class="nc">&nbsp;        _pool.shutdown();</b>
+&nbsp;        try{
+<b class="nc">&nbsp;            if(!_pool.awaitTermination(5, TimeUnit.SECONDS))</b>
+&nbsp;            {
+<b class="nc">&nbsp;                System.out.println(&quot;Server did not stop gracefully&quot;);</b>
+<b class="nc">&nbsp;                _pool.shutdownNow();</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;        catch (InterruptedException e)
+&nbsp;        {
+<b class="nc">&nbsp;            _pool.shutdownNow();</b>
+<b class="nc">&nbsp;            Thread.currentThread().interrupt();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        System.out.println(&quot;RecipeHub server stopped&quot;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Creates user,recipe and ingredient dao objects and assigns the jdbc url, pass &amp; username.
+&nbsp;     * Creates a new server object on port 8080, and calls start.
+&nbsp;     *
+&nbsp;     * @param args
+&nbsp;     * @throws IOException
+&nbsp;     * @throws SQLException
+&nbsp;     */
+&nbsp;    public static void main(String[] args) throws IOException, SQLException {
+<b class="nc">&nbsp;        String url = &quot;jdbc:mysql://localhost:3306/recipehub&quot;;</b>
+<b class="nc">&nbsp;        String user = &quot;root&quot;;</b>
+<b class="nc">&nbsp;        String pass = &quot;&quot;;</b>
+&nbsp;
+<b class="nc">&nbsp;        UserDao userDao = new JdbcUserDao(url, user, pass);</b>
+<b class="nc">&nbsp;        RecipeDao recipeDao = new JDBCRecipeDao(url, user, pass);</b>
+<b class="nc">&nbsp;        IngredientDao ingredientDao = new JDBCIngredientDao(url, user, pass);</b>
+&nbsp;
+<b class="nc">&nbsp;        new Server(8080, userDao, recipeDao, ingredientDao).start();</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2026-05-08 10:00</div>
+</div>
+</body>
+</html>

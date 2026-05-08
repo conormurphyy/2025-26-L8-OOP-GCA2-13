@@ -1,0 +1,234 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > JDBCIngredientDao</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.example.dao.jdbc</a>
+</div>
+
+<h1>Coverage Summary for Class: JDBCIngredientDao (org.example.dao.jdbc)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">JDBCIngredientDao</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (7/7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    96.2%
+  </span>
+  <span class="absValue">
+    (25/26)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (63/63)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.example.dao.jdbc;
+&nbsp;
+&nbsp;import org.example.dao.IngredientDao;
+&nbsp;import org.example.domain.Ingredient;
+&nbsp;
+&nbsp;import java.sql.*;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Optional;
+&nbsp;
+&nbsp;/**
+&nbsp; * @author Richie Orji (Primary)
+&nbsp; * @author Conor Murphy (Contributor, syntax fixes in prepared statement)
+&nbsp; */
+&nbsp;public class JDBCIngredientDao implements IngredientDao {
+&nbsp;
+&nbsp;    private Connection connection;
+&nbsp;
+<b class="fc">&nbsp;    public JDBCIngredientDao(String url, String user, String pass) throws SQLException {</b>
+<b class="fc">&nbsp;        this.connection = DriverManager.getConnection(url, user, pass);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public List&lt;Ingredient&gt; getAllIngredients() throws Exception {
+<b class="fc">&nbsp;        List&lt;Ingredient&gt; ingredients = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        String sql = &quot;SELECT * FROM ingredient&quot;;</b>
+<b class="fc">&nbsp;        PreparedStatement statement = connection.prepareStatement(sql);</b>
+<b class="fc">&nbsp;        ResultSet rs = statement.executeQuery();</b>
+&nbsp;
+<b class="fc">&nbsp;        while (rs.next()) {</b>
+<b class="fc">&nbsp;            ingredients.add(new Ingredient(</b>
+<b class="fc">&nbsp;                    rs.getInt(&quot;ingredient_id&quot;),</b>
+<b class="fc">&nbsp;                    rs.getString(&quot;ingredient_name&quot;),</b>
+<b class="fc">&nbsp;                    rs.getDouble(&quot;ingredient_calories&quot;),</b>
+<b class="fc">&nbsp;                    rs.getDouble(&quot;ingredient_protein&quot;),</b>
+<b class="fc">&nbsp;                    rs.getDouble(&quot;ingredient_carbs&quot;),</b>
+<b class="fc">&nbsp;                    rs.getDouble(&quot;ingredient_fats&quot;)</b>
+&nbsp;            ));
+&nbsp;        }
+<b class="fc">&nbsp;        return ingredients;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public Optional&lt;Ingredient&gt; getIngredientById(int ingredientId) throws Exception {
+<b class="fc">&nbsp;        String sql = &quot;SELECT * FROM ingredient WHERE ingredient_id=?&quot;;</b>
+<b class="fc">&nbsp;        PreparedStatement statement = connection.prepareStatement(sql);</b>
+<b class="fc">&nbsp;        statement.setInt(1, ingredientId);</b>
+<b class="fc">&nbsp;        ResultSet rs = statement.executeQuery();</b>
+<b class="fc">&nbsp;        if (rs.next()) {</b>
+<b class="fc">&nbsp;            return Optional.of(new Ingredient(</b>
+<b class="fc">&nbsp;                    rs.getInt(&quot;ingredient_id&quot;),</b>
+<b class="fc">&nbsp;                    rs.getString(&quot;ingredient_name&quot;),</b>
+<b class="fc">&nbsp;                    rs.getDouble(&quot;ingredient_calories&quot;),</b>
+<b class="fc">&nbsp;                    rs.getDouble(&quot;ingredient_protein&quot;),</b>
+<b class="fc">&nbsp;                    rs.getDouble(&quot;ingredient_carbs&quot;),</b>
+<b class="fc">&nbsp;                    rs.getDouble(&quot;ingredient_fats&quot;)</b>
+&nbsp;            ));
+&nbsp;        }
+<b class="fc">&nbsp;        return Optional.empty();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public List&lt;Ingredient&gt; filterIngredients(String name, Double maxCalories, Double minProtein) throws Exception {
+<b class="fc">&nbsp;        List&lt;Ingredient&gt; allIngredients = getAllIngredients();</b>
+<b class="fc">&nbsp;        List&lt;Ingredient&gt; filtered = new ArrayList&lt;&gt;();</b>
+&nbsp;
+<b class="fc">&nbsp;        for (Ingredient ingredient : allIngredients) {</b>
+<b class="fc">&nbsp;            boolean match = true;</b>
+<b class="fc">&nbsp;            if (name != null &amp;&amp; !ingredient.getName().toLowerCase().contains(name.toLowerCase())) {</b>
+<b class="fc">&nbsp;                match = false;</b>
+&nbsp;            }
+<b class="fc">&nbsp;            if (maxCalories != null &amp;&amp; ingredient.getCalories() &gt; maxCalories) {</b>
+<b class="fc">&nbsp;                match = false;</b>
+&nbsp;            }
+<b class="fc">&nbsp;            if (minProtein != null &amp;&amp; ingredient.getProtein() &lt; minProtein) {</b>
+<b class="fc">&nbsp;                match = false;</b>
+&nbsp;            }
+<b class="fc">&nbsp;            if (match) {</b>
+<b class="fc">&nbsp;                filtered.add(ingredient);</b>
+&nbsp;            }
+&nbsp;        }
+<b class="fc">&nbsp;        return filtered;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public boolean addIngredient(Ingredient ingredient) throws Exception {
+<b class="fc">&nbsp;        String sql = &quot;INSERT INTO ingredient (ingredient_id, ingredient_name, ingredient_calories, ingredient_protein, ingredient_carbs, ingredient_fats) VALUES (?, ?, ?, ?, ?, ?)&quot;;</b>
+<b class="fc">&nbsp;        PreparedStatement ps = connection.prepareStatement(sql);</b>
+<b class="fc">&nbsp;        ps.setInt(1, ingredient.getIngredientId());</b>
+<b class="fc">&nbsp;        ps.setString(2, ingredient.getName());</b>
+<b class="fc">&nbsp;        ps.setDouble(3, ingredient.getCalories());</b>
+<b class="fc">&nbsp;        ps.setDouble(4, ingredient.getProtein());</b>
+<b class="fc">&nbsp;        ps.setDouble(5, ingredient.getCarbs());</b>
+<b class="fc">&nbsp;        ps.setDouble(6, ingredient.getFat());</b>
+<b class="pc">&nbsp;        return ps.executeUpdate() &gt; 0;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public boolean updateIngredient(Ingredient ingredient) throws Exception {
+<b class="fc">&nbsp;        String sql = &quot;UPDATE ingredient SET ingredient_name=?, ingredient_calories=?, ingredient_protein=?, ingredient_carbs=?, ingredient_fats=? WHERE ingredient_id=?&quot;;</b>
+<b class="fc">&nbsp;        PreparedStatement ps = connection.prepareStatement(sql);</b>
+<b class="fc">&nbsp;        ps.setString(1, ingredient.getName());</b>
+<b class="fc">&nbsp;        ps.setDouble(2, ingredient.getCalories());</b>
+<b class="fc">&nbsp;        ps.setDouble(3, ingredient.getProtein());</b>
+<b class="fc">&nbsp;        ps.setDouble(4, ingredient.getCarbs());</b>
+<b class="fc">&nbsp;        ps.setDouble(5, ingredient.getFat());</b>
+<b class="fc">&nbsp;        ps.setInt(6, ingredient.getIngredientId());</b>
+<b class="fc">&nbsp;        return ps.executeUpdate() &gt; 0;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public boolean deleteIngredient(int ingredientId) throws Exception {
+<b class="fc">&nbsp;        String sql = &quot;DELETE FROM ingredient WHERE ingredient_id=?&quot;;</b>
+<b class="fc">&nbsp;        PreparedStatement ps = connection.prepareStatement(sql);</b>
+<b class="fc">&nbsp;        ps.setInt(1, ingredientId);</b>
+<b class="fc">&nbsp;        return ps.executeUpdate() &gt; 0;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2026-05-08 10:00</div>
+</div>
+</body>
+</html>

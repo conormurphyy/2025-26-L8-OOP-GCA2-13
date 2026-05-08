@@ -1,0 +1,228 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > User</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.example.domain</a>
+</div>
+
+<h1>Coverage Summary for Class: User (org.example.domain)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">User</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (14/14)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    91.7%
+  </span>
+  <span class="absValue">
+    (22/24)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (38/38)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.example.domain;
+&nbsp;
+&nbsp;import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+&nbsp;import java.util.Objects;
+&nbsp;
+&nbsp;/**
+&nbsp; * @author Conor McCracken (Primary)
+&nbsp; * @author Conor Murphy (Primary)
+&nbsp; */
+&nbsp;@JsonIgnoreProperties(ignoreUnknown = true)
+&nbsp;public class User {
+&nbsp;
+&nbsp;    //Fields
+&nbsp;    private int fId;
+&nbsp;    private String fUsername;
+&nbsp;    private String fUserType;
+&nbsp;    private double fUserRating;
+&nbsp;
+&nbsp;    //Constructors
+&nbsp;    //empty user
+<b class="fc">&nbsp;    public User() {</b>
+<b class="fc">&nbsp;        fId = 0;</b>
+<b class="fc">&nbsp;        fUsername = &quot;&quot;;</b>
+<b class="fc">&nbsp;        fUserType = &quot;&quot;;</b>
+<b class="fc">&nbsp;        fUserRating = 0.0;</b>
+&nbsp;    }
+&nbsp;    public User(String username, String userType, double userRating) {
+<b class="fc">&nbsp;        this(0, username, userType, userRating);</b>
+&nbsp;    }
+&nbsp;    //User constructor
+<b class="fc">&nbsp;    public User(int id, String username, String userType, double userRating) {</b>
+<b class="fc">&nbsp;        if (id &lt; 0) {</b>
+<b class="fc">&nbsp;            throw new IllegalArgumentException(&quot;id must be &gt;= 0&quot;);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        if (username == null || username.isBlank()) {</b>
+<b class="fc">&nbsp;            throw new IllegalArgumentException(&quot;username is required&quot;);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        if (userType == null || userType.isBlank()) {</b>
+<b class="fc">&nbsp;            throw new IllegalArgumentException(&quot;userType is required&quot;);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        if (userRating &lt; 0.0 || userRating &gt; 5.0) {</b>
+<b class="fc">&nbsp;            throw new IllegalArgumentException(&quot;userRating must be 0-5&quot;);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        fId = id;</b>
+<b class="fc">&nbsp;        fUsername = username.trim();</b>
+<b class="fc">&nbsp;        fUserType = userType.trim();</b>
+<b class="fc">&nbsp;        fUserRating = userRating;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    //Public API
+&nbsp;    public int getId() {
+<b class="fc">&nbsp;        return fId;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setId(int id) {
+<b class="fc">&nbsp;        fId = id;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public String getUsername() {
+<b class="fc">&nbsp;        return fUsername;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setUsername(String username) {
+<b class="fc">&nbsp;        fUsername = username;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public String getUserType() {
+<b class="fc">&nbsp;        return fUserType;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setUserType(String userType) {
+<b class="fc">&nbsp;        fUserType = userType;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public double getUserRating() {
+<b class="fc">&nbsp;        return fUserRating;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setUserRating(double userRating) {
+<b class="fc">&nbsp;        fUserRating = userRating;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    //Helpers
+&nbsp;    @Override
+&nbsp;    public int hashCode() {
+<b class="fc">&nbsp;        return Objects.hash(fId, fUsername, fUserType, fUserRating);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public String toString() {
+<b class="fc">&nbsp;        return &quot;User{id=&quot; + fId</b>
+&nbsp;                + &quot;, username=&#39;&quot; + fUsername + &#39;\&#39;&#39;
+&nbsp;                + &quot;, userType=&#39;&quot; + fUserType + &#39;\&#39;&#39;
+&nbsp;                + &quot;, userRating=&quot; + fUserRating + &quot;}&quot;;
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public boolean equals(Object o) {
+<b class="fc">&nbsp;        if (this == o) {</b>
+<b class="fc">&nbsp;            return true;</b>
+&nbsp;        }
+<b class="fc">&nbsp;        if (!(o instanceof User)) {</b>
+<b class="fc">&nbsp;            return false;</b>
+&nbsp;        }
+<b class="fc">&nbsp;        User other = (User) o;</b>
+<b class="fc">&nbsp;        return fId == other.fId</b>
+<b class="pc">&nbsp;                &amp;&amp; Double.compare(fUserRating, other.fUserRating) == 0</b>
+<b class="pc">&nbsp;                &amp;&amp; Objects.equals(fUsername, other.fUsername)</b>
+<b class="fc">&nbsp;                &amp;&amp; Objects.equals(fUserType, other.fUserType);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2026-05-08 10:00</div>
+</div>
+</body>
+</html>

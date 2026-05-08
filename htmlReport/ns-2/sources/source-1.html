@@ -1,0 +1,214 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > Client</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.example.client</a>
+</div>
+
+<h1>Coverage Summary for Class: Client (org.example.client)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Client</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/31)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.example.client;
+&nbsp;
+&nbsp;import java.io.BufferedReader;
+&nbsp;import java.io.IOException;
+&nbsp;import java.io.InputStreamReader;
+&nbsp;import java.io.PrintWriter;
+&nbsp;import java.net.Socket;
+&nbsp;import java.nio.file.Files;
+&nbsp;import java.nio.file.Path;
+&nbsp;import java.util.Base64;
+&nbsp;
+&nbsp;import org.example.domain.FileUploadPayload;
+&nbsp;import org.example.shared.ClientRequest;
+&nbsp;
+&nbsp;import com.fasterxml.jackson.databind.JsonNode;
+&nbsp;import com.fasterxml.jackson.databind.ObjectMapper;
+&nbsp;
+&nbsp;/**
+&nbsp; * @author Conor Murphy (Primary)
+&nbsp; * @author Conor McCracken (Primary)
+&nbsp; */
+&nbsp;
+&nbsp;public class Client {
+&nbsp;    private final String _host;
+&nbsp;    private final int _port;
+&nbsp;    private final ObjectMapper _mapper;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Client Constructor
+&nbsp;     *
+&nbsp;     * @param host
+&nbsp;     * @param port
+&nbsp;     */
+&nbsp;    public Client(String host, int port)
+<b class="nc">&nbsp;    {</b>
+<b class="nc">&nbsp;        if(host == null || host.isBlank())</b>
+&nbsp;        {
+<b class="nc">&nbsp;            throw new IllegalArgumentException(&quot;Host must not be empty&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if(port &lt;1_024 || port &gt; 65_535)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            throw new IllegalArgumentException(&quot;Port must be between 1024 and 65535&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        _host = host;</b>
+<b class="nc">&nbsp;        _port = port;</b>
+<b class="nc">&nbsp;        _mapper = new ObjectMapper();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     *
+&nbsp;     * @throws IOException
+&nbsp;     */
+&nbsp;    public void run() throws IOException {
+<b class="nc">&nbsp;        System.out.println(&quot;Connecting to server at &quot; + _host + &quot;:&quot; + _port);</b>
+&nbsp;
+<b class="nc">&nbsp;        try  (Socket socket = new Socket(_host, _port);</b>
+<b class="nc">&nbsp;              BufferedReader in = new BufferedReader(</b>
+<b class="nc">&nbsp;              new InputStreamReader(socket.getInputStream()));</b>
+<b class="nc">&nbsp;              PrintWriter out = new PrintWriter(</b>
+<b class="nc">&nbsp;                      socket.getOutputStream(), true)) {</b>
+&nbsp;
+<b class="nc">&nbsp;            FileUploadPayload payload = buildUploadPayload(Path.of(&quot;image.png&quot;),7);</b>
+<b class="nc">&nbsp;            JsonNode node = _mapper.valueToTree(payload);</b>
+<b class="nc">&nbsp;            ClientRequest req = new ClientRequest(&quot;UPLOAD_FILE&quot;,node);</b>
+<b class="nc">&nbsp;            String json = _mapper.writeValueAsString(req);</b>
+<b class="nc">&nbsp;            out.println(json);</b>
+&nbsp;
+<b class="nc">&nbsp;            FileUploadPayload response = _mapper.treeToValue(req.getPayload(),FileUploadPayload.class);</b>
+<b class="nc">&nbsp;            byte[] fileBytes = Base64.getDecoder().decode(response.getFileData());</b>
+<b class="nc">&nbsp;              System.out.println(&quot;Connected\n&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;            ClientRequest disconnect = new ClientRequest(&quot;DISCONNECT&quot;,null);</b>
+<b class="nc">&nbsp;            out.println(_mapper.writeValueAsString(disconnect));</b>
+&nbsp;
+<b class="nc">&nbsp;            System.out.println(&quot;Disconnected\n&quot;);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     *
+&nbsp;     * @param filePath
+&nbsp;     * @param entityId
+&nbsp;     * @return FileUploadPayload Object with image
+&nbsp;     * @throws IOException
+&nbsp;     */
+&nbsp;    public FileUploadPayload buildUploadPayload(Path filePath, int entityId) throws IOException {
+<b class="nc">&nbsp;        byte[] bytes = Files.readAllBytes(filePath);</b>
+<b class="nc">&nbsp;        String b64 = Base64.getEncoder().encodeToString(bytes);</b>
+<b class="nc">&nbsp;        String name = filePath.getFileName().toString();</b>
+&nbsp;
+<b class="nc">&nbsp;        String detectedMime = Files.probeContentType(filePath);</b>
+<b class="nc">&nbsp;        String mime = (detectedMime != null) ? detectedMime : &quot;application/octet-stream&quot;;</b>
+&nbsp;
+<b class="nc">&nbsp;        return new FileUploadPayload(entityId, name, mime, bytes.length, b64);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2026-05-08 10:00</div>
+</div>
+</body>
+</html>

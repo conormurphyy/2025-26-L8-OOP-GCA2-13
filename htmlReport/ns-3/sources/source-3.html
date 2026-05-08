@@ -1,0 +1,409 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > JdbcUserDao</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.example.dao.jdbc</a>
+</div>
+
+<h1>Coverage Summary for Class: JdbcUserDao (org.example.dao.jdbc)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">JdbcUserDao</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    90.9%
+  </span>
+  <span class="absValue">
+    (10/11)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    37%
+  </span>
+  <span class="absValue">
+    (34/92)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    73.6%
+  </span>
+  <span class="absValue">
+    (81/110)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.example.dao.jdbc;
+&nbsp;
+&nbsp;import org.example.dao.UserDao;
+&nbsp;import org.example.domain.User;
+&nbsp;
+&nbsp;import java.sql.*;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Optional;
+&nbsp;import java.sql.Connection;
+&nbsp;import java.sql.DriverManager;
+&nbsp;import java.sql.SQLException;
+&nbsp;
+&nbsp;/**
+&nbsp;   *JDBC implementation of UserDao
+&nbsp;      * provides crud and other user management
+&nbsp;     * class expects table users with id,username,userType,userRating
+&nbsp; * @author Conor McCracken (Primary)
+&nbsp; * @author Conor Murphy (Contributor, updateAll() )
+&nbsp; * @author Richie Orji (FilterUsers() )
+&nbsp; */
+&nbsp;public class JdbcUserDao implements UserDao {
+&nbsp;    private String _url;
+&nbsp;    private String _username;
+&nbsp;    private String _password;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * creates new JdbcUserDao with connection parameters
+&nbsp;     * @author Conor McCracken
+&nbsp;     */
+<b class="fc">&nbsp;    public JdbcUserDao(String url, String username, String password) {</b>
+&nbsp;
+<b class="pc">&nbsp;        if (url == null || url.isEmpty()) {</b>
+<b class="nc">&nbsp;            throw new IllegalArgumentException(&quot;url must not be empty&quot;);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        _url = url.trim();</b>
+<b class="fc">&nbsp;        _username = username;</b>
+<b class="fc">&nbsp;        _password = password;</b>
+&nbsp;
+&nbsp;    }
+&nbsp;        private Connection open() throws SQLException {
+<b class="fc">&nbsp;            return DriverManager.getConnection(_url, _username, _password);</b>
+&nbsp;        }
+&nbsp;
+&nbsp;    /**
+&nbsp;     *inserts new user into db
+&nbsp;     * provided user must have id,username,userType,userRating
+&nbsp;     */
+&nbsp;        @Override
+&nbsp;        public User insert(User user) throws Exception {
+<b class="pc">&nbsp;        if(user == null)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            throw new IllegalArgumentException(&quot;user must not be null&quot;);</b>
+&nbsp;        }
+<b class="pc">&nbsp;        if(user.getUsername() == null || user.getUsername().isEmpty())</b>
+&nbsp;        {
+<b class="nc">&nbsp;            throw new IllegalArgumentException(&quot;username must not be empty&quot;);</b>
+&nbsp;        }
+<b class="pc">&nbsp;        if(user.getUserType() == null || user.getUserType().isEmpty())</b>
+&nbsp;        {
+<b class="nc">&nbsp;            throw new IllegalArgumentException(&quot;type must not be empty&quot;);</b>
+&nbsp;        }
+<b class="pc">&nbsp;        if(user.getUserRating() &lt;0 || user.getUserRating() &gt;5)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            throw new IllegalArgumentException(&quot;rating must be between 0 and 5&quot;);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        String sql = &quot;INSERT INTO users (id, username, userType, userRating) VALUES (?, ?, ?, ?)&quot;;</b>
+&nbsp;
+&nbsp;
+<b class="pc">&nbsp;        try (Connection c = open();</b>
+<b class="fc">&nbsp;        PreparedStatement ps =c.prepareStatement(sql);</b>
+&nbsp;        ){
+<b class="fc">&nbsp;            ps.setInt(1, user.getId());</b>
+<b class="fc">&nbsp;            ps.setString(2, user.getUsername());</b>
+<b class="fc">&nbsp;            ps.setString(3, user.getUserType());</b>
+<b class="fc">&nbsp;            ps.setDouble(4, user.getUserRating());</b>
+<b class="fc">&nbsp;            int  rows =ps.executeUpdate();</b>
+&nbsp;
+<b class="pc">&nbsp;            if(rows!=1)</b>
+&nbsp;            {
+<b class="nc">&nbsp;                throw new IllegalStateException(&quot;insert failed&quot;);</b>
+&nbsp;            }
+<b class="fc">&nbsp;            return user;</b>
+&nbsp;        }
+&nbsp;        }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * finds a user by id
+&nbsp;     * id must be non negative
+&nbsp;     * @return Optional user if found, empty otherwise
+&nbsp;     * @throws Exception if a db error occurs
+&nbsp;     * @author Conor McCracken
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public Optional&lt;User&gt; findById(int id) throws Exception {
+<b class="pc">&nbsp;        if(id&lt;0)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            return Optional.empty();</b>
+&nbsp;        }
+<b class="fc">&nbsp;        String sql = &quot;SELECT * FROM users WHERE id = ?&quot;;</b>
+<b class="pc">&nbsp;        try(Connection c =open();</b>
+<b class="fc">&nbsp;        PreparedStatement ps = c.prepareStatement(sql))</b>
+&nbsp;        {
+<b class="fc">&nbsp;            ps.setInt(1, id);</b>
+&nbsp;
+<b class="fc">&nbsp;            try(ResultSet rs = ps.executeQuery())</b>
+&nbsp;            {
+<b class="fc">&nbsp;                if(!rs.next())</b>
+&nbsp;                {
+<b class="fc">&nbsp;                    return Optional.empty();</b>
+&nbsp;                }
+<b class="fc">&nbsp;                return Optional.of(mapRow(rs));</b>
+&nbsp;            }
+&nbsp;
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * retrieves all users from db ordered by id
+&nbsp;     * @return list of all users
+&nbsp;     * @throws Exception if db error occurs
+&nbsp;     * @author Conor McCracken
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public List&lt;User&gt; findAll() throws Exception {
+<b class="fc">&nbsp;        String sql = &quot;SELECT * FROM users ORDER BY id&quot;;</b>
+&nbsp;
+<b class="pc">&nbsp;        try(Connection c = open();</b>
+<b class="fc">&nbsp;        PreparedStatement ps = c.prepareStatement(sql);</b>
+<b class="fc">&nbsp;        ResultSet rs = ps.executeQuery()</b>
+&nbsp;
+&nbsp;        )
+&nbsp;        {
+<b class="fc">&nbsp;            ArrayList&lt;User&gt; out = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;            while(rs.next())</b>
+&nbsp;            {
+<b class="fc">&nbsp;                out.add(mapRow(rs));</b>
+&nbsp;            }
+<b class="fc">&nbsp;            return out;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * updates rating of user with specified id
+&nbsp;     * @param id id of user to update
+&nbsp;     * @param newRating new rating to set
+&nbsp;     * @return true if rating was updated, false otherwise
+&nbsp;     * @throws Exception if db error occurs or if newRating
+&nbsp;     * is not between 0 and 5
+&nbsp;     * @author Conor McCracken
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public boolean updateRating (int id,double newRating) throws Exception {
+<b class="pc">&nbsp;        if(id&lt;0)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            return false;</b>
+&nbsp;        }
+<b class="pc">&nbsp;        if(newRating&lt;0 || newRating&gt;5)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            throw new IllegalArgumentException(&quot;newRating must be between 0 and 5&quot;);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        String sql = &quot;UPDATE users SET userRating = ? WHERE id = ?&quot;;</b>
+&nbsp;
+<b class="pc">&nbsp;        try(Connection c =open();</b>
+<b class="fc">&nbsp;        PreparedStatement ps = c.prepareStatement(sql)){</b>
+<b class="fc">&nbsp;            ps.setDouble(1, newRating);</b>
+<b class="fc">&nbsp;            ps.setInt(2, id);</b>
+<b class="fc">&nbsp;            int rows = ps.executeUpdate();</b>
+<b class="pc">&nbsp;            return rows==1;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * updates the type of user with specified id
+&nbsp;     * @param id id of user to update
+&nbsp;     * @param newType new type to set
+&nbsp;     * @return true if type was updated, false otherwise
+&nbsp;     * @throws Exception if db error occurs or if newType is empty/invalid
+&nbsp;     * @author Conor McCracken
+&nbsp;     */
+&nbsp;    @Override public boolean updateType (int id, String newType) throws Exception {
+<b class="pc">&nbsp;        if(id&lt;0)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            return false;</b>
+&nbsp;        }
+<b class="pc">&nbsp;        if(newType == null || newType.isEmpty())</b>
+&nbsp;        {
+<b class="nc">&nbsp;            throw new IllegalArgumentException(&quot;newType must not be empty&quot;);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        String sql = &quot;UPDATE users SET userType = ? WHERE id = ?&quot;;</b>
+&nbsp;
+<b class="pc">&nbsp;        try(Connection c = open();</b>
+<b class="fc">&nbsp;        PreparedStatement ps = c.prepareStatement(sql))</b>
+&nbsp;        {
+<b class="fc">&nbsp;            ps.setString(1, newType);</b>
+<b class="fc">&nbsp;            ps.setInt(2, id);</b>
+<b class="fc">&nbsp;            int rows = ps.executeUpdate();</b>
+<b class="pc">&nbsp;            return rows==1;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public User updateAll(User user) throws Exception {
+<b class="pc">&nbsp;        if (user == null) {</b>
+<b class="nc">&nbsp;            throw new IllegalArgumentException(&quot;user must not be null&quot;);</b>
+&nbsp;        }
+<b class="pc">&nbsp;        if (user.getId() &lt;= 0) {</b>
+<b class="nc">&nbsp;            throw new IllegalArgumentException(&quot;invalid id&quot;);</b>
+&nbsp;        }
+<b class="pc">&nbsp;        if (user.getUsername() == null || user.getUsername().isEmpty()) {</b>
+<b class="nc">&nbsp;            throw new IllegalArgumentException(&quot;username must not be empty&quot;);</b>
+&nbsp;        }
+<b class="pc">&nbsp;        if (user.getUserType() == null || user.getUserType().isEmpty()) {</b>
+<b class="nc">&nbsp;            throw new IllegalArgumentException(&quot;userType must not be empty&quot;);</b>
+&nbsp;        }
+<b class="pc">&nbsp;        if (user.getUserRating() &lt; 0 || user.getUserRating() &gt; 5) {</b>
+<b class="nc">&nbsp;            throw new IllegalArgumentException(&quot;rating must be between 0 and 5&quot;);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        String sql = &quot;UPDATE users SET username = ?, userType = ?, userRating = ? WHERE id = ?&quot;;</b>
+&nbsp;
+<b class="pc">&nbsp;        try (Connection c = open();</b>
+<b class="fc">&nbsp;             PreparedStatement ps = c.prepareStatement(sql)) {</b>
+&nbsp;
+<b class="fc">&nbsp;            ps.setString(1, user.getUsername());</b>
+<b class="fc">&nbsp;            ps.setString(2, user.getUserType());</b>
+<b class="fc">&nbsp;            ps.setDouble(3, user.getUserRating());</b>
+<b class="fc">&nbsp;            ps.setInt(4, user.getId());</b>
+&nbsp;
+<b class="fc">&nbsp;            int rows = ps.executeUpdate();</b>
+&nbsp;
+<b class="pc">&nbsp;            if (rows != 1) {</b>
+<b class="nc">&nbsp;                throw new IllegalStateException(&quot;Update failed&quot;);</b>
+&nbsp;            }
+&nbsp;
+<b class="fc">&nbsp;            return user;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * deletes user with specified id
+&nbsp;     * @param id id of user to delete
+&nbsp;     * @return true if user was deleted, false otherwise
+&nbsp;     * @throws Exception if db error occurs
+&nbsp;     * @author Conor McCracken
+&nbsp;     */
+&nbsp;    @Override public boolean deleteById (int id) throws Exception {
+<b class="pc">&nbsp;        if(id&lt;0)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            return false;</b>
+&nbsp;        }
+<b class="fc">&nbsp;        String sql = &quot;DELETE FROM users WHERE id = ?&quot;;</b>
+&nbsp;
+<b class="pc">&nbsp;        try(Connection c = open();</b>
+<b class="fc">&nbsp;        PreparedStatement ps = c.prepareStatement(sql))</b>
+&nbsp;        {
+<b class="fc">&nbsp;            ps.setInt(1, id);</b>
+<b class="pc">&nbsp;            return ps.executeUpdate()==1;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public List&lt;User&gt; filterUsers(String userType, Double minRating) throws Exception {
+<b class="nc">&nbsp;        List&lt;User&gt; allUsers = findAll();</b>
+<b class="nc">&nbsp;        List&lt;User&gt; filtered = new ArrayList&lt;&gt;();</b>
+&nbsp;
+<b class="nc">&nbsp;        for (User user : allUsers) {</b>
+<b class="nc">&nbsp;            boolean match = true;</b>
+<b class="nc">&nbsp;            if (userType != null &amp;&amp; !user.getUserType().equals(userType)) {</b>
+<b class="nc">&nbsp;                match = false;</b>
+&nbsp;            }
+<b class="nc">&nbsp;            if (minRating != null &amp;&amp; user.getUserRating() &lt; minRating) {</b>
+<b class="nc">&nbsp;                match = false;</b>
+&nbsp;            }
+<b class="nc">&nbsp;            if (match) {</b>
+<b class="nc">&nbsp;                filtered.add(user);</b>
+&nbsp;            }
+&nbsp;        }
+<b class="nc">&nbsp;        return filtered;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private static User mapRow(ResultSet rs) throws SQLException {
+<b class="fc">&nbsp;        int id =rs.getInt(&quot;id&quot;);</b>
+<b class="fc">&nbsp;        String username = rs.getString(&quot;username&quot;);</b>
+<b class="fc">&nbsp;        String userType = rs.getString(&quot;userType&quot;);</b>
+<b class="fc">&nbsp;        double userRating = rs.getDouble(&quot;userRating&quot;);</b>
+<b class="fc">&nbsp;        return new User(id, username, userType, userRating);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2026-05-08 10:00</div>
+</div>
+</body>
+</html>

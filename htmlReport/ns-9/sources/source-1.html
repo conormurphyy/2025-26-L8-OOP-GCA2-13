@@ -1,0 +1,185 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > RecipeDao</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.example.dao</a>
+</div>
+
+<h1>Coverage Summary for Class: RecipeDao (org.example.dao)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">RecipeDao</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.example.dao;
+&nbsp;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Optional;
+&nbsp;
+&nbsp;import org.example.domain.Recipe;
+&nbsp;import org.example.domain.RecipeImageData;
+&nbsp;
+&nbsp;/**
+&nbsp; * @author Conor Murphy (Primary)
+&nbsp; * @author Richie (filter recipes, save image, getImageById)
+&nbsp; */
+&nbsp;public interface RecipeDao {
+&nbsp;
+&nbsp;    /**
+&nbsp;     *
+&nbsp;     * @return
+&nbsp;     * @throws Exception
+&nbsp;     */
+&nbsp;    List&lt;Recipe&gt; getAllRecipes() throws Exception;
+&nbsp;
+&nbsp;    /**
+&nbsp;     *
+&nbsp;     * @param recipeID
+&nbsp;     * @return
+&nbsp;     * @throws Exception
+&nbsp;     */
+&nbsp;    Optional&lt;Recipe&gt; getRecipeById(int recipeID) throws Exception;
+&nbsp;
+&nbsp;    /**
+&nbsp;     *
+&nbsp;     * @param categoryID
+&nbsp;     * @return
+&nbsp;     * @throws Exception
+&nbsp;     */
+&nbsp;    Optional&lt;Object&gt; getRecipeByCategoryId(int categoryID) throws Exception;
+&nbsp;
+&nbsp;    /**
+&nbsp;     *
+&nbsp;     * @param userID
+&nbsp;     * @return
+&nbsp;     * @throws Exception
+&nbsp;     */
+&nbsp;    Optional&lt;Object&gt; getRecipeByUserId(int userID) throws Exception;
+&nbsp;
+&nbsp;    /**
+&nbsp;     *
+&nbsp;     * @param recipe
+&nbsp;     * @return
+&nbsp;     * @throws Exception
+&nbsp;     */
+&nbsp;    boolean addRecipe(Recipe recipe) throws Exception;
+&nbsp;
+&nbsp;    /**
+&nbsp;     *
+&nbsp;     * @param recipe
+&nbsp;     * @return
+&nbsp;     * @throws Exception
+&nbsp;     */
+&nbsp;    boolean updateRecipe(Recipe recipe) throws Exception;
+&nbsp;
+&nbsp;    /**
+&nbsp;     *
+&nbsp;     * @param recipeID
+&nbsp;     * @return
+&nbsp;     * @throws Exception
+&nbsp;     */
+&nbsp;    boolean deleteRecipe(int recipeID) throws Exception;
+&nbsp;
+&nbsp;    /**
+&nbsp;     *
+&nbsp;     * @param min
+&nbsp;     * @param max
+&nbsp;     * @return
+&nbsp;     * @throws Exception
+&nbsp;     */
+&nbsp;    List&lt;Recipe&gt; getRecipeByCalories(double min, double max) throws Exception;
+&nbsp;
+&nbsp;    /**
+&nbsp;     *
+&nbsp;     * @param recipeName
+&nbsp;     * @return
+&nbsp;     * @throws Exception
+&nbsp;     */
+&nbsp;    List&lt;Recipe&gt; getRecipeByName(String recipeName) throws Exception;
+&nbsp;
+&nbsp;    /**
+&nbsp;     *
+&nbsp;     * @return
+&nbsp;     * @throws Exception
+&nbsp;     */
+&nbsp;    List&lt;Recipe&gt; getPublicRecipes() throws Exception;
+&nbsp;
+&nbsp;
+&nbsp;    List&lt;Recipe&gt; filterRecipes(Boolean isPublic, Double minCalories) throws Exception;
+&nbsp;
+&nbsp;
+&nbsp;    void saveImage(int recipeId, byte[] imageData, String fileName, String contentType, int fileSize) throws Exception;
+&nbsp;    Optional&lt;RecipeImageData&gt; getImageById(int recipeId) throws Exception;
+&nbsp;
+&nbsp;    /**
+&nbsp;     *
+&nbsp;     * @param recipeId
+&nbsp;     * @return
+&nbsp;     * @throws Exception
+&nbsp;     */
+&nbsp;    Optional&lt;RecipeImageData&gt; getRecipeImageMetadataById(int recipeId) throws Exception;
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     *
+&nbsp;     * @param recipeId
+&nbsp;     * @return
+&nbsp;     * @throws Exception
+&nbsp;     */
+&nbsp;    Optional&lt;RecipeImageData&gt; getRecipeImageMetadata(int recipeId) throws Exception;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2026-05-08 10:00</div>
+</div>
+</body>
+</html>
