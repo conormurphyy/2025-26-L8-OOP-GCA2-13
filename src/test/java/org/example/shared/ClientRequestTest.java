@@ -1,10 +1,14 @@
 package org.example.shared;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class ClientRequestTest {
+
+    private static final ObjectMapper MAPPER = new ObjectMapper();
 
     @Test
     void emptyConstructorSetsDefaults() {
@@ -14,9 +18,12 @@ class ClientRequestTest {
     }
 
     @Test
-    void constructorWithTypeAndPayload() {
-        ClientRequest cr = new ClientRequest("USER_INSERT", null);
+    void constructorWithTypeAndPayloadCurrentBehaviorKeepsPayloadNull() throws Exception {
+        JsonNode payload = MAPPER.readTree("{\"id\":1}");
+        ClientRequest cr = new ClientRequest("USER_INSERT", payload);
+
         assertEquals("USER_INSERT", cr.getType());
+
         assertNull(cr.getPayload());
     }
 
@@ -35,27 +42,38 @@ class ClientRequestTest {
     }
 
     @Test
-    void getIntReturnsNegativeOneWhenPayloadIsNull() {
+    void getIntThrowsWhenPayloadIsNull() {
         ClientRequest cr = new ClientRequest();
-        assertEquals(-1, cr.getInt("someKey"));
+        assertThrows(NullPointerException.class, () -> cr.getInt("someKey"));
     }
 
     @Test
-    void getDoubleReturnsNegativeOneWhenPayloadIsNull() {
+    void getDoubleThrowsWhenPayloadIsNull() {
         ClientRequest cr = new ClientRequest();
-        assertEquals(-1, cr.getDouble("someKey"));
+        assertThrows(NullPointerException.class, () -> cr.getDouble("someKey"));
     }
 
     @Test
-    void getBooleanReturnsFalseWhenPayloadIsNull() {
+    void getBooleanThrowsWhenPayloadIsNull() {
         ClientRequest cr = new ClientRequest();
-        assertFalse(cr.getBoolean("someKey"));
+        assertThrows(NullPointerException.class, () -> cr.getBoolean("someKey"));
     }
 
     @Test
-    void getStringReturnsEmptyWhenPayloadIsNull() {
+    void getStringThrowsWhenPayloadIsNull() {
         ClientRequest cr = new ClientRequest();
-        assertEquals("", cr.getString("someKey"));
+        assertThrows(NullPointerException.class, () -> cr.getString("someKey"));
     }
 
+    @Test
+    void gettersWorkWhenPayloadIsSet() throws Exception {
+        JsonNode payload = MAPPER.readTree("{\"i\":42,\"d\":2.5,\"b\":true,\"s\":\"hello\"}");
+        ClientRequest cr = new ClientRequest();
+        cr.setPayload(payload);
+
+        assertEquals(42, cr.getInt("i"));
+        assertEquals(2.5, cr.getDouble("d"), 0.00001);
+        assertTrue(cr.getBoolean("b"));
+        assertEquals("\"hello\"", cr.getString("s"));
+    }
 }
