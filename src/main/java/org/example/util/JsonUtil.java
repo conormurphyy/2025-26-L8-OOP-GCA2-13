@@ -27,7 +27,7 @@ public final class JsonUtil {
 
     public static <T> T fromJson(String json, Class<T> clazz) throws JsonProcessingException {
         if (json == null || json.isBlank()) throw new IllegalArgumentException("json must not be blank");
-        if (clazz == null) throw new IllegalArgumentException("clazz must not be null");
+        if (clazz == null) throw new IllegalArgumentException("class must not be null");
         return MAPPER.readValue(json, clazz);
     }
 
