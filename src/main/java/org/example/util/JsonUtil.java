@@ -36,5 +36,7 @@ public final class JsonUtil {
         if (elementType == null) throw new IllegalArgumentException("elementType must not be null");
         CollectionType listType = MAPPER.getTypeFactory().constructCollectionType(List.class, elementType);
         return MAPPER.readValue(json, listType);
+
+
     }
 }
