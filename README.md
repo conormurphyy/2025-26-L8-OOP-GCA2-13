@@ -253,6 +253,8 @@ All nutrional values are based on 100g servings
 | INGREDIENT_DELETE | Delete ingredient |
 | INGREDIENT_FILTER | Filter ingredients |
 ---
+<img src="RecipeHub.png">
+
 ### Generative AI (chatgpt)
 - Used for field ideas and idea creation.
   All concepts where understood by all team members before implementation.
